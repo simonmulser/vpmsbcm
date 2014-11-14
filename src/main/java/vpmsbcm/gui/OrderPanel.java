@@ -1,6 +1,8 @@
 package main.java.vpmsbcm.gui;
 
 
+import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -39,7 +41,9 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener{
 
 
 	public OrderPanel() {	
-		setSize(1000, 1000);
+		setBackground(Color.LIGHT_GRAY);
+		setOpaque(true);
+		
 		orderB = new JButton("order");
 		orderB.addActionListener(this);
 		
