@@ -17,6 +17,11 @@ import javax.swing.JTextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.vpmsbcm.model.CaseWithDetonator;
+import com.vpmsbcm.model.IOrderable;
+import com.vpmsbcm.model.Woodstick;
+import com.vpmsbcm.service.Supplier;
+
 
 
 public class OrderPanel extends JPanel implements ActionListener, ItemListener{
@@ -109,7 +114,9 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener{
 	public void actionPerformed(ActionEvent e) {
 	    log.debug(e.toString());
 	    
-	    log.info("order: type=" + typeC.getSelectedItem() + " amount=" + amountTF.getText() + " errorRate=" + errorRateTF.getText());		
+	    log.info("order: type=" + typeC.getSelectedItem() + " amount=" + amountTF.getText() + " errorRate=" + errorRateTF.getText());
+	    
+	    new Supplier().order(new CaseWithDetonator(), Integer.parseInt(amountTF.getText()));
 	}
 
 }
