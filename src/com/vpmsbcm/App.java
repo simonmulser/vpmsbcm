@@ -1,4 +1,4 @@
-package main.java.vpmsbcm;
+package com.vpmsbcm;
 
 /**
  * Hello world!

@@ -1,4 +1,4 @@
-package main.java.vpmsbcm.gui;
+package com.vpmsbcm.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;

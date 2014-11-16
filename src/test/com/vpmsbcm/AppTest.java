@@ -1,4 +1,4 @@
-package test.java.vpmsbcm;
+package test.com.vpmsbcm;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
