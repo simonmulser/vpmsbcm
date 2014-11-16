@@ -21,14 +21,6 @@ public class Load {
 		this.defect = defect;
 	}
 
-	public String getLieferant() {
-		return supplier;
-	}
-
-	public void setLieferant(String supplier) {
-		this.supplier = supplier;
-	}
-
 	@SpaceId(autoGenerate = false)
 	public Integer getId() {
 		return id;
@@ -36,6 +28,14 @@ public class Load {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
 	}
 
 	@Override
