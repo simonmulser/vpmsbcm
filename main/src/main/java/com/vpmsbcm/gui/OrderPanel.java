@@ -1,8 +1,6 @@
 package com.vpmsbcm.gui;
 
-
 import java.awt.Color;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -16,21 +14,22 @@ import javax.swing.JTextField;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.service.Supplier;
 
+@Component
+public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 
-
-public class OrderPanel extends JPanel implements ActionListener, ItemListener{
-	
 	final Logger log = LoggerFactory.getLogger(OrderPanel.class);
-	
+
 	public final static String woodstick = "woodstick";
 	public final static String caseAndDetonator = "case and detonator";
 	public final static String propellingCharge = "propelling charge";
 	public final static String load = "load";
-	
-	//using prefixes for names
+
+	// using prefixes for names
 	private JButton orderB;
 	private JLabel typeL;
 	private JComboBox typeC;
@@ -40,20 +39,19 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener{
 	private JLabel errorRateL;
 	private JTextField errorRateTF;
 	private JLabel percentL;
-	
+
+	@Autowired
 	private Supplier supplier;
 
-	public OrderPanel(Supplier supplier) {	
-		this.supplier = supplier;
-		
+	public OrderPanel() {
 		setBackground(Color.LIGHT_GRAY);
 		setOpaque(true);
-		
+
 		orderB = new JButton("order");
 		orderB.addActionListener(this);
-		
+
 		typeL = new JLabel("type");
-		
+
 		typeC = new JComboBox();
 		typeC.addItem(woodstick);
 		typeC.addItem(caseAndDetonator);
@@ -64,12 +62,12 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener{
 		amountL = new JLabel("amount");
 		amountTF = new JTextField(3);
 		unitL = new JLabel("units ");
-		
+
 		errorRateL = new JLabel("error rate");
 		errorRateTF = new JTextField(3);
 		errorRateTF.setEnabled(false);
 		percentL = new JLabel("%");
-				
+
 		add(typeL);
 		add(typeC);
 		add(new JLabel(" | "));
@@ -83,40 +81,42 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener{
 		add(new JLabel(" | "));
 		add(orderB);
 	}
-	
+
 	public static void main(String[] args) {
 		new MainWindow();
 
 	}
-	
-	private void revert(){
+
+	private void revert() {
 		errorRateTF.setEnabled(false);
 		errorRateTF.setText("");
 		unitL.setText("units");
 	}
 
 	public void itemStateChanged(ItemEvent e) {
-	    log.debug(e.toString());		
-		if(e.getID() == ItemEvent.ITEM_STATE_CHANGED){
-			String text = (String )e.getItem();
+		log.debug(e.toString());
+		if (e.getID() == ItemEvent.ITEM_STATE_CHANGED) {
+			String text = (String) e.getItem();
 			revert();
-			if(text.equals(propellingCharge)){
+			if (text.equals(propellingCharge)) {
 				unitL.setText("500g");
 				return;
 			}
-			if(text.equals(load)){
+			if (text.equals(load)) {
 				errorRateTF.setEnabled(true);
 				return;
 			}
-		}		
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
-	    log.debug(e.toString());
-	    
-	    log.info("order: type=" + typeC.getSelectedItem() + " amount=" + amountTF.getText() + " errorRate=" + errorRateTF.getText());
-	    
-	    supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
+		log.debug(e.toString());
+
+		log.info("order: type=" + typeC.getSelectedItem() + " amount="
+				+ amountTF.getText() + " errorRate=" + errorRateTF.getText());
+
+		supplier.order(typeC.getSelectedItem().toString(),
+				Integer.parseInt(amountTF.getText()));
 	}
 
 }

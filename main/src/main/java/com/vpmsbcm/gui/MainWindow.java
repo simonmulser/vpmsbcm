@@ -26,6 +26,15 @@ public class MainWindow extends JFrame {
 	private Supplier supplier;
 
 	@Autowired
+	private ExportPanel exportPanel;
+
+	@Autowired
+	private OrderPanel orderPanel;
+
+	@Autowired
+	private RocketsPanel rocketsPanel;
+
+	@Autowired
 	private WarehousePanel warehousePanel;
 
 	public MainWindow() {
@@ -45,7 +54,7 @@ public class MainWindow extends JFrame {
 		constraints.gridy = 0;
 		constraints.weightx = 1;
 		constraints.fill = GridBagConstraints.BOTH;
-		contentPanel.add(new OrderPanel(supplier), constraints);
+		contentPanel.add(orderPanel, constraints);
 
 		constraints.gridy = 1;
 		constraints.weighty = 0.3;
@@ -53,11 +62,11 @@ public class MainWindow extends JFrame {
 
 		constraints.gridy = 2;
 		constraints.weighty = 0.3;
-		contentPanel.add(new RocketsPanel(), constraints);
+		contentPanel.add(rocketsPanel, constraints);
 
 		constraints.gridy = 3;
 		constraints.weighty = 0.3;
-		contentPanel.add(new ExportPanel(), constraints);
+		contentPanel.add(exportPanel, constraints);
 
 		setContentPane(contentPanel);
 		pack();
