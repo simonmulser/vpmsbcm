@@ -6,7 +6,7 @@ import com.gigaspaces.annotation.pojo.SpaceId;
 
 public class CaseWithDetonator extends Good {
 
-	private static AtomicInteger ID = new AtomicInteger(1);
+	private static AtomicInteger ID = new AtomicInteger(0);
 
 	private Integer id;
 	private String supplier;
