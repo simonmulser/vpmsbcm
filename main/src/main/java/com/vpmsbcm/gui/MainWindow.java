@@ -33,7 +33,6 @@ public class MainWindow extends JFrame {
 
 	@PostConstruct
 	public void init() {
-		System.out.println(supplier);
 		setTitle("Feuerwerksfabrik");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
