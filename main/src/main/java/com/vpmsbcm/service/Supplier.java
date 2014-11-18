@@ -6,7 +6,6 @@ import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.CaseWithDetonator;
@@ -17,53 +16,52 @@ import com.vpmsbcm.gui.OrderPanel;
 
 @Component
 public class Supplier {
-	
+
 	private static int ID = 1;
-	
+
 	final Logger log = LoggerFactory.getLogger(Supplier.class);
-	
+
 	@GigaSpaceContext
-    private GigaSpace gigaSpace;
-	
-	@Autowired
-	private Warehouse warehouse;
-	
-	public Supplier(){}
-	
-	public void order(String orderable, int amount){
-		for (int i = 0; i < amount;  i++){
+	private GigaSpace gigaSpace;
+
+	public Supplier() {
+	}
+
+	public void order(String orderable, int amount) {
+		for (int i = 0; i < amount; i++) {
 			new Order(orderable).start();
 		}
-		
+
 	}
-	
-	private class Order extends Thread{
-		
+
+	private class Order extends Thread {
+
 		private String orderable;
-		
-		public Order(String orderable){
+
+		public Order(String orderable) {
 			this.orderable = orderable;
 		}
-		
+
 		@Override
-		public void run(){
+		public void run() {
 			try {
 				Thread.sleep(new Random().nextInt(1) + 1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 			Object object = null;
-			if (orderable.equals(OrderPanel.woodstick)){
+			if (orderable.equals(OrderPanel.woodstick)) {
 				object = new Woodstick("DHL" + ID++);
-			} else if(orderable.equals(OrderPanel.caseAndDetonator)){
+			} else if (orderable.equals(OrderPanel.caseAndDetonator)) {
 				object = new CaseWithDetonator("DHL" + ID++);
-			} else if(orderable.equals(OrderPanel.propellingCharge)){
+			} else if (orderable.equals(OrderPanel.propellingCharge)) {
 				object = new PropellingCharge("DHL" + ID++);
-			} else if(orderable.equals(OrderPanel.load)){
-				object = new Load("DHL" + ID++, new Boolean(Math.random() < 0.5));
+			} else if (orderable.equals(OrderPanel.load)) {
+				object = new Load("DHL" + ID++,
+						new Boolean(Math.random() < 0.5));
 			}
-			
+
 			gigaSpace.write(object);
 			log.info("ordered" + object);
 		}
