@@ -28,18 +28,17 @@ public class Supplier {
 	}
 
 	public void order(String orderable, int amount) {
-		for (int i = 0; i < amount; i++) {
-			new Order(orderable).start();
-		}
-
+		new Order(orderable, amount).start();
 	}
 
 	private class Order extends Thread {
 
 		private String orderable;
+		private int amount;
 
-		public Order(String orderable) {
+		public Order(String orderable, int amount) {
 			this.orderable = orderable;
+			this.amount = amount;
 		}
 
 		@Override
@@ -50,20 +49,23 @@ public class Supplier {
 				e.printStackTrace();
 			}
 
-			Object object = null;
-			if (orderable.equals(OrderPanel.woodstick)) {
-				object = new Woodstick("DHL" + ID++);
-			} else if (orderable.equals(OrderPanel.caseAndDetonator)) {
-				object = new CaseWithDetonator("DHL" + ID++);
-			} else if (orderable.equals(OrderPanel.propellingCharge)) {
-				object = new PropellingCharge("DHL" + ID++);
-			} else if (orderable.equals(OrderPanel.load)) {
-				object = new Load("DHL" + ID++,
-						new Boolean(Math.random() < 0.5));
-			}
+			for (int i = 0; i < amount; i++) {
 
-			gigaSpace.write(object);
-			log.info("ordered" + object);
+				Object object = null;
+				if (orderable.equals(OrderPanel.woodstick)) {
+					object = new Woodstick("DHL" + ID++);
+				} else if (orderable.equals(OrderPanel.caseAndDetonator)) {
+					object = new CaseWithDetonator("DHL" + ID++);
+				} else if (orderable.equals(OrderPanel.propellingCharge)) {
+					object = new PropellingCharge("DHL" + ID++);
+				} else if (orderable.equals(OrderPanel.load)) {
+					object = new Load("DHL" + ID++, new Boolean(
+							Math.random() < 0.5));
+				}
+
+				gigaSpace.write(object);
+				log.info("ordered" + object);
+			}
 		}
 	}
 }
