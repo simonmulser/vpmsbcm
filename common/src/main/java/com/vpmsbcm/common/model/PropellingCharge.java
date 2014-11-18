@@ -39,9 +39,16 @@ public class PropellingCharge extends Good {
 		this.supplier = supplier;
 	}
 
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
 	@Override
 	public String toString() {
 		return "PropellingCharge [id=" + id + ", supplier=" + supplier + "]";
 	}
-
 }
