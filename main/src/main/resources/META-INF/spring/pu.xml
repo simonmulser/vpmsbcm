@@ -32,26 +32,169 @@
 
 	<!-- The data processor bean -->
 	<bean id="dataProcessor" class="com.vpmsbcm.processor.Processor" />
-	
-	<!-- A polling event container that perfoms (by default) polling take operations 
-		against the space using the provided template (in our case, and the non processed 
-		data objects). Once a match is found, the data processor bean event listener 
-		is triggered using the annotation adapter
-	<os-events:polling-container id="dataProcessorPollingEventContainer"
-		giga-space="gigaSpace">
-		<os-events:tx-support tx-manager="transactionManager" />
-		<os-core:template>
-			<bean class="com.vpmsbcm.common.Data">
-				<property name="processed" value="false" />
+
+	<!-- all incoming -->
+	<bean id="writeWoodstick"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyWrite" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.Woodstick">
 			</bean>
-		</os-core:template>
-		<os-events:listener>
-			<os-events:annotation-adapter>
-				<os-events:delegate ref="dataProcessor" />
-			</os-events:annotation-adapter>
-		</os-events:listener>
-	</os-events:polling-container>
-. -->
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="incoming" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="writeCaseWithDetonator"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyWrite" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.CaseWithDetonator">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="incoming" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="writePropellingCharge"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyWrite" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.PropellingCharge">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="incoming" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="writeLoad"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyWrite" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.Load">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="incoming" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="writeRocket"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyWrite" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.Rocket">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="incoming" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- all outgoing -->
+	<bean id="takeWoodstick"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyTake" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.Woodstick">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="outgoing" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="takeCaseWithDetonator"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyTake" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.CaseWithDetonator">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="outgoing" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="takePropellingCharge"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyTake" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.PropellingCharge">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="outgoing" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="takeLoad"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyTake" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.Load">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="outgoing" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="takeRocket"
+		class="org.openspaces.events.notify.SimpleNotifyEventListenerContainer">
+		<property name="gigaSpace" ref="gigaSpace" />
+		<property name="notifyTake" value="true" />
+		<property name="template">
+			<bean class="com.vpmsbcm.common.model.Rocket">
+			</bean>
+		</property>
+
+		<property name="eventListener">
+			<bean class="org.openspaces.events.adapter.AnnotationEventListenerAdapter">
+				<property name="delegate" ref="outgoing" />
+			</bean>
+		</property>
+	</bean>	
+
 	<!-- Enable scan for OpenSpaces and Spring components -->
 	<context:component-scan base-package="com.vpmsbcm" />
 
