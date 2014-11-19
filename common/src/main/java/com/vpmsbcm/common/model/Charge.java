@@ -19,6 +19,12 @@ public class Charge extends Good {
 		this.amount = 500;
 	}
 
+	public Charge(Integer id, String supplier, int amount) {
+		this.id = id;
+		this.supplier = supplier;
+		this.amount = amount;
+	}
+
 	public String getSupplier() {
 		return supplier;
 	}
