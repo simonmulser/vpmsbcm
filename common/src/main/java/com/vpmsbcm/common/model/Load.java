@@ -40,9 +40,17 @@ public class Load extends Good implements Serializable {
 		this.supplier = supplier;
 	}
 
+	public Boolean getDefect() {
+		return defect;
+	}
+
+	public void setDefect(Boolean defect) {
+		this.defect = defect;
+	}
+
 	@Override
 	public String toString() {
-		return "Load [id=" + id + ", supplier=" + supplier + "]";
+		return "Load [id=" + id + ", supplier=" + supplier + ", defect=" + defect + "]";
 	}
 
 }
