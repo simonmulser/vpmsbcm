@@ -2,9 +2,12 @@ package com.vpmsbcm.common.model;
 
 import com.gigaspaces.annotation.pojo.SpaceId;
 
-public abstract class Good {
+public class Good {
 
 	protected Integer id;
+
+	public Good() {
+	}
 
 	@SpaceId(autoGenerate = false)
 	public Integer getId() {

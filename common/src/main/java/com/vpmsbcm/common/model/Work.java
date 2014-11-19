@@ -1,13 +1,26 @@
 package com.vpmsbcm.common.model;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import com.gigaspaces.annotation.pojo.SpaceId;
 
-public class Work extends Good {
-
-	private static AtomicInteger ID = new AtomicInteger(0);
+public class Work {
 
 	public Work() {
-		this.id = ID.incrementAndGet();
+	}
+
+	protected String id;
+
+	@SpaceId(autoGenerate = true)
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Work [id=" + id + "]";
 	}
 
 }

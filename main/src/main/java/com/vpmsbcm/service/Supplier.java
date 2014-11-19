@@ -6,6 +6,7 @@ import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.CaseWithDetonator;
@@ -23,6 +24,9 @@ public class Supplier {
 
 	@GigaSpaceContext
 	private GigaSpace gigaSpace;
+
+	@Autowired
+	private Warehouse warehouse;
 
 	public Supplier() {
 	}
@@ -59,13 +63,13 @@ public class Supplier {
 				} else if (orderable.equals(OrderPanel.propellingCharge)) {
 					object = new PropellingCharge("DHL" + ID++);
 				} else if (orderable.equals(OrderPanel.load)) {
-					object = new Load("DHL" + ID++, new Boolean(
-							Math.random() < 0.5));
+					object = new Load("DHL" + ID++, new Boolean(Math.random() < 0.5));
 				}
 
 				gigaSpace.write(object);
 				log.info("ordered" + object);
 			}
+			warehouse.check();
 		}
 	}
 }
