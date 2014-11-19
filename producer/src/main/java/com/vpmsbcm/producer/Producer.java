@@ -16,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.j_spaces.core.client.SQLQuery;
-import com.vpmsbcm.common.model.CaseWithDetonator;
+import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.PropellingCharge;
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Rocket;
-import com.vpmsbcm.common.model.Woodstick;
+import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
 
 @EventDriven
@@ -59,14 +59,14 @@ public class Producer {
 		int chargeNeeded = calculateCharge();
 		log.debug("chargeNeeded=" + chargeNeeded);
 
-		Woodstick woodstick = gigaSpace.take(new Woodstick());
+		Wood woodstick = gigaSpace.take(new Wood());
 		if (woodstick == null) {
 			log.info("not enough woodsticks!");
 			throw new RuntimeException();
 
 		}
 
-		CaseWithDetonator detonator = gigaSpace.take(new CaseWithDetonator());
+		Detonator detonator = gigaSpace.take(new Detonator());
 		if (detonator == null) {
 			log.info("not enough detonators");
 			throw new RuntimeException();
@@ -82,7 +82,7 @@ public class Producer {
 		}
 
 		// TODO maybe work with change
-		PropellingCharge charge = gigaSpace.take(new SQLQuery<PropellingCharge>(PropellingCharge.class, "amount < 500"));
+		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 		while (charge != null) {
 			if (charge.getAmount() <= chargeNeeded) {
 				chargeNeeded = chargeNeeded - charge.getAmount();
@@ -92,10 +92,10 @@ public class Producer {
 				createRocket();
 				return;
 			}
-			charge = gigaSpace.take(new SQLQuery<PropellingCharge>(PropellingCharge.class, "amount < 500"));
+			charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 		}
 
-		charge = gigaSpace.take(new SQLQuery<PropellingCharge>(PropellingCharge.class, "amount = 500"));
+		charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount = 500"));
 		if (charge == null) {
 			log.info("not enough charge");
 			throw new RuntimeException();

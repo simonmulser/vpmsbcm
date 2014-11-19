@@ -38,7 +38,7 @@
 <!-- 		<property name="gigaSpace" ref="gigaSpace" /> -->
 <!-- 		<property name="notifyWrite" value="true" /> -->
 <!-- 		<property name="template"> -->
-<!-- 			<bean class="com.vpmsbcm.common.model.Woodstick"> -->
+<!-- 			<bean class="com.vpmsbcm.common.model.Wood"> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
 
@@ -54,7 +54,7 @@
 <!-- 		<property name="gigaSpace" ref="gigaSpace" /> -->
 <!-- 		<property name="notifyWrite" value="true" /> -->
 <!-- 		<property name="template"> -->
-<!-- 			<bean class="com.vpmsbcm.common.model.CaseWithDetonator"> -->
+<!-- 			<bean class="com.vpmsbcm.common.model.Detonator"> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
 
@@ -70,7 +70,7 @@
 <!-- 		<property name="gigaSpace" ref="gigaSpace" /> -->
 <!-- 		<property name="notifyWrite" value="true" /> -->
 <!-- 		<property name="template"> -->
-<!-- 			<bean class="com.vpmsbcm.common.model.PropellingCharge"> -->
+<!-- 			<bean class="com.vpmsbcm.common.model.Charge"> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
 
@@ -118,7 +118,7 @@
 <!-- 		<property name="gigaSpace" ref="gigaSpace" /> -->
 <!-- 		<property name="notifyTake" value="true" /> -->
 <!-- 		<property name="template"> -->
-<!-- 			<bean class="com.vpmsbcm.common.model.Woodstick"> -->
+<!-- 			<bean class="com.vpmsbcm.common.model.Wood"> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
 
@@ -134,7 +134,7 @@
 <!-- 		<property name="gigaSpace" ref="gigaSpace" /> -->
 <!-- 		<property name="notifyTake" value="true" /> -->
 <!-- 		<property name="template"> -->
-<!-- 			<bean class="com.vpmsbcm.common.model.CaseWithDetonator"> -->
+<!-- 			<bean class="com.vpmsbcm.common.model.Detonator"> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
 
@@ -150,7 +150,7 @@
 <!-- 		<property name="gigaSpace" ref="gigaSpace" /> -->
 <!-- 		<property name="notifyTake" value="true" /> -->
 <!-- 		<property name="template"> -->
-<!-- 			<bean class="com.vpmsbcm.common.model.PropellingCharge"> -->
+<!-- 			<bean class="com.vpmsbcm.common.model.Charge"> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
 

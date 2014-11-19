@@ -2,16 +2,16 @@ package com.vpmsbcm.common.model;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Woodstick extends Good {
+public class Detonator extends Good {
 
 	private static AtomicInteger ID = new AtomicInteger(0);
 
 	private String supplier;
 
-	public Woodstick() {
+	public Detonator() {
 	}
 
-	public Woodstick(String supplier) {
+	public Detonator(String supplier) {
 		this.id = ID.incrementAndGet();
 		this.supplier = supplier;
 	}
@@ -26,7 +26,7 @@ public class Woodstick extends Good {
 
 	@Override
 	public String toString() {
-		return "Woodstick [id=" + id + ", supplier=" + supplier + "]";
+		return "CaseWithDetonator [id=" + id + ", supplier=" + supplier + "]";
 	}
 
 }

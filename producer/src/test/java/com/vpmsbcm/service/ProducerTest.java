@@ -15,11 +15,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gigaspaces.client.ChangeSet;
 import com.j_spaces.core.client.SQLQuery;
-import com.vpmsbcm.common.model.CaseWithDetonator;
+import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.PropellingCharge;
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Rocket;
-import com.vpmsbcm.common.model.Woodstick;
+import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
 
 /**
@@ -44,10 +44,10 @@ public class ProducerTest {
 	public void setUp() {
 		gigaSpace.clear(null);
 
-		gigaSpace.write(new Woodstick("DHL 1"));
-		gigaSpace.write(new Woodstick("DHL 1"));
-		gigaSpace.write(new CaseWithDetonator("DHL 1"));
-		gigaSpace.write(new PropellingCharge("DHL4"));
+		gigaSpace.write(new Wood("DHL 1"));
+		gigaSpace.write(new Wood("DHL 1"));
+		gigaSpace.write(new Detonator("DHL 1"));
+		gigaSpace.write(new Charge("DHL4"));
 		gigaSpace.write(new Load("DHL5", true));
 		gigaSpace.write(new Load("DHL6", false));
 	}
@@ -57,8 +57,8 @@ public class ProducerTest {
 		gigaSpace.write(new Work());
 
 		assertNull(gigaSpace.take(new Rocket(), 500));
-		assertEquals(2, gigaSpace.count(new Woodstick()));
-		assertEquals(1, gigaSpace.count(new CaseWithDetonator()));
+		assertEquals(2, gigaSpace.count(new Wood()));
+		assertEquals(1, gigaSpace.count(new Detonator()));
 	}
 
 	@Test
@@ -68,17 +68,17 @@ public class ProducerTest {
 		gigaSpace.write(new Work());
 
 		assertNotNull(gigaSpace.take(new Rocket(), 500));
-		assertNotNull(gigaSpace.take(new SQLQuery<PropellingCharge>(PropellingCharge.class, "amount < 500")));
+		assertNotNull(gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500")));
 	}
 
 	@Test
 	public void testWithNotEnoughCharge() {
 		gigaSpace.write(new Load("DHL6", false));
-		gigaSpace.change(new PropellingCharge(), new ChangeSet().set("amount", 100));
+		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));
 
 		gigaSpace.write(new Work());
 
 		assertNull(gigaSpace.take(new Rocket(), 500));
-		assertNotNull(gigaSpace.take(new SQLQuery<PropellingCharge>(PropellingCharge.class, "amount < 500")));
+		assertNotNull(gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500")));
 	}
 }

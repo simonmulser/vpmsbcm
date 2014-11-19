@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.PropellingCharge;
+import com.vpmsbcm.common.model.Charge;
 
 @Component
 public class WarehousePanel extends JPanel {
@@ -95,11 +95,11 @@ public class WarehousePanel extends JPanel {
 		numberLoadL.setText(Integer.parseInt(numberLoadL.getText()) + amount + "");
 	}
 
-	public void updateOpenCharges(HashMap<Integer, PropellingCharge> charges) {
+	public void updateOpenCharges(HashMap<Integer, Charge> charges) {
 		openPropellingChargeL.setText("");
 		String text = "";
 		for (Integer key : charges.keySet()) {
-			PropellingCharge charge = charges.get(key);
+			Charge charge = charges.get(key);
 			if (charge.getAmount() < 500)
 				text += charges.get(key) + "\n";
 		}

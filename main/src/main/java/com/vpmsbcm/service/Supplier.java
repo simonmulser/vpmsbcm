@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.CaseWithDetonator;
+import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.PropellingCharge;
-import com.vpmsbcm.common.model.Woodstick;
+import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.gui.OrderPanel;
 
 @Component
@@ -57,11 +57,11 @@ public class Supplier {
 
 				Object object = null;
 				if (orderable.equals(OrderPanel.woodstick)) {
-					object = new Woodstick("DHL" + ID++);
+					object = new Wood("DHL" + ID++);
 				} else if (orderable.equals(OrderPanel.caseAndDetonator)) {
-					object = new CaseWithDetonator("DHL" + ID++);
+					object = new Detonator("DHL" + ID++);
 				} else if (orderable.equals(OrderPanel.propellingCharge)) {
-					object = new PropellingCharge("DHL" + ID++);
+					object = new Charge("DHL" + ID++);
 				} else if (orderable.equals(OrderPanel.load)) {
 					object = new Load("DHL" + ID++, new Boolean(Math.random() < 0.5));
 				}

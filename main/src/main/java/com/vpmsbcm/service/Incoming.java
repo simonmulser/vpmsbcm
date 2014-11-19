@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.CaseWithDetonator;
+import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Good;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.PropellingCharge;
-import com.vpmsbcm.common.model.Woodstick;
+import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.Wood;
 
 @Component
 @EventDriven
@@ -38,13 +38,13 @@ public class Incoming {
 
 	@SpaceDataEvent
 	public Good eventListener(Good event) {
-		if (event instanceof Woodstick)
+		if (event instanceof Wood)
 			warehouse.updateWoodstick(1);
 		if (event instanceof Load)
 			warehouse.updateLoad(1);
-		if (event instanceof PropellingCharge)
-			warehouse.newPropellingCharge((PropellingCharge) event);
-		if (event instanceof CaseWithDetonator)
+		if (event instanceof Charge)
+			warehouse.newPropellingCharge((Charge) event);
+		if (event instanceof Detonator)
 			warehouse.updateCaseAndDetonator(1);
 		return null;
 	}

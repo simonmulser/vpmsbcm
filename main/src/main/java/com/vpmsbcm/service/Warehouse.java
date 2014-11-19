@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.PropellingCharge;
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.gui.RocketsPanel;
@@ -33,7 +33,7 @@ public class Warehouse {
 	private int chargeCount = 0;
 	private int loadCount = 0;
 
-	private HashMap<Integer, PropellingCharge> charges = new HashMap<Integer, PropellingCharge>();
+	private HashMap<Integer, Charge> charges = new HashMap<Integer, Charge>();
 
 	public Warehouse() {
 	}
@@ -42,8 +42,8 @@ public class Warehouse {
 		rocketsPanel.addRocket();
 	}
 
-	public synchronized void newPropellingCharge(PropellingCharge charge) {
-		PropellingCharge chargeOld = charges.get(charge.getId());
+	public synchronized void newPropellingCharge(Charge charge) {
+		Charge chargeOld = charges.get(charge.getId());
 		if (chargeOld != null) {
 			chargeCount = chargeCount - chargeOld.getAmount() + charge.getAmount();
 			warehousePanel.updateOpenCharges(charges);
@@ -55,7 +55,7 @@ public class Warehouse {
 
 	}
 
-	public synchronized void removePropellingCharge(PropellingCharge charge) {
+	public synchronized void removePropellingCharge(Charge charge) {
 		chargeCount -= charge.getAmount();
 	}
 

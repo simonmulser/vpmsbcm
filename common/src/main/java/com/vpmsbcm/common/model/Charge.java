@@ -2,18 +2,21 @@ package com.vpmsbcm.common.model;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CaseWithDetonator extends Good {
+public class Charge extends Good {
 
 	private static AtomicInteger ID = new AtomicInteger(0);
 
 	private String supplier;
 
-	public CaseWithDetonator() {
+	private Integer amount;
+
+	public Charge() {
 	}
 
-	public CaseWithDetonator(String supplier) {
+	public Charge(String supplier) {
 		this.id = ID.incrementAndGet();
 		this.supplier = supplier;
+		this.amount = 500;
 	}
 
 	public String getSupplier() {
@@ -24,9 +27,16 @@ public class CaseWithDetonator extends Good {
 		this.supplier = supplier;
 	}
 
-	@Override
-	public String toString() {
-		return "CaseWithDetonator [id=" + id + ", supplier=" + supplier + "]";
+	public Integer getAmount() {
+		return amount;
 	}
 
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
+	@Override
+	public String toString() {
+		return "PropellingCharge [supplier=" + supplier + ", amount=" + amount + "]";
+	}
 }
