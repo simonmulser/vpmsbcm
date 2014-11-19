@@ -12,6 +12,10 @@ public class Rocket extends Good {
 
 	private Integer chargeAmount;
 
+	private String producerID;
+	private String controllerID;
+	private String exporterID;
+
 	public static AtomicInteger ID = new AtomicInteger(0);
 
 	public Rocket() {
@@ -65,6 +69,30 @@ public class Rocket extends Good {
 
 	public void setChargeAmount(Integer chargeAmount) {
 		this.chargeAmount = chargeAmount;
+	}
+
+	public String getProducerID() {
+		return producerID;
+	}
+
+	public void setProducerID(String producerID) {
+		this.producerID = producerID;
+	}
+
+	public String getControllerID() {
+		return controllerID;
+	}
+
+	public void setControllerID(String controllerID) {
+		this.controllerID = controllerID;
+	}
+
+	public String getExporterID() {
+		return exporterID;
+	}
+
+	public void setExporterID(String exporterID) {
+		this.exporterID = exporterID;
 	}
 
 	@Override

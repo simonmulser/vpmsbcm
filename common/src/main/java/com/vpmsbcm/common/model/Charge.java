@@ -1,8 +1,13 @@
 package com.vpmsbcm.common.model;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Charge extends Good {
+import com.gigaspaces.annotation.pojo.SpaceId;
+
+public class Charge extends Good implements Serializable {
+
+	private Integer id;
 
 	private static AtomicInteger ID = new AtomicInteger(0);
 
@@ -23,6 +28,15 @@ public class Charge extends Good {
 		this.id = id;
 		this.supplier = supplier;
 		this.amount = amount;
+	}
+
+	@SpaceId(autoGenerate = false)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getSupplier() {

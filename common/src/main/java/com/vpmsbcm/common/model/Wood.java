@@ -1,8 +1,13 @@
 package com.vpmsbcm.common.model;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Wood extends Good {
+import com.gigaspaces.annotation.pojo.SpaceId;
+
+public class Wood extends Good implements Serializable {
+
+	private Integer id;
 
 	private static AtomicInteger ID = new AtomicInteger(0);
 
@@ -16,6 +21,15 @@ public class Wood extends Good {
 		this.supplier = supplier;
 	}
 
+	@SpaceId(autoGenerate = false)
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getSupplier() {
 		return supplier;
 	}
@@ -26,7 +40,7 @@ public class Wood extends Good {
 
 	@Override
 	public String toString() {
-		return "Woodstick [id=" + id + ", supplier=" + supplier + "]";
+		return "Wood [id=" + id + ", supplier=" + supplier + "]";
 	}
 
 }
