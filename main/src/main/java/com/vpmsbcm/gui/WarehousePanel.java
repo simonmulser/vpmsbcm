@@ -3,12 +3,15 @@ package com.vpmsbcm.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.springframework.stereotype.Component;
+
+import com.vpmsbcm.common.model.PropellingCharge;
 
 @Component
 public class WarehousePanel extends JPanel {
@@ -77,22 +80,29 @@ public class WarehousePanel extends JPanel {
 	}
 
 	public void updateWoodstick(int amount) {
-		numberWoodstickL.setText(Integer.parseInt(numberWoodstickL.getText())
-				+ amount + "");
+		numberWoodstickL.setText(Integer.parseInt(numberWoodstickL.getText()) + amount + "");
 	}
 
 	public void updateCaseAndDetonator(int amount) {
-		numberCaseAndDetonatorL.setText(Integer
-				.parseInt(numberCaseAndDetonatorL.getText()) + amount + "");
+		numberCaseAndDetonatorL.setText(Integer.parseInt(numberCaseAndDetonatorL.getText()) + amount + "");
 	}
 
 	public void updatePropellingCharge(int amount) {
-		numberPropellingChargeL.setText(Integer
-				.parseInt(numberPropellingChargeL.getText()) + amount + "");
+		numberPropellingChargeL.setText(Integer.parseInt(numberPropellingChargeL.getText()) + amount + "");
 	}
 
 	public void updateLoad(int amount) {
-		numberLoadL.setText(Integer.parseInt(numberLoadL.getText()) + amount
-				+ "");
+		numberLoadL.setText(Integer.parseInt(numberLoadL.getText()) + amount + "");
+	}
+
+	public void updateOpenCharges(HashMap<Integer, PropellingCharge> charges) {
+		openPropellingChargeL.setText("");
+		String text = "";
+		for (Integer key : charges.keySet()) {
+			PropellingCharge charge = charges.get(key);
+			if (charge.getAmount() < 500)
+				text += charges.get(key) + "\n";
+		}
+		openPropellingChargeL.setText(text);
 	}
 }

@@ -46,6 +46,7 @@ public class Warehouse {
 		PropellingCharge chargeOld = charges.get(charge.getId());
 		if (chargeOld != null) {
 			chargeCount = chargeCount - chargeOld.getAmount() + charge.getAmount();
+			warehousePanel.updateOpenCharges(charges);
 		} else {
 			warehousePanel.updatePropellingCharge(1);
 			chargeCount += 500;
