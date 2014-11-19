@@ -15,9 +15,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gigaspaces.client.ChangeSet;
 import com.j_spaces.core.client.SQLQuery;
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
@@ -67,8 +67,12 @@ public class ProducerTest {
 
 		gigaSpace.write(new Work());
 
-		assertNotNull(gigaSpace.take(new Rocket(), 500));
-		assertNotNull(gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500")));
+		Rocket rocket = gigaSpace.take(new Rocket(), 500);
+		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
+
+		assertNotNull(rocket);
+		assertNotNull(charge);
+		assertEquals(500, rocket.getChargeAmount() + charge.getAmount());
 	}
 
 	@Test

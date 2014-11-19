@@ -1,5 +1,8 @@
 package com.vpmsbcm.producer;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import org.openspaces.core.GigaSpace;
@@ -16,9 +19,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.j_spaces.core.client.SQLQuery;
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
@@ -59,8 +62,8 @@ public class Producer {
 		int chargeNeeded = calculateCharge();
 		log.debug("chargeNeeded=" + chargeNeeded);
 
-		Wood woodstick = gigaSpace.take(new Wood());
-		if (woodstick == null) {
+		Wood wood = gigaSpace.take(new Wood());
+		if (wood == null) {
 			log.info("not enough woodsticks!");
 			throw new RuntimeException();
 
@@ -82,14 +85,18 @@ public class Producer {
 		}
 
 		// TODO maybe work with change
+		LinkedList<Charge> chargesUsed = new LinkedList<Charge>();
 		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 		while (charge != null) {
 			if (charge.getAmount() <= chargeNeeded) {
 				chargeNeeded = chargeNeeded - charge.getAmount();
+				chargesUsed.add(charge);
 			} else {
 				charge.setAmount(charge.getAmount() - chargeNeeded);
 				gigaSpace.write(charge);
-				createRocket();
+				Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeNeeded);
+				chargesUsed.add(chargeUsed);
+				createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
 				return;
 			}
 			charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
@@ -101,15 +108,16 @@ public class Producer {
 			throw new RuntimeException();
 
 		}
-
 		charge.setAmount(charge.getAmount() - chargeNeeded);
 		gigaSpace.write(charge);
-		createRocket();
+		Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeNeeded);
+		chargesUsed.add(chargeUsed);
+
+		createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
 	}
 
-	private void createRocket() {
-		Rocket rocket = new Rocket();
-		rocket.setId(Rocket.ID.incrementAndGet());
+	private void createRocket(Wood wood, Detonator detonator, List<Load> load, List<Charge> chargesUsed, int chargeNeeded) {
+		Rocket rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load);
 
 		gigaSpace.write(rocket);
 		log.info("created rocket=" + rocket);
