@@ -31,14 +31,24 @@ public class Supplier {
 	public Supplier() {
 	}
 
-	public void order(String orderable, int amount) {
-		new Order(orderable, amount).start();
+	public void order(String order, int amount) {
+		new Order(order, amount).start();
+	}
+
+	public void orderWithRejects(String order, int amount, int errorRate) {
+		new Order(order, amount, errorRate).start();
 	}
 
 	private class Order extends Thread {
 
 		private String orderable;
 		private int amount;
+		private double errorRate = 0;
+
+		public Order(String orderable, int amount, int errorRate) {
+			this(orderable, amount);
+			this.errorRate = errorRate / 100.0;
+		}
 
 		public Order(String orderable, int amount) {
 			this.orderable = orderable;
@@ -63,7 +73,7 @@ public class Supplier {
 				} else if (orderable.equals(OrderPanel.propellingCharge)) {
 					object = new Charge("DHL" + ID++);
 				} else if (orderable.equals(OrderPanel.load)) {
-					object = new Load("DHL" + ID++, new Boolean(Math.random() < 0.5));
+					object = new Load("DHL" + ID++, new Boolean(Math.random() <= errorRate));
 				}
 
 				gigaSpace.write(object);

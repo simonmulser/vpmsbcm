@@ -113,11 +113,14 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		log.debug(e.toString());
-
-		log.info("order: type=" + typeC.getSelectedItem() + " amount=" + amountTF.getText() + " errorRate=" + errorRateTF.getText());
-
-		supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
+		try {
+			if (errorRateTF.getText().equals("")) {
+				supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
+			} else {
+				supplier.orderWithRejects(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()), Integer.parseInt(errorRateTF.getText()));
+			}
+		} catch (NumberFormatException exception) {
+			log.info("not a number");
+		}
 	}
-
 }
