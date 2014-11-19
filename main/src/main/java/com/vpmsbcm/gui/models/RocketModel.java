@@ -61,6 +61,7 @@ public class RocketModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
+		Load load;
 		switch (col) {
 		case 0:
 			return rockets.get(row).getId();
@@ -69,11 +70,14 @@ public class RocketModel extends AbstractTableModel {
 		case 2:
 			return rockets.get(row).getDetonator().getId();
 		case 3:
-			return rockets.get(row).getLoades().get(0).getId();
+			load = rockets.get(row).getLoades().get(0);
+			return load.getId() + " " + load.getDefect();
 		case 4:
-			return rockets.get(row).getLoades().get(1).getId();
+			load = rockets.get(row).getLoades().get(1);
+			return load.getId() + " " + load.getDefect();
 		case 5:
-			return rockets.get(row).getLoades().get(2).getId();
+			load = rockets.get(row).getLoades().get(2);
+			return load.getId() + " " + load.getDefect();
 		case 6:
 			String text = "";
 			for (Charge charge : rockets.get(row).getCharges()) {
