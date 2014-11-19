@@ -43,6 +43,6 @@ public class Charge extends Good {
 
 	@Override
 	public String toString() {
-		return "PropellingCharge [supplier=" + supplier + ", amount=" + amount + "]";
+		return "Charge [supplier=" + supplier + ", amount=" + amount + "]";
 	}
 }
