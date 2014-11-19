@@ -2,27 +2,45 @@ package com.vpmsbcm.gui;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.vpmsbcm.gui.models.DestroyedRocketsModel;
+import com.vpmsbcm.gui.models.ExportedRocketsModel;
 
 @Component
 public class ExportPanel extends JPanel {
 
 	private JLabel exportedRocketsHeadingL;
 	private JLabel destroyedRocketsHeadingL;
-	private JLabel exportedRocketsL;
-	private JLabel destroyedRocketsL;
+	private JTable exportedRocketsT;
+	private JTable destroyedRocketsT;
+
+	@Autowired
+	private ExportedRocketsModel exportedRocketsModel;
+
+	@Autowired
+	private DestroyedRocketsModel destroyedRocketsModel;
 
 	public ExportPanel() {
+	}
+
+	@PostConstruct
+	public void init() {
 		setLayout(new GridBagLayout());
 
 		exportedRocketsHeadingL = new JLabel("Exported rockets");
 		destroyedRocketsHeadingL = new JLabel("Destroyed rockets");
-		exportedRocketsL = new JLabel("no exported rockets");
-		destroyedRocketsL = new JLabel("no destroyed rockets");
+		exportedRocketsT = new JTable(exportedRocketsModel);
+		destroyedRocketsT = new JTable(destroyedRocketsModel);
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
@@ -36,10 +54,11 @@ public class ExportPanel extends JPanel {
 		constraints.weighty = 1;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
-		constraints.anchor = GridBagConstraints.PAGE_START;
-		add(exportedRocketsL, constraints);
+		constraints.fill = GridBagConstraints.BOTH;
+		constraints.insets = new Insets(10, 10, 10, 10);
+		add(new JScrollPane(exportedRocketsT), constraints);
 
 		constraints.gridx = 1;
-		add(destroyedRocketsL, constraints);
+		add(new JScrollPane(destroyedRocketsT), constraints);
 	}
 }

@@ -2,6 +2,8 @@ package com.vpmsbcm.service;
 
 import java.util.HashMap;
 
+import javax.annotation.PostConstruct;
+
 import org.openspaces.core.GigaSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +13,9 @@ import org.springframework.stereotype.Component;
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Work;
-import com.vpmsbcm.gui.RocketsPanel;
 import com.vpmsbcm.gui.WarehousePanel;
+import com.vpmsbcm.gui.models.OpenChargeModel;
+import com.vpmsbcm.gui.models.RocketModel;
 
 @Component
 public class Warehouse {
@@ -21,7 +24,10 @@ public class Warehouse {
 	private WarehousePanel warehousePanel;
 
 	@Autowired
-	private RocketsPanel rocketsPanel;
+	private RocketModel rocketModel;
+
+	@Autowired
+	private OpenChargeModel openChargeModel;
 
 	@Autowired
 	private GigaSpace gigaSpace;
@@ -38,15 +44,19 @@ public class Warehouse {
 	public Warehouse() {
 	}
 
+	@PostConstruct
+	public void init() {
+	}
+
 	public synchronized void addRocket(Rocket event) {
-		rocketsPanel.addRocket();
+		rocketModel.addRocket(event);
 	}
 
 	public synchronized void newPropellingCharge(Charge charge) {
 		Charge chargeOld = charges.get(charge.getId());
 		if (chargeOld != null) {
 			chargeCount = chargeCount - chargeOld.getAmount() + charge.getAmount();
-			warehousePanel.updateOpenCharges(charges);
+			openChargeModel.add(charge);
 		} else {
 			warehousePanel.updatePropellingCharge(1);
 			chargeCount += 500;
@@ -74,20 +84,27 @@ public class Warehouse {
 		woodstickCount += i;
 	}
 
-	public void check() {
-		int count = gigaSpace.readMultiple(new Work()).length;
+	public synchronized void check() {
+		int count = gigaSpace.count(new Work());
 		log.debug("count work=" + count);
 
 		int avalaibleWoodsticks = woodstickCount - count;
 		int avalaibleCases = casesCount - count;
-		int avalaibleCharge = chargeCount - count * 130;
-		int avalaibleLoad = loadCount - count * 3;
+		int avalaibleCharge = (chargeCount - count * 130) / 130;
+		int avalaibleLoad = (loadCount - count * 3) / 3;
 
 		log.info("avalaible: woodsticks=" + avalaibleWoodsticks + " cases=" + avalaibleCases + " charge=" + avalaibleCharge + " load=" + avalaibleLoad);
 
-		if (avalaibleWoodsticks > 0 && avalaibleCases > 0 && avalaibleCharge > 130 && avalaibleLoad > 2) {
+		int minUnits = getMin(avalaibleWoodsticks, avalaibleCases, avalaibleCharge, avalaibleLoad);
+
+		for (int i = 0; i < minUnits; i++) {
 			gigaSpace.write(new Work());
-			log.info("created work");
 		}
+	}
+
+	private int getMin(int avalaibleWoodsticks, int avalaibleCases, int avalaibleCharge, int avalaibleLoad) {
+		int help1 = Math.min(avalaibleCharge, avalaibleCases);
+		int help2 = Math.min(avalaibleLoad, avalaibleWoodsticks);
+		return Math.min(help1, help2);
 	}
 }

@@ -22,6 +22,9 @@ import com.vpmsbcm.service.Supplier;
 @Component
 public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 
+	@Autowired
+	RocketsPanel rocketsPanel;
+
 	final Logger log = LoggerFactory.getLogger(OrderPanel.class);
 
 	public final static String woodstick = "woodstick";
@@ -112,11 +115,9 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 	public void actionPerformed(ActionEvent e) {
 		log.debug(e.toString());
 
-		log.info("order: type=" + typeC.getSelectedItem() + " amount="
-				+ amountTF.getText() + " errorRate=" + errorRateTF.getText());
+		log.info("order: type=" + typeC.getSelectedItem() + " amount=" + amountTF.getText() + " errorRate=" + errorRateTF.getText());
 
-		supplier.order(typeC.getSelectedItem().toString(),
-				Integer.parseInt(amountTF.getText()));
+		supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
 	}
 
 }

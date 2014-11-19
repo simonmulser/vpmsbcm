@@ -3,15 +3,18 @@ package com.vpmsbcm.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.util.HashMap;
+import java.awt.Insets;
 
 import javax.annotation.PostConstruct;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.gui.models.OpenChargeModel;
 
 @Component
 public class WarehousePanel extends JPanel {
@@ -27,7 +30,10 @@ public class WarehousePanel extends JPanel {
 	private JLabel numberCaseAndDetonatorL;
 	private JLabel numberPropellingChargeL;
 	private JLabel numberLoadL;
-	private JLabel openPropellingChargeL;
+	private JTable openChargeT;
+
+	@Autowired
+	private OpenChargeModel openChargeModel;
 
 	public WarehousePanel() {
 	}
@@ -57,7 +63,7 @@ public class WarehousePanel extends JPanel {
 		depotP.add(loadL);
 		depotP.add(numberLoadL);
 
-		openPropellingChargeL = new JLabel("no open propelling charge");
+		openChargeT = new JTable(openChargeModel);
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
@@ -76,7 +82,9 @@ public class WarehousePanel extends JPanel {
 
 		constraints.gridx = 1;
 		constraints.gridy = 1;
-		add(openPropellingChargeL, constraints);
+		constraints.fill = GridBagConstraints.BOTH;
+		constraints.insets = new Insets(10, 10, 10, 10);
+		add(new JScrollPane(openChargeT), constraints);
 	}
 
 	public void updateWoodstick(int amount) {
@@ -93,16 +101,5 @@ public class WarehousePanel extends JPanel {
 
 	public void updateLoad(int amount) {
 		numberLoadL.setText(Integer.parseInt(numberLoadL.getText()) + amount + "");
-	}
-
-	public void updateOpenCharges(HashMap<Integer, Charge> charges) {
-		openPropellingChargeL.setText("");
-		String text = "";
-		for (Integer key : charges.keySet()) {
-			Charge charge = charges.get(key);
-			if (charge.getAmount() < 500)
-				text += charges.get(key) + "\n";
-		}
-		openPropellingChargeL.setText(text);
 	}
 }
