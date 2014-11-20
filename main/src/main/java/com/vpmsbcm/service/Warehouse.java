@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.gui.WarehousePanel;
@@ -42,6 +43,9 @@ public class Warehouse {
 
 	@PostConstruct
 	public void init() {
+		IDFactory idFactory = new IDFactory();
+		idFactory.init();
+		gigaSpace.write(idFactory);
 	}
 
 	public synchronized void addRocket(Rocket event) {
