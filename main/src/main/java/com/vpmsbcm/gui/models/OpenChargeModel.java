@@ -66,4 +66,10 @@ public class OpenChargeModel extends AbstractTableModel {
 
 		fireTableRowsInserted(row, row);
 	}
+
+	public void remove(Charge chargeToRemove) {
+		openCharges.remove(chargeToRemove);
+		fireTableDataChanged();
+	}
+
 }
