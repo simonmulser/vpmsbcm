@@ -2,6 +2,8 @@ package com.vpmsbcm.quality;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
 import org.openspaces.events.EventDriven;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
@@ -25,10 +28,32 @@ public class Quality {
 
 	final Logger log = LoggerFactory.getLogger(Quality.class);
 
+	private int id;
+
 	@GigaSpaceContext
 	private GigaSpace gigaSpace;
 
 	public Quality() {
+	}
+
+	@PostConstruct
+	public void init() {
+		setId();
+	}
+
+	private void setId() {
+		IDFactory factory = new IDFactory();
+		factory.setId(1);
+
+		factory = gigaSpace.take(factory, 1000);
+		if (factory != null) {
+			id = factory.getIdProducer();
+			factory.setIdProducer(id + 1);
+			gigaSpace.write(factory);
+			log.info("started producer with id=" + id);
+		} else {
+			id = -1;
+		}
 	}
 
 	@ReceiveHandler
@@ -53,7 +78,7 @@ public class Quality {
 		} else {
 			event.setState(State.DEFECT);
 		}
-
+		event.setControllerID(id);
 		return event;
 	}
 

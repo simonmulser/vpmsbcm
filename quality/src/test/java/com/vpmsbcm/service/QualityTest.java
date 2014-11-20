@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
@@ -40,7 +41,9 @@ public class QualityTest {
 	@Before
 	public void setUp() {
 		gigaSpace.clear(null);
-
+		IDFactory idFactory = new IDFactory();
+		idFactory.init();
+		gigaSpace.write(idFactory);
 		gigaSpace.write(new Wood("DHL 1"));
 	}
 
@@ -50,7 +53,7 @@ public class QualityTest {
 		loads.add(new Load("DHL5", false));
 		loads.add(new Load("DHL5", false));
 		loads.add(new Load("DHL5", false));
-		gigaSpace.write(new Rocket(null, null, null, 130, loads));
+		gigaSpace.write(new Rocket(null, null, null, 130, loads, 1));
 
 		Rocket template = new Rocket();
 		template.setState(State.WORKING);
@@ -64,7 +67,7 @@ public class QualityTest {
 		loads.add(new Load("DHL5", false));
 		loads.add(new Load("DHL5", false));
 		loads.add(new Load("DHL5", false));
-		gigaSpace.write(new Rocket(null, null, null, 119, loads));
+		gigaSpace.write(new Rocket(null, null, null, 119, loads, 1));
 
 		Rocket template = new Rocket();
 		template.setState(State.DEFECT);
@@ -78,7 +81,7 @@ public class QualityTest {
 		loads.add(new Load("DHL5", true));
 		loads.add(new Load("DHL5", false));
 		loads.add(new Load("DHL5", false));
-		gigaSpace.write(new Rocket(null, null, null, 140, loads));
+		gigaSpace.write(new Rocket(null, null, null, 140, loads, 1));
 
 		Rocket template = new Rocket();
 		template.setState(State.DEFECT);

@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.PostConstruct;
+
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
 import org.openspaces.events.EventDriven;
@@ -33,19 +35,33 @@ public class Producer {
 
 	final Logger log = LoggerFactory.getLogger(Producer.class);
 
-	private final int id;
+	private int id;
 
 	@GigaSpaceContext
 	private GigaSpace gigaSpace;
 
 	public Producer() {
+	}
+
+	@PostConstruct
+	public void init() {
+		setId();
+	}
+
+	private void setId() {
 		IDFactory factory = new IDFactory();
 		factory.setId(1);
 
 		factory = gigaSpace.take(factory, 1000);
-		id = factory.getIdProducer();
-		factory.setIdProducer(id + 1);
-		gigaSpace.write(factory);
+		if (factory != null) {
+			id = factory.getIdProducer();
+			factory.setIdProducer(id + 1);
+			gigaSpace.write(factory);
+			log.info("started producer with id=" + id);
+		} else {
+			id = -1;
+		}
+
 	}
 
 	@ReceiveHandler
