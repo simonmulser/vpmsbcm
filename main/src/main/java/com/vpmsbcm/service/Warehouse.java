@@ -1,7 +1,5 @@
 package com.vpmsbcm.service;
 
-import java.util.HashMap;
-
 import javax.annotation.PostConstruct;
 
 import org.openspaces.core.GigaSpace;
@@ -39,8 +37,6 @@ public class Warehouse {
 	private int chargeCount = 0;
 	private int loadCount = 0;
 
-	private HashMap<Integer, Charge> charges = new HashMap<Integer, Charge>();
-
 	public Warehouse() {
 	}
 
@@ -53,19 +49,16 @@ public class Warehouse {
 	}
 
 	public synchronized void newPropellingCharge(Charge charge) {
-		Charge chargeOld = charges.get(charge.getId());
-		if (chargeOld != null) {
-			chargeCount = chargeCount - chargeOld.getAmount() + charge.getAmount();
+		if (charge.getAmount() < 500) {
 			openChargeModel.add(charge);
-		} else {
-			warehousePanel.updatePropellingCharge(1);
-			chargeCount += 500;
+			warehousePanel.updateCharge(1);
 		}
-		charges.put(charge.getId(), charge);
-
+		chargeCount += charge.getAmount();
 	}
 
-	public synchronized void removePropellingCharge(Charge charge) {
+	public synchronized void removeCharge(Charge charge) {
+		warehousePanel.updateCharge(-1);
+		openChargeModel.remove(charge);
 		chargeCount -= charge.getAmount();
 	}
 
