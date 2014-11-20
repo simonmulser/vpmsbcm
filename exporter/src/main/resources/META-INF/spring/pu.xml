@@ -18,11 +18,7 @@
 	<!-- Enables the usage of @GigaSpaceContext annotation based injection. -->
 	<os-core:giga-space-context />
 
-	<!-- A bean representing a space (an IJSpace implementation). Note, we do 
-		not specify here the cluster topology of the space. It is declated outside 
-		of the processing unit or within the SLA bean. -->
-	<os-core:space id="space" url="/./space" />
-	<os-core:space id="trash" url="/./trash" />
+    <os-core:space id="space" url="jini://*/*/space" />
 
 	<!-- Defines a distributed transaction manager. -->
 	<os-core:distributed-tx-manager id="transactionManager" />
@@ -32,7 +28,7 @@
 		tx-manager="transactionManager" />
 
 	<!-- Enable scan for OpenSpaces and Spring components -->
-	<context:component-scan base-package="com.vpmsbcm" />
+	<context:component-scan base-package="com.vpmsbcm.quality" />
 
 	<!-- Enable support for @Notify annotation -->
 	<os-events:annotation-support />
