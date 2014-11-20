@@ -17,16 +17,16 @@ public class Rocket extends Good {
 	private Integer chargeAmount;
 	private State state;
 
-	private String producerID;
-	private String controllerID;
-	private String exporterID;
+	private Integer producerID;
+	private Integer controllerID;
+	private Integer exporterID;
 
 	public static AtomicInteger ID = new AtomicInteger(0);
 
 	public Rocket() {
 	}
 
-	public Rocket(Wood wood, Detonator detonator, List<Charge> charges, Integer chargeAmount, List<Load> loades) {
+	public Rocket(Wood wood, Detonator detonator, List<Charge> charges, Integer chargeAmount, List<Load> loades, Integer producerID) {
 		super();
 		id = ID.incrementAndGet();
 		this.wood = wood;
@@ -35,6 +35,7 @@ public class Rocket extends Good {
 		this.chargeAmount = chargeAmount;
 		this.loades = loades;
 		this.state = State.NOT_TESTED;
+		this.producerID = producerID;
 	}
 
 	@SpaceId(autoGenerate = false)
@@ -86,27 +87,27 @@ public class Rocket extends Good {
 		this.chargeAmount = chargeAmount;
 	}
 
-	public String getProducerID() {
+	public Integer getProducerID() {
 		return producerID;
 	}
 
-	public void setProducerID(String producerID) {
+	public void setProducerID(Integer producerID) {
 		this.producerID = producerID;
 	}
 
-	public String getControllerID() {
+	public Integer getControllerID() {
 		return controllerID;
 	}
 
-	public void setControllerID(String controllerID) {
+	public void setControllerID(Integer controllerID) {
 		this.controllerID = controllerID;
 	}
 
-	public String getExporterID() {
+	public Integer getExporterID() {
 		return exporterID;
 	}
 
-	public void setExporterID(String exporterID) {
+	public void setExporterID(Integer exporterID) {
 		this.exporterID = exporterID;
 	}
 
