@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.j_spaces.core.client.SQLQuery;
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
+import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
@@ -32,10 +33,19 @@ public class Producer {
 
 	final Logger log = LoggerFactory.getLogger(Producer.class);
 
+	private final int id;
+
 	@GigaSpaceContext
 	private GigaSpace gigaSpace;
 
 	public Producer() {
+		IDFactory factory = new IDFactory();
+		factory.setId(1);
+
+		factory = gigaSpace.take(factory, 1000);
+		id = factory.getIdProducer();
+		factory.setIdProducer(id + 1);
+		gigaSpace.write(factory);
 	}
 
 	@ReceiveHandler
@@ -117,7 +127,7 @@ public class Producer {
 	}
 
 	private void createRocket(Wood wood, Detonator detonator, List<Load> load, List<Charge> chargesUsed, int chargeNeeded) {
-		Rocket rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load);
+		Rocket rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load, id);
 
 		gigaSpace.write(rocket);
 		log.info("created rocket=" + rocket);
