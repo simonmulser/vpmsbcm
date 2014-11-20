@@ -51,8 +51,8 @@ public class Warehouse {
 	public synchronized void newPropellingCharge(Charge charge) {
 		if (charge.getAmount() < 500) {
 			openChargeModel.add(charge);
-			warehousePanel.updateCharge(1);
 		}
+		warehousePanel.updateCharge(1);
 		chargeCount += charge.getAmount();
 	}
 
