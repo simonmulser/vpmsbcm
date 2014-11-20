@@ -48,6 +48,10 @@ public class Warehouse {
 		rocketModel.addRocket(event);
 	}
 
+	public synchronized void removeRocket(Rocket event) {
+		rocketModel.removeRocket(event);
+	}
+
 	public synchronized void newPropellingCharge(Charge charge) {
 		if (charge.getAmount() < 500) {
 			openChargeModel.add(charge);

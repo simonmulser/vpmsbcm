@@ -10,10 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Good;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
 
 @Component
@@ -46,6 +47,8 @@ public class Outgoing {
 			warehouse.removeCharge((Charge) event);
 		if (event instanceof Detonator)
 			warehouse.updateCaseAndDetonator(-1);
+		if (event instanceof Rocket)
+			warehouse.removeRocket((Rocket) event);
 		return null;
 	}
 }
