@@ -11,6 +11,7 @@ public class Rocket extends Good {
 	private List<Load> loades;
 
 	private Integer chargeAmount;
+	private State state;
 
 	private String producerID;
 	private String controllerID;
@@ -29,6 +30,7 @@ public class Rocket extends Good {
 		this.charges = charges;
 		this.chargeAmount = chargeAmount;
 		this.loades = loades;
+		this.state = State.NOT_TESTED;
 	}
 
 	public Wood getWood() {
@@ -95,8 +97,16 @@ public class Rocket extends Good {
 		this.exporterID = exporterID;
 	}
 
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
 	@Override
 	public String toString() {
-		return "Rocket [wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount + "]";
+		return "Rocket [wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount + ", state=" + state + "]";
 	}
 }
