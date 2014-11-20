@@ -95,7 +95,7 @@ public class WarehousePanel extends JPanel {
 		numberCaseAndDetonatorL.setText(Integer.parseInt(numberCaseAndDetonatorL.getText()) + amount + "");
 	}
 
-	public void updatePropellingCharge(int amount) {
+	public void updateCharge(int amount) {
 		numberPropellingChargeL.setText(Integer.parseInt(numberPropellingChargeL.getText()) + amount + "");
 	}
 

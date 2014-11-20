@@ -43,7 +43,7 @@ public class Outgoing {
 		if (event instanceof Load)
 			warehouse.updateLoad(-1);
 		if (event instanceof Charge)
-			warehouse.removePropellingCharge((Charge) event);
+			warehouse.removeCharge((Charge) event);
 		if (event instanceof Detonator)
 			warehouse.updateCaseAndDetonator(-1);
 		return null;
