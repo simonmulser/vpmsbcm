@@ -16,7 +16,7 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 
 	Logger log = LoggerFactory.getLogger(DestroyedRocketsModel.class);
 
-	public List<Rocket> rockets = new LinkedList<Rocket>();
+	private List<Rocket> rockets = new LinkedList<Rocket>();
 
 	protected String[] columnNames = new String[] { "id" };
 
