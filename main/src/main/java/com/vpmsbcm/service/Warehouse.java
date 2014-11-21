@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.IDFactory;
+import com.vpmsbcm.common.model.Parcel;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.gui.WarehousePanel;
@@ -108,5 +109,10 @@ public class Warehouse {
 		int help1 = Math.min(avalaibleCharge, avalaibleCases);
 		int help2 = Math.min(avalaibleLoad, avalaibleWoodsticks);
 		return Math.min(help1, help2);
+	}
+
+	public void addParcel(Parcel event) {
+		// TODO Auto-generated method stub
+
 	}
 }
