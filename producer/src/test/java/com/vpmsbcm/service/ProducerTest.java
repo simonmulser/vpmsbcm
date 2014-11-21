@@ -76,6 +76,27 @@ public class ProducerTest {
 	}
 
 	@Test
+	public void testCreateRocketWith2Charge() {
+		gigaSpace.write(new Load("DHL6", false));
+		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));
+		gigaSpace.write(new Charge("DHL4"));
+
+		gigaSpace.write(new Work());
+
+		Rocket rocket = gigaSpace.take(new Rocket(), 500);
+		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
+
+		assertNotNull(rocket);
+		assertNotNull(charge);
+		assertEquals(2, rocket.getCharges().size());
+		Integer sum = rocket.getCharges().get(0).getAmount() + rocket.getCharges().get(1).getAmount();
+		System.out.println(rocket.getCharges().get(0));
+		System.out.println(rocket.getCharges().get(1));
+		assertEquals(sum, rocket.getChargeAmount());
+		assertEquals(600, rocket.getChargeAmount() + charge.getAmount());
+	}
+
+	@Test
 	public void testWithNotEnoughCharge() {
 		gigaSpace.write(new Load("DHL6", false));
 		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));

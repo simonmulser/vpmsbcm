@@ -112,15 +112,16 @@ public class Producer {
 
 		// TODO maybe work with change
 		LinkedList<Charge> chargesUsed = new LinkedList<Charge>();
+		int chargeLeft = chargeNeeded;
 		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 		while (charge != null) {
-			if (charge.getAmount() <= chargeNeeded) {
-				chargeNeeded = chargeNeeded - charge.getAmount();
+			if (charge.getAmount() <= chargeLeft) {
+				chargeLeft = chargeLeft - charge.getAmount();
 				chargesUsed.add(charge);
 			} else {
-				charge.setAmount(charge.getAmount() - chargeNeeded);
+				charge.setAmount(charge.getAmount() - chargeLeft);
 				gigaSpace.write(charge);
-				Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeNeeded);
+				Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeLeft);
 				chargesUsed.add(chargeUsed);
 				createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
 				return;
@@ -134,9 +135,9 @@ public class Producer {
 			throw new RuntimeException();
 
 		}
-		charge.setAmount(charge.getAmount() - chargeNeeded);
+		charge.setAmount(charge.getAmount() - chargeLeft);
 		gigaSpace.write(charge);
-		Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeNeeded);
+		Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeLeft);
 		chargesUsed.add(chargeUsed);
 
 		createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
