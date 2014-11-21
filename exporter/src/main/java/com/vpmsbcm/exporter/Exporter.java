@@ -1,4 +1,4 @@
-package com.vpmsbcm.quality;
+package com.vpmsbcm.exporter;
 
 import java.util.Arrays;
 import java.util.LinkedList;

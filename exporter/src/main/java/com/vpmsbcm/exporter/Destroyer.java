@@ -1,4 +1,4 @@
-package com.vpmsbcm.quality;
+package com.vpmsbcm.exporter;
 
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
