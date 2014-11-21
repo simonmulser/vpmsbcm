@@ -1,11 +1,12 @@
 package com.vpmsbcm.common.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.gigaspaces.annotation.pojo.SpaceId;
 
-public class Rocket extends Good {
+public class Rocket extends Good implements Serializable {
 
 	private Integer id;
 
