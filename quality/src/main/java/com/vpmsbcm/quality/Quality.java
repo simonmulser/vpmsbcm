@@ -50,7 +50,7 @@ public class Quality {
 			id = factory.getIdQuality();
 			factory.setIdQuality(id + 1);
 			gigaSpace.write(factory);
-			log.info("started producer with id=" + id);
+			log.info("started quality with id=" + id);
 		} else {
 			id = -1;
 		}
