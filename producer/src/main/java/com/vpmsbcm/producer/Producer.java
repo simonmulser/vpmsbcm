@@ -90,27 +90,21 @@ public class Producer {
 
 		Wood wood = gigaSpace.take(new Wood());
 		if (wood == null) {
-			log.info("not enough woodsticks!");
-			throw new RuntimeException();
-
+			throw new NotEnoughGoods("not enough woodsticks!");
 		}
 
 		Detonator detonator = gigaSpace.take(new Detonator());
 		if (detonator == null) {
-			log.info("not enough detonators");
-			throw new RuntimeException();
+			throw new NotEnoughGoods("not enough detonator!");
 
 		}
 
 		Load[] load = gigaSpace.takeMultiple(new Load(), 3);
 		if (load.length != 3) {
-			log.info(gigaSpace.getCurrentTransaction() + "");
+			throw new NotEnoughGoods("not enough loads! only " + load.length + " loads, 3 needed");
 
-			log.info("not 3 loads");
-			throw new RuntimeException();
 		}
 
-		// TODO maybe work with change
 		LinkedList<Charge> chargesUsed = new LinkedList<Charge>();
 		int chargeLeft = chargeNeeded;
 		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
