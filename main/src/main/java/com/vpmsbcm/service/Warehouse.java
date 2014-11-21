@@ -15,6 +15,8 @@ import com.vpmsbcm.common.model.Parcel;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.gui.WarehousePanel;
+import com.vpmsbcm.gui.models.DestroyedRocketsModel;
+import com.vpmsbcm.gui.models.ExportedRocketsModel;
 import com.vpmsbcm.gui.models.OpenChargeModel;
 import com.vpmsbcm.gui.models.RocketModel;
 
@@ -29,6 +31,12 @@ public class Warehouse {
 
 	@Autowired
 	private OpenChargeModel openChargeModel;
+
+	@Autowired
+	private ExportedRocketsModel exportedRocketsModel;
+
+	@Autowired
+	private DestroyedRocketsModel destroyedRocketsModel;
 
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
@@ -87,6 +95,14 @@ public class Warehouse {
 		woodstickCount += i;
 	}
 
+	public synchronized void addParcel(Parcel parcel) {
+		exportedRocketsModel.addParcel(parcel);
+	}
+
+	public synchronized void addDestroyedRocket(Rocket rocket) {
+		destroyedRocketsModel.addRocket(rocket);
+	}
+
 	public synchronized void check() {
 		int count = warehouseSpace.count(new Work());
 		log.debug("count work=" + count);
@@ -109,10 +125,5 @@ public class Warehouse {
 		int help1 = Math.min(avalaibleCharge, avalaibleCases);
 		int help2 = Math.min(avalaibleLoad, avalaibleWoodsticks);
 		return Math.min(help1, help2);
-	}
-
-	public void addParcel(Parcel event) {
-		// TODO Auto-generated method stub
-
 	}
 }
