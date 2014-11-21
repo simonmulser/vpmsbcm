@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.gui.OrderPanel;
 
@@ -78,6 +78,11 @@ public class Supplier {
 
 				gigaSpace.write(object);
 				log.info("ordered" + object);
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			warehouse.check();
 		}
