@@ -14,7 +14,7 @@ import com.vpmsbcm.common.model.Charge;
 @Component
 public class OpenChargeModel extends AbstractTableModel {
 
-	Logger log = LoggerFactory.getLogger(RocketModel.class);
+	Logger log = LoggerFactory.getLogger(OpenChargeModel.class);
 
 	public List<Charge> openCharges = new LinkedList<Charge>();
 
