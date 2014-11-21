@@ -81,6 +81,8 @@ public class Producer {
 	public Work eventListener(Work event) {
 		log.info("received work=" + event);
 		produce();
+
+		// don't write work back into the space
 		return null;
 	}
 
