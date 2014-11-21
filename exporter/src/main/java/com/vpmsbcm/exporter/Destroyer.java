@@ -13,13 +13,13 @@ import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
 
 @EventDriven
-@Polling(gigaSpace = "gigaSpace")
+@Polling(gigaSpace = "warehouseSpace")
 public class Destroyer {
 
 	final Logger log = LoggerFactory.getLogger(Destroyer.class);
 
-	@GigaSpaceContext(name = "gigaSpace")
-	private GigaSpace gigaSpace;
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
 
 	@GigaSpaceContext(name = "trashSpace")
 	private GigaSpace trashSpace;

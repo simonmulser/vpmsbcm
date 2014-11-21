@@ -22,8 +22,8 @@ public class Supplier {
 
 	final Logger log = LoggerFactory.getLogger(Supplier.class);
 
-	@GigaSpaceContext
-	private GigaSpace gigaSpace;
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
 
 	@Autowired
 	private Warehouse warehouse;
@@ -76,7 +76,7 @@ public class Supplier {
 					object = new Load("DHL" + ID++, new Boolean(Math.random() <= errorRate));
 				}
 
-				gigaSpace.write(object);
+				warehouseSpace.write(object);
 				log.info("ordered" + object);
 			}
 			try {

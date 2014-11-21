@@ -26,15 +26,15 @@ import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
 
 @EventDriven
-@Polling(gigaSpace = "gigaSpace", passArrayAsIs = true, receiveTimeout = 10000)
+@Polling(gigaSpace = "warehouseSpace", passArrayAsIs = true, receiveTimeout = 10000)
 public class Exporter {
 
 	final Logger log = LoggerFactory.getLogger(Exporter.class);
 
 	private int id;
 
-	@GigaSpaceContext(name = "gigaSpace")
-	private GigaSpace gigaSpace;
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
 
 	public Exporter() {
 	}
@@ -48,11 +48,11 @@ public class Exporter {
 		IDFactory factory = new IDFactory();
 		factory.setId(1);
 
-		factory = gigaSpace.take(factory, 1000);
+		factory = warehouseSpace.take(factory, 1000);
 		if (factory != null) {
 			id = factory.getIdExporter();
 			factory.setIdExporter(id + 1);
-			gigaSpace.write(factory);
+			warehouseSpace.write(factory);
 			log.info("started exporter with id=" + id);
 		} else {
 			id = -1;
@@ -87,18 +87,18 @@ public class Exporter {
 		log.info("there are " + rockets.size() + " working rockets");
 
 		int additionalRocketsNeeded = 5 - rockets.size();
-		Rocket[] rocketsFromSpace = gigaSpace.takeMultiple(new SQLQuery<Rocket>(Rocket.class, "state = 'READY'"), additionalRocketsNeeded);
+		Rocket[] rocketsFromSpace = warehouseSpace.takeMultiple(new SQLQuery<Rocket>(Rocket.class, "state = 'READY'"), additionalRocketsNeeded);
 		log.info("got other " + rocketsFromSpace.length + " rockets from the space");
 
 		if (rocketsFromSpace.length + rockets.size() == 5) {
 			rockets.addAll(Arrays.asList(rocketsFromSpace));
 			Parcel parcel = new Parcel(rockets);
-			gigaSpace.write(parcel);
+			warehouseSpace.write(parcel);
 			log.info("created parcel=" + parcel);
 			return null;
 		} else {
 			if (rocketsFromSpace.length > 0) {
-				gigaSpace.writeMultiple(rocketsFromSpace);
+				warehouseSpace.writeMultiple(rocketsFromSpace);
 			}
 		}
 		return events;

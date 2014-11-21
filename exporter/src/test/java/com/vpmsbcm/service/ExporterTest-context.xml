@@ -12,15 +12,16 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	<os-core:space id="space" url="/./exporterSpace"
+	<os-core:space id="warehouseS" url="/./exporterSpace"
 		lookup-groups="exporter-integration-tests" />
-	<os-core:space id="trash" url="/./trashSpace"
-		lookup-groups="trash-integration-tests" />
+	<os-core:space id="trashS" url="/./trashSpace"
+		lookup-groups="exporter-integration-tests" />
 
 	<os-core:distributed-tx-manager id="transactionManager" />
-	<os-core:giga-space id="gigaSpace" space="space"
+	<os-core:giga-space id="warehouseSpace" space="warehouseS"
 		tx-manager="transactionManager" />
-	<os-core:giga-space id="trashSpace" space="trash"/>
+	<os-core:giga-space id="trashSpace" space="trashS"
+		tx-manager="transactionManager" />
 
 	<os-core:giga-space-context />
 	<context:component-scan base-package="com.vpmsbcm" />

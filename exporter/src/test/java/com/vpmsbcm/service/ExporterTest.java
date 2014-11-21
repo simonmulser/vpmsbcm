@@ -27,49 +27,49 @@ import com.vpmsbcm.common.model.Wood;
 @ContextConfiguration
 public class ExporterTest {
 
-	@GigaSpaceContext(name = "gigaSpace")
-	GigaSpace gigaSpace;
+	@GigaSpaceContext(name = "warehouseSpace")
+	GigaSpace warehouseSpace;
 
 	@GigaSpaceContext(name = "trashSpace")
 	GigaSpace trashSpace;
 
 	@After
 	public void teardown() {
-		gigaSpace.clear(null);
+		warehouseSpace.clear(null);
 	}
 
 	@Before
 	public void setUp() {
-		gigaSpace.clear(null);
+		warehouseSpace.clear(null);
 
 		for (int i = 0; i < 4; i++) {
 			Rocket rocket = new Rocket(null, null, null, 0, null, 0);
 			rocket.setState(State.WORKING);
-			gigaSpace.write(rocket);
+			warehouseSpace.write(rocket);
 		}
 
-		gigaSpace.write(new Wood("DHL 1"));
+		warehouseSpace.write(new Wood("DHL 1"));
 	}
 
 	@Test
 	public void testCreateParcel() {
-		assertNull(gigaSpace.take(new Parcel(), 500));
+		assertNull(warehouseSpace.take(new Parcel(), 500));
 
 		Rocket rocket = new Rocket(null, null, null, 0, null, 0);
 		rocket.setState(State.WORKING);
-		gigaSpace.write(rocket);
+		warehouseSpace.write(rocket);
 
-		assertNotNull(gigaSpace.take(new Parcel(), 500));
+		assertNotNull(warehouseSpace.take(new Parcel(), 500));
 	}
 
 	@Test
 	public void testNotEnoughParcel() {
-		assertNull(gigaSpace.take(new Parcel(), 500));
+		assertNull(warehouseSpace.take(new Parcel(), 500));
 
 		Rocket rocket = new Rocket(null, null, null, 0, null, 0);
 		rocket.setState(State.DEFECT);
-		gigaSpace.write(rocket);
+		warehouseSpace.write(rocket);
 
-		assertNull(gigaSpace.take(new Parcel(), 500));
+		assertNull(warehouseSpace.take(new Parcel(), 500));
 	}
 }

@@ -38,7 +38,7 @@ public class Producer {
 	private int id;
 
 	@GigaSpaceContext
-	private GigaSpace gigaSpace;
+	private GigaSpace warehouse;
 
 	public Producer() {
 	}
@@ -52,11 +52,11 @@ public class Producer {
 		IDFactory factory = new IDFactory();
 		factory.setId(1);
 
-		factory = gigaSpace.take(factory, 1000);
+		factory = warehouse.take(factory, 1000);
 		if (factory != null) {
 			id = factory.getIdProducer();
 			factory.setIdProducer(id + 1);
-			gigaSpace.write(factory);
+			warehouse.write(factory);
 			log.info("started producer with id=" + id);
 		} else {
 			id = -1;
@@ -90,18 +90,18 @@ public class Producer {
 		int chargeNeeded = calculateCharge();
 		log.debug("chargeNeeded=" + chargeNeeded);
 
-		Wood wood = gigaSpace.take(new Wood());
+		Wood wood = warehouse.take(new Wood());
 		if (wood == null) {
 			throw new NotEnoughGoods("not enough woodsticks!");
 		}
 
-		Detonator detonator = gigaSpace.take(new Detonator());
+		Detonator detonator = warehouse.take(new Detonator());
 		if (detonator == null) {
 			throw new NotEnoughGoods("not enough detonator!");
 
 		}
 
-		Load[] load = gigaSpace.takeMultiple(new Load(), 3);
+		Load[] load = warehouse.takeMultiple(new Load(), 3);
 		if (load.length != 3) {
 			throw new NotEnoughGoods("not enough loads! only " + load.length + " loads, 3 needed");
 
@@ -109,30 +109,30 @@ public class Producer {
 
 		LinkedList<Charge> chargesUsed = new LinkedList<Charge>();
 		int chargeLeft = chargeNeeded;
-		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
+		Charge charge = warehouse.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 		while (charge != null) {
 			if (charge.getAmount() <= chargeLeft) {
 				chargeLeft = chargeLeft - charge.getAmount();
 				chargesUsed.add(charge);
 			} else {
 				charge.setAmount(charge.getAmount() - chargeLeft);
-				gigaSpace.write(charge);
+				warehouse.write(charge);
 				Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeLeft);
 				chargesUsed.add(chargeUsed);
 				createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
 				return;
 			}
-			charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
+			charge = warehouse.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 		}
 
-		charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount = 500"));
+		charge = warehouse.take(new SQLQuery<Charge>(Charge.class, "amount = 500"));
 		if (charge == null) {
 			log.info("not enough charge");
 			throw new RuntimeException();
 
 		}
 		charge.setAmount(charge.getAmount() - chargeLeft);
-		gigaSpace.write(charge);
+		warehouse.write(charge);
 		Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeLeft);
 		chargesUsed.add(chargeUsed);
 
@@ -142,7 +142,7 @@ public class Producer {
 	private void createRocket(Wood wood, Detonator detonator, List<Load> load, List<Charge> chargesUsed, int chargeNeeded) {
 		Rocket rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load, id);
 
-		gigaSpace.write(rocket);
+		warehouse.write(rocket);
 		log.info("created rocket=" + rocket);
 	}
 

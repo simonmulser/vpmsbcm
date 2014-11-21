@@ -16,7 +16,7 @@
 	<os-core:space id="space" url="/./qualitySpace"
 		lookup-groups="quality-integration-tests" />
 	<os-core:distributed-tx-manager id="transactionManager" />
-	<os-core:giga-space id="gigaSpace" space="space" tx-manager="transactionManager"/>
+	<os-core:giga-space id="warehouse" space="space" tx-manager="transactionManager"/>
 	
 	<os-core:giga-space-context />
 	<context:component-scan base-package="com.vpmsbcm" />

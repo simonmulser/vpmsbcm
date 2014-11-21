@@ -19,7 +19,7 @@ import com.vpmsbcm.common.model.Wood;
 
 @Component
 @EventDriven
-@Notify
+@Notify(gigaSpace = "warehouseSpace")
 @NotifyType(take = true)
 public class Outgoing {
 

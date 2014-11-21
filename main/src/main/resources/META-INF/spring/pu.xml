@@ -10,30 +10,20 @@
        http://www.openspaces.org/schema/remoting http://www.openspaces.org/schema/10.0/remoting/openspaces-remoting.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<!-- Spring property configurer which allows us to use system properties 
-		(such as user.name). -->
 	<bean id="propertiesConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
-	<!-- Enables the usage of @GigaSpaceContext annotation based injection. -->
 	<os-core:giga-space-context />
 
-	<!-- A bean representing a space (an IJSpace implementation). Note, we do 
-		not specify here the cluster topology of the space. It is declated outside 
-		of the processing unit or within the SLA bean. -->
-	<os-core:space id="space" url="/./space" />
-	<os-core:space id="trash" url="/./trash" />
-
-	<!-- Defines a distributed transaction manager. -->
+	<os-core:space id="warehouseS" url="/./warehouseS" />
+	<os-core:space id="trashS" url="/./trashS" />
 	<os-core:distributed-tx-manager id="transactionManager" />
 
-	<!-- OpenSpaces simplified space API built on top of IJSpace/JavaSpace. -->
-	<os-core:giga-space id="gigaSpace" space="space"
+	<os-core:giga-space id="warehouseSpace" space="warehouseS"
+		tx-manager="transactionManager" />
+	<os-core:giga-space id="trashSpace" space="trashS"
 		tx-manager="transactionManager" />
 
-	<!-- Enable scan for OpenSpaces and Spring components -->
 	<context:component-scan base-package="com.vpmsbcm" />
-
-	<!-- Enable support for @Notify annotation -->
 	<os-events:annotation-support />
 </beans>

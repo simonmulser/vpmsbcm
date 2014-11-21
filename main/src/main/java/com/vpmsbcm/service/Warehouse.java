@@ -3,6 +3,7 @@ package com.vpmsbcm.service;
 import javax.annotation.PostConstruct;
 
 import org.openspaces.core.GigaSpace;
+import org.openspaces.core.context.GigaSpaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class Warehouse {
 	@Autowired
 	private OpenChargeModel openChargeModel;
 
-	@Autowired
-	private GigaSpace gigaSpace;
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
 
 	final Logger log = LoggerFactory.getLogger(Warehouse.class);
 
@@ -45,7 +46,7 @@ public class Warehouse {
 	public void init() {
 		IDFactory idFactory = new IDFactory();
 		idFactory.init();
-		gigaSpace.write(idFactory);
+		warehouseSpace.write(idFactory);
 	}
 
 	public synchronized void addRocket(Rocket event) {
@@ -86,7 +87,7 @@ public class Warehouse {
 	}
 
 	public synchronized void check() {
-		int count = gigaSpace.count(new Work());
+		int count = warehouseSpace.count(new Work());
 		log.debug("count work=" + count);
 
 		int avalaibleWoodsticks = woodstickCount - count;
@@ -99,7 +100,7 @@ public class Warehouse {
 		int minUnits = getMin(avalaibleWoodsticks, avalaibleCases, avalaibleCharge, avalaibleLoad);
 
 		for (int i = 0; i < minUnits; i++) {
-			gigaSpace.write(new Work());
+			warehouseSpace.write(new Work());
 		}
 	}
 

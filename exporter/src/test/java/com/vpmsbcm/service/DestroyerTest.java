@@ -25,30 +25,30 @@ import com.vpmsbcm.common.model.State;
 @ContextConfiguration
 public class DestroyerTest {
 
-	@GigaSpaceContext(name = "gigaSpace")
-	private GigaSpace gigaSpace;
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
 
 	@GigaSpaceContext(name = "trashSpace")
 	private GigaSpace trashSpace;
 
 	@After
 	public void teardown() {
-		gigaSpace.clear(null);
+		warehouseSpace.clear(null);
 	}
 
 	@Before
 	public void setUp() {
-		gigaSpace.clear(null);
+		warehouseSpace.clear(null);
 	}
 
 	@Test
 	public void testDefectRocket() {
 		Rocket rocket = new Rocket(null, null, null, 45, null, 45);
 		rocket.setState(State.DEFECT);
-		gigaSpace.write(rocket);
+		warehouseSpace.write(rocket);
 
 		rocket = new Rocket();
 		assertNotNull(trashSpace.take(new Rocket(), 100));
-		assertNull(gigaSpace.take(rocket, 100));
+		assertNull(warehouseSpace.take(rocket, 100));
 	}
 }
