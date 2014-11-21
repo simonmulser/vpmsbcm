@@ -38,4 +38,9 @@ public class Parcel {
 		this.rockets = rockets;
 	}
 
+	@Override
+	public String toString() {
+		return "Parcel [rockets=" + rockets + ", id=" + id + "]";
+	}
+
 }
