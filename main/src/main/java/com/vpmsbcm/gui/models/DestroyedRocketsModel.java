@@ -21,10 +21,6 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 	protected String[] columnNames = new String[] { "id" };
 
 	public DestroyedRocketsModel() {
-		Rocket rocket = new Rocket();
-		rocket.setId(1);
-
-		rockets.add(rocket);
 	}
 
 	public int getColumnCount() {
