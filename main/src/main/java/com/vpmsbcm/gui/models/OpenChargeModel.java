@@ -52,23 +52,15 @@ public class OpenChargeModel extends AbstractTableModel {
 
 	public void add(Charge openCharge) {
 		int row = 0;
-		for (Charge charge : openCharges) {
-			if (openCharge.getId().equals(charge.getId())) {
-				charge.setAmount(openCharge.getAmount());
-				fireTableRowsUpdated(row, row);
-				log.debug("updated  charge for table, now " + openCharges.size() + " rockets");
-				return;
-			}
-			row++;
-		}
+		openCharges.remove(openCharge);
 		openCharges.add(openCharge);
-		log.debug("received new charge for table, now " + openCharges.size() + " rockets");
 
-		fireTableRowsInserted(row, row);
+		fireTableDataChanged();
 	}
 
 	public void remove(Charge chargeToRemove) {
 		openCharges.remove(chargeToRemove);
+
 		fireTableDataChanged();
 	}
 

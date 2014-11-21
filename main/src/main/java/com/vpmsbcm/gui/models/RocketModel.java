@@ -82,11 +82,8 @@ public class RocketModel extends AbstractTableModel {
 	}
 
 	public void addRocket(Rocket rocket) {
-		int row = rockets.size();
 		rockets.add(rocket);
-		log.debug("received new rocket for table, now " + rockets.size() + " rockets");
-
-		fireTableRowsInserted(row, row);
+		fireTableDataChanged();
 	}
 
 	public void removeRocket(Rocket rocket) {
