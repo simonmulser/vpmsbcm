@@ -40,38 +40,27 @@ public class ExportedRocketsModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
-		// switch (col) {
-		// case 0:
-		// return rockets.get(row).getId();
-		// case 1:
-		// return rockets.get(row).getWood().getId();
-		// case 2:
-		// return rockets.get(row).getDetonator().getId();
-		// case 3:
-		// return rockets.get(row).getLoades().get(0).getId();
-		// case 4:
-		// return rockets.get(row).getLoades().get(1).getId();
-		// case 5:
-		// return rockets.get(row).getLoades().get(2).getId();
-		// case 6:
-		// String text = "";
-		// for (Charge charge : rockets.get(row).getCharges()) {
-		// text += charge.getId() + "/" + charge.getAmount() + " ";
-		// }
-		// return text;
-		// default:
-		// return null;
-		// }
-		return null;
+		switch (col) {
+		case 0:
+			return parcels.get(row).getId();
+		case 1:
+			return parcels.get(row).getRockets().get(0).getId();
+		case 2:
+			return parcels.get(row).getRockets().get(1).getId();
+		case 3:
+			return parcels.get(row).getRockets().get(2).getId();
+		case 4:
+			return parcels.get(row).getRockets().get(3).getId();
+		case 5:
+			return parcels.get(row).getRockets().get(4).getId();
+		default:
+			return null;
+		}
 	}
 
 	public void addParcel(Parcel parcel) {
-		// int row = rockets.size();
-		// rockets.add(rocket);
-		// log.debug("received new rocket for table, now " + rockets.size() +
-		// " rockets");
-		//
-		// fireTableRowsInserted(row, row);
+		parcels.add(parcel);
+		fireTableDataChanged();
 	}
 
 }
