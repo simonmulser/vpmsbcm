@@ -49,12 +49,8 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 	}
 
 	public void addRocket(Rocket rocket) {
-		// int row = rockets.size();
-		// rockets.add(rocket);
-		// log.debug("received new rocket for table, now " + rockets.size() +
-		// " rockets");
-		//
-		// fireTableRowsInserted(row, row);
+		rockets.add(rocket);
+		fireTableDataChanged();
 	}
 
 }
