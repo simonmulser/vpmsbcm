@@ -106,4 +106,8 @@ public class Exporter {
 		}
 		return events;
 	}
+
+	public Integer getId() {
+		return id;
+	}
 }
