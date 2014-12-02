@@ -2,13 +2,13 @@ package com.vpmsbcm.common.model;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.gigaspaces.annotation.pojo.SpaceId;
+import com.vpmsbcm.common.util.Util;
 
-public class Rocket extends Good implements Serializable {
+public class Rocket implements Serializable {
 
-	private Integer id;
+	private String id;
 
 	private Wood wood;
 	private Detonator detonator;
@@ -22,14 +22,11 @@ public class Rocket extends Good implements Serializable {
 	private Integer controllerID;
 	private Integer exporterID;
 
-	public static AtomicInteger ID = new AtomicInteger(0);
-
 	public Rocket() {
 	}
 
 	public Rocket(Wood wood, Detonator detonator, List<Charge> charges, Integer chargeAmount, List<Load> loades, Integer producerID) {
 		super();
-		id = ID.incrementAndGet();
 		this.wood = wood;
 		this.detonator = detonator;
 		this.charges = charges;
@@ -39,12 +36,12 @@ public class Rocket extends Good implements Serializable {
 		this.producerID = producerID;
 	}
 
-	@SpaceId(autoGenerate = false)
-	public Integer getId() {
+	@SpaceId(autoGenerate = true)
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -122,7 +119,8 @@ public class Rocket extends Good implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Rocket [wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount + ", state=" + state + "]";
+		return "Rocket [id=" + Util.splitId(id) + "wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount
+				+ ", state=" + state + "]";
 	}
 
 	@Override
