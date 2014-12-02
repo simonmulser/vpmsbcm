@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.util.Util;
 
 @Component
 public class DestroyedRocketsModel extends AbstractTableModel {
@@ -42,7 +43,7 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		case 0:
-			return rockets.get(row).getId();
+			return Util.splitId(rockets.get(row).getId());
 		default:
 			return null;
 		}

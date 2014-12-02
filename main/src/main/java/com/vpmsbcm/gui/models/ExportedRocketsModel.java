@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Parcel;
+import com.vpmsbcm.common.util.Util;
 
 @Component
 public class ExportedRocketsModel extends AbstractTableModel {
@@ -42,17 +43,17 @@ public class ExportedRocketsModel extends AbstractTableModel {
 	public Object getValueAt(int row, int col) {
 		switch (col) {
 		case 0:
-			return parcels.get(row).getId();
+			return Util.splitId(parcels.get(row).getId());
 		case 1:
-			return parcels.get(row).getRockets().get(0).getId();
+			return Util.splitId(parcels.get(row).getRockets().get(0).getId());
 		case 2:
-			return parcels.get(row).getRockets().get(1).getId();
+			return Util.splitId(parcels.get(row).getRockets().get(1).getId());
 		case 3:
-			return parcels.get(row).getRockets().get(2).getId();
+			return Util.splitId(parcels.get(row).getRockets().get(2).getId());
 		case 4:
-			return parcels.get(row).getRockets().get(3).getId();
+			return Util.splitId(parcels.get(row).getRockets().get(3).getId());
 		case 5:
-			return parcels.get(row).getRockets().get(4).getId();
+			return Util.splitId(parcels.get(row).getRockets().get(4).getId());
 		default:
 			return null;
 		}

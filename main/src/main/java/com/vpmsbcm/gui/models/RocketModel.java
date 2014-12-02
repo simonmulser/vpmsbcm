@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.util.Util;
 
 @Component
 public class RocketModel extends AbstractTableModel {
@@ -46,7 +47,7 @@ public class RocketModel extends AbstractTableModel {
 		Load load;
 		switch (col) {
 		case 0:
-			return rockets.get(row).getId();
+			return Util.splitId(rockets.get(row).getId());
 		case 1:
 			return rockets.get(row).getState();
 		case 2:
