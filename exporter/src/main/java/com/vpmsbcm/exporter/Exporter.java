@@ -90,6 +90,11 @@ public class Exporter {
 
 		if (rocketsFromSpace.length + rockets.size() == 5) {
 			rockets.addAll(Arrays.asList(rocketsFromSpace));
+
+			for (Rocket rocket : rockets) {
+				rocket.setExporterID(id);
+			}
+
 			Parcel parcel = new Parcel(rockets);
 			warehouseSpace.write(parcel);
 			log.info("created parcel=" + parcel);
