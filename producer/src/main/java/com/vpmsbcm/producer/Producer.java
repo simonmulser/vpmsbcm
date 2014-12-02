@@ -92,18 +92,18 @@ public class Producer {
 
 		Wood wood = warehouse.take(new Wood());
 		if (wood == null) {
-			throw new NotEnoughGoods("not enough woodsticks!");
+			throw new NotEnoughGoodsException("not enough woodsticks!");
 		}
 
 		Detonator detonator = warehouse.take(new Detonator());
 		if (detonator == null) {
-			throw new NotEnoughGoods("not enough detonator!");
+			throw new NotEnoughGoodsException("not enough detonator!");
 
 		}
 
 		Load[] load = warehouse.takeMultiple(new Load(), 3);
 		if (load.length != 3) {
-			throw new NotEnoughGoods("not enough loads! only " + load.length + " loads, 3 needed");
+			throw new NotEnoughGoodsException("not enough loads! only " + load.length + " loads, 3 needed");
 
 		}
 
@@ -127,8 +127,7 @@ public class Producer {
 
 		charge = warehouse.take(new SQLQuery<Charge>(Charge.class, "amount = 500"));
 		if (charge == null) {
-			log.info("not enough charge");
-			throw new RuntimeException();
+			throw new NotEnoughGoodsException("not enough charge");
 
 		}
 		charge.setAmount(charge.getAmount() - chargeLeft);
