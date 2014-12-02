@@ -19,7 +19,7 @@ public class ExportedRocketsModel extends AbstractTableModel {
 
 	public List<Parcel> parcels = new LinkedList<Parcel>();
 
-	protected String[] columnNames = new String[] { "id", "rocket ID1", "rocket ID2", "rocket ID3", "rocket ID4", "rocket ID5" };
+	protected String[] columnNames = new String[] { "id", "rocket ID1", "rocket ID2", "rocket ID3", "rocket ID4", "rocket ID5", "exporter ID" };
 
 	public ExportedRocketsModel() {
 	}
@@ -54,6 +54,8 @@ public class ExportedRocketsModel extends AbstractTableModel {
 			return Util.splitId(parcels.get(row).getRockets().get(3).getId());
 		case 5:
 			return Util.splitId(parcels.get(row).getRockets().get(4).getId());
+		case 6:
+			return parcels.get(row).getRockets().get(4).getExporterID();
 		default:
 			return null;
 		}

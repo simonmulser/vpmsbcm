@@ -1,10 +1,13 @@
 package com.vpmsbcm.gui.models;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.openspaces.core.GigaSpace;
+import org.openspaces.core.context.GigaSpaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,8 +24,11 @@ public class RocketModel extends AbstractTableModel {
 
 	public List<Rocket> rockets = new LinkedList<Rocket>();
 
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
+
 	protected String[] columnNames = new String[] { "name", "state", "wood ID", "detonator ID", "load ID1", "load ID2", "load ID3", "charges", "charge amount", "producer ID",
-			"controller ID", "exporter ID" };
+			"controller ID" };
 
 	public RocketModel() {
 	}
@@ -82,13 +88,9 @@ public class RocketModel extends AbstractTableModel {
 		}
 	}
 
-	public void addRocket(Rocket rocket) {
-		rockets.add(rocket);
-		fireTableDataChanged();
-	}
-
-	public void removeRocket(Rocket rocket) {
-		rockets.remove(rocket);
+	public void update() {
+		Rocket[] retrievedRockets = warehouseSpace.readMultiple(new Rocket());
+		rockets = Arrays.asList(retrievedRockets);
 		fireTableDataChanged();
 	}
 }

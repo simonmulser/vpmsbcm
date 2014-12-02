@@ -19,7 +19,7 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 
 	private List<Rocket> rockets = new LinkedList<Rocket>();
 
-	protected String[] columnNames = new String[] { "id" };
+	protected String[] columnNames = new String[] { "id", "state", "producer ID", "controller ID", "exporter ID" };
 
 	public DestroyedRocketsModel() {
 	}
@@ -44,6 +44,15 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 		switch (col) {
 		case 0:
 			return Util.splitId(rockets.get(row).getId());
+		case 1:
+			return rockets.get(row).getState();
+		case 2:
+			return rockets.get(row).getProducerID() != null ? rockets.get(row).getProducerID() : "not set";
+		case 3:
+			return rockets.get(row).getControllerID() != null ? rockets.get(row).getControllerID() : "not set";
+		case 4:
+			return rockets.get(row).getExporterID() != null ? rockets.get(row).getExporterID() : "not set";
+
 		default:
 			return null;
 		}

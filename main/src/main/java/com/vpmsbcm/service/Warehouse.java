@@ -58,25 +58,13 @@ public class Warehouse {
 		warehouseSpace.write(idFactory);
 	}
 
-	public synchronized void addRocket(Rocket event) {
-		rocketModel.addRocket(event);
-	}
-
-	public synchronized void removeRocket(Rocket event) {
-		rocketModel.removeRocket(event);
-	}
-
 	public synchronized void newPropellingCharge(Charge charge) {
-		if (charge.getAmount() < 500) {
-			openChargeModel.add(charge);
-		}
 		warehousePanel.updateCharge(1);
 		chargeCount += charge.getAmount();
 	}
 
 	public synchronized void removeCharge(Charge charge) {
 		warehousePanel.updateCharge(-1);
-		openChargeModel.remove(charge);
 		chargeCount -= charge.getAmount();
 	}
 

@@ -4,8 +4,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Component;
 import com.vpmsbcm.gui.models.OpenChargeModel;
 
 @Component
-public class WarehousePanel extends JPanel {
+public class WarehousePanel extends JPanel implements ActionListener {
 
 	private JLabel warehouseHeadingL;
 	private JLabel openPropellingChargeHeadingL;
@@ -31,6 +34,7 @@ public class WarehousePanel extends JPanel {
 	private JLabel numberPropellingChargeL;
 	private JLabel numberLoadL;
 	private JTable openChargeT;
+	private JButton refreshB;
 
 	@Autowired
 	private OpenChargeModel openChargeModel;
@@ -65,6 +69,9 @@ public class WarehousePanel extends JPanel {
 
 		openChargeT = new JTable(openChargeModel);
 
+		refreshB = new JButton("refresh");
+		refreshB.addActionListener(this);
+
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
@@ -72,7 +79,12 @@ public class WarehousePanel extends JPanel {
 		add(warehouseHeadingL, constraints);
 
 		constraints.gridx = 1;
+		constraints.weightx = 0.4;
 		add(openPropellingChargeHeadingL, constraints);
+
+		constraints.gridx = 2;
+		constraints.weightx = 0.1;
+		add(refreshB, constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 1;
@@ -101,5 +113,10 @@ public class WarehousePanel extends JPanel {
 
 	public void updateLoad(int amount) {
 		numberLoadL.setText(Integer.parseInt(numberLoadL.getText()) + amount + "");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		openChargeModel.update();
 	}
 }
