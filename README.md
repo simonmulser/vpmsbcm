@@ -5,6 +5,18 @@ university project about space based computing
 
 ### Commands
 
-launch GUI
+launch main application
 
-`mvn install -Pgui`
+`mvn os:run -Dmodule=main`
+
+launch producer
+
+`mvn os:run -Dmodule=producer`
+
+launch quality inspector
+
+`mvn os:run -Dmodule=quality`
+
+launch exporter
+
+`mvn os:run -Dmodule=exporter`
