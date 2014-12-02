@@ -3,9 +3,13 @@ package com.vpmsbcm.common.model;
 import java.io.Serializable;
 import java.util.List;
 
+import com.gigaspaces.annotation.pojo.FifoSupport;
+import com.gigaspaces.annotation.pojo.SpaceClass;
+import com.gigaspaces.annotation.pojo.SpaceFifoGroupingProperty;
 import com.gigaspaces.annotation.pojo.SpaceId;
 import com.vpmsbcm.common.util.Util;
 
+@SpaceClass(fifoSupport = FifoSupport.OPERATION)
 public class Rocket implements Serializable {
 
 	private String id;
@@ -109,6 +113,7 @@ public class Rocket implements Serializable {
 		this.exporterID = exporterID;
 	}
 
+	@SpaceFifoGroupingProperty
 	public State getState() {
 		return state;
 	}
