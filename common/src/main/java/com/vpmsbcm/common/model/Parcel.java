@@ -1,32 +1,29 @@
 package com.vpmsbcm.common.model;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.gigaspaces.annotation.pojo.SpaceId;
+import com.vpmsbcm.common.util.Util;
 
 public class Parcel {
 
 	private List<Rocket> rockets;
 
-	private static AtomicInteger ID = new AtomicInteger(0);
-
-	private Integer id;
+	private String id;
 
 	public Parcel() {
 	}
 
 	public Parcel(List<Rocket> rockets) {
 		this.rockets = rockets;
-		this.id = ID.incrementAndGet();
 	}
 
-	@SpaceId(autoGenerate = false)
-	public Integer getId() {
+	@SpaceId(autoGenerate = true)
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -40,7 +37,7 @@ public class Parcel {
 
 	@Override
 	public String toString() {
-		return "Parcel [rockets=" + rockets + ", id=" + id + "]";
+		return "Parcel [rockets=" + rockets + ", id=" + Util.splitId(id) + "]";
 	}
 
 }
