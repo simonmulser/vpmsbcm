@@ -17,7 +17,6 @@ import org.openspaces.events.polling.receive.MultiTakeReceiveOperationHandler;
 import org.openspaces.events.polling.receive.ReceiveOperationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.j_spaces.core.client.SQLQuery;
 import com.vpmsbcm.common.model.IDFactory;
@@ -64,7 +63,7 @@ public class Exporter {
 		MultiTakeReceiveOperationHandler receiveHandler = new MultiTakeReceiveOperationHandler();
 		receiveHandler.setMaxEntries(5);
 		receiveHandler.setNonBlocking(true);
-		receiveHandler.setNonBlockingFactor(100);
+		receiveHandler.setNonBlockingFactor(10);
 		return receiveHandler;
 	}
 
@@ -75,7 +74,6 @@ public class Exporter {
 	}
 
 	@SpaceDataEvent
-	@Transactional
 	public Rocket[] eventListener(Rocket[] events) {
 		log.info("received " + events.length + " rockets");
 		List<Rocket> rockets = new LinkedList<Rocket>();
