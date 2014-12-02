@@ -10,6 +10,7 @@ import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
 import org.openspaces.events.EventDriven;
 import org.openspaces.events.EventTemplate;
+import org.openspaces.events.TransactionalEvent;
 import org.openspaces.events.adapter.SpaceDataEvent;
 import org.openspaces.events.polling.Polling;
 import org.openspaces.events.polling.ReceiveHandler;
@@ -26,6 +27,7 @@ import com.vpmsbcm.common.model.State;
 
 @EventDriven
 @Polling(gigaSpace = "warehouseSpace", passArrayAsIs = true, receiveTimeout = 10000)
+@TransactionalEvent
 public class Exporter {
 
 	final Logger log = LoggerFactory.getLogger(Exporter.class);
