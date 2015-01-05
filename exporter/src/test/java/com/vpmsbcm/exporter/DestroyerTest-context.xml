@@ -23,8 +23,5 @@
 	<os-core:giga-space id="trashSpace" space="trashS"
 		tx-manager="transactionManager" />
 
-	<os-core:giga-space-context />
-	<context:component-scan base-package="com.vpmsbcm" />
-	<os-events:annotation-support />
-
+	<import resource="classpath:META-INF/spring/beans.xml"/>
 </beans>

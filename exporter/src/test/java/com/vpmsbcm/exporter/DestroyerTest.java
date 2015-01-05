@@ -1,4 +1,4 @@
-package com.vpmsbcm.service;
+package com.vpmsbcm.exporter;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

@@ -24,34 +24,5 @@
 	<os-core:giga-space id="trashSpace" space="trashS"
 		tx-manager="transactionManager" />
 
-	<os-core:giga-space-context />
-	<context:component-scan base-package="com.vpmsbcm" />
-
-	<bean name="exporterClassA" class="com.vpmsbcm.exporter.Exporter">
-		<property name="type" value="CLASS_A" />
-	</bean>
-
-	<os-events:polling-container id="eventsRocketsClassA"
-		giga-space="warehouseSpace" pass-array-as-is="true" receive-timeout="10000">
-
-		<os-events:listener>
-			<os-events:annotation-adapter>
-				<os-events:delegate ref="exporterClassA" />
-			</os-events:annotation-adapter>
-		</os-events:listener>
-	</os-events:polling-container>
-
-	<bean name="exporterClassB" class="com.vpmsbcm.exporter.Exporter">
-		<property name="type" value="CLASS_B" />
-	</bean>
-
-		<os-events:polling-container id="eventsRocketsClassB"
-		giga-space="warehouseSpace" pass-array-as-is="true" receive-timeout="10000">
-
-		<os-events:listener>
-			<os-events:annotation-adapter>
-				<os-events:delegate ref="exporterClassB" />
-			</os-events:annotation-adapter>
-		</os-events:listener>
-	</os-events:polling-container>
+	<import resource="classpath:META-INF/spring/beans.xml"/>
 </beans>

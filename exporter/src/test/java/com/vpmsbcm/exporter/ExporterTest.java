@@ -1,4 +1,4 @@
-package com.vpmsbcm.service;
+package com.vpmsbcm.exporter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -40,8 +40,11 @@ public class ExporterTest {
 	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws InterruptedException {
 		warehouseSpace.clear(null);
+
+		// sleep shot time amount to be sure that space is empty
+		Thread.sleep(100);
 
 		for (int i = 0; i < 4; i++) {
 			Rocket rocket = new Rocket(null, null, null, 0, null, 0);
