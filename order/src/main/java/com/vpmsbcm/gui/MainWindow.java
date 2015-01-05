@@ -23,6 +23,9 @@ public class MainWindow extends JFrame {
 	@Autowired
 	private OrderPanel orderPanel;
 
+	@Autowired
+	private OverviewPanel overviewPanel;
+
 	public MainWindow() {
 	}
 
@@ -41,6 +44,9 @@ public class MainWindow extends JFrame {
 		constraints.weightx = 1;
 		constraints.fill = GridBagConstraints.BOTH;
 		contentPanel.add(orderPanel, constraints);
+
+		constraints.gridy = 1;
+		contentPanel.add(overviewPanel, constraints);
 
 		setContentPane(contentPanel);
 		pack();
