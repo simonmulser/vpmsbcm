@@ -1,5 +1,6 @@
 package com.vpmsbcm.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.LinkedList;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.Wood;
@@ -74,6 +76,36 @@ public class QualityTest {
 		template.setState(State.CLASS_B);
 		Rocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
+	}
+
+	@Test
+	public void testWorkingOrderRocketClassA() {
+		List<Load> loads = new LinkedList<Load>();
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		gigaSpace.write(new OrderRocket(null, null, null, 130, loads, 1, "order1"));
+
+		OrderRocket template = new OrderRocket();
+		template.setState(State.CLASS_A);
+		Rocket rocket = gigaSpace.take(template, 500);
+		assertNotNull(rocket);
+		assertEquals(loads, rocket.getLoades());
+	}
+
+	@Test
+	public void testWorkingOrderRocketClassB() {
+		List<Load> loads = new LinkedList<Load>();
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		gigaSpace.write(new OrderRocket(null, null, null, 129, loads, 1, "order1"));
+
+		Rocket template = new Rocket();
+		template.setState(State.CLASS_B);
+		Rocket rocket = gigaSpace.take(template, 500);
+		assertNotNull(rocket);
+		assertEquals(loads, rocket.getLoades());
 	}
 
 	@Test

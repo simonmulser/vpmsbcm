@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
 
@@ -71,25 +72,23 @@ public class Quality {
 
 	@SpaceDataEvent
 	@Transactional
+	public Rocket eventListener(OrderRocket rocket) {
+		log.info("received orderRocket=" + rocket);
+
+		testRocket(rocket);
+
+		if (rocket.getState().equals(State.CLASS_B)) {
+			return (Rocket) rocket;
+		}
+
+		return rocket;
+	}
+
+	@SpaceDataEvent
+	@Transactional
 	public Rocket eventListener(Rocket event) {
 		log.info("received rocket=" + event);
-		event.setControllerID(id);
-
-		if (!testLoadsWorking(event.getLoades())) {
-			event.setState(State.DEFECT);
-			return event;
-		}
-		if (event.getChargeAmount() >= 130) {
-			event.setState(State.CLASS_A);
-			return event;
-		}
-		if (event.getChargeAmount() >= 120) {
-			event.setState(State.CLASS_B);
-			return event;
-		}
-
-		event.setState(State.DEFECT);
-		return event;
+		return testRocket(event);
 	}
 
 	private boolean testLoadsWorking(List<Load> loads) {
@@ -99,5 +98,24 @@ public class Quality {
 			}
 		}
 		return true;
+	}
+
+	private Rocket testRocket(Rocket rocket) {
+		rocket.setControllerID(id);
+
+		if (!testLoadsWorking(rocket.getLoades())) {
+			rocket.setState(State.DEFECT);
+			return rocket;
+		}
+		if (rocket.getChargeAmount() >= 130) {
+			rocket.setState(State.CLASS_A);
+			return rocket;
+		}
+		if (rocket.getChargeAmount() >= 120) {
+			rocket.setState(State.CLASS_B);
+			return rocket;
+		}
+		rocket.setState(State.DEFECT);
+		return rocket;
 	}
 }
