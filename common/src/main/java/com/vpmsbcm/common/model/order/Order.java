@@ -3,7 +3,6 @@ package com.vpmsbcm.common.model.order;
 import java.io.Serializable;
 
 import com.gigaspaces.annotation.pojo.SpaceId;
-import com.vpmsbcm.common.util.Util;
 
 public class Order implements Serializable {
 
@@ -90,8 +89,7 @@ public class Order implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + Util.splitId(id) + ", amountRed=" + amountRed + ", amountGreen=" + amountGreen + ", amountBlue=" + amountBlue + ", adress=" + adress + ", state="
-				+ state + "]";
+		return "Order [id=" + id + ", amountRed=" + amountRed + ", amountGreen=" + amountGreen + ", amountBlue=" + amountBlue + ", adress=" + adress + ", state=" + state + "]";
 	}
 
 	@Override
