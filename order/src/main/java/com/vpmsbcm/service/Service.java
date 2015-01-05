@@ -49,7 +49,15 @@ public class Service {
 	}
 
 	private void createSpace() {
-		space = new GigaSpaceConfigurer(new UrlSpaceConfigurer("jini://*/*/order" + id)).gigaSpace();
+		space = new GigaSpaceConfigurer(new UrlSpaceConfigurer("/./order" + id)).gigaSpace();
+	}
+
+	public GigaSpace getSpace() {
+		return space;
+	}
+
+	public void setSpace(GigaSpace space) {
+		this.space = space;
 	}
 
 }
