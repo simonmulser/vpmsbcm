@@ -133,7 +133,7 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 		try {
 			if (typeC.getSelectedItem().toString().equals("load")) {
 				supplier.orderWithRejects(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()), Integer.parseInt(errorRateTF.getText()),
-						Color.valueOf(colorC.getSelectedItem().toString()));
+						Color.valueOf(colorC.getSelectedItem().toString().toUpperCase()));
 			} else {
 				supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
 			}
