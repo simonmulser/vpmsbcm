@@ -41,6 +41,8 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 	private JLabel errorRateL;
 	private JTextField errorRateTF;
 	private JLabel percentL;
+	private JLabel colorL;
+	private JComboBox colorC;
 
 	@Autowired
 	private Supplier supplier;
@@ -70,6 +72,13 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 		errorRateTF.setEnabled(false);
 		percentL = new JLabel("%");
 
+		colorL = new JLabel("color");
+
+		colorC = new JComboBox();
+		colorC.addItem("red");
+		colorC.addItem("green");
+		colorC.addItem("blue");
+
 		add(typeL);
 		add(typeC);
 		add(new JLabel(" | "));
@@ -81,7 +90,13 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 		add(errorRateTF);
 		add(percentL);
 		add(new JLabel(" | "));
+		add(colorL);
+		add(colorC);
+		add(new JLabel(" | "));
 		add(orderB);
+
+		// set initial settings
+		revert();
 	}
 
 	public static void main(String[] args) {
@@ -93,6 +108,8 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 		errorRateTF.setEnabled(false);
 		errorRateTF.setText("");
 		unitL.setText("units");
+
+		colorC.setEnabled(false);
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -106,6 +123,7 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 			}
 			if (text.equals(load)) {
 				errorRateTF.setEnabled(true);
+				colorC.setEnabled(true);
 				return;
 			}
 		}
