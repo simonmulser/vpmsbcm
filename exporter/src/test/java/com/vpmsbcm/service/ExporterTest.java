@@ -1,5 +1,6 @@
 package com.vpmsbcm.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -48,18 +49,43 @@ public class ExporterTest {
 			warehouseSpace.write(rocket);
 		}
 
+		for (int i = 0; i < 4; i++) {
+			Rocket rocket = new Rocket(null, null, null, 0, null, 0);
+			rocket.setState(State.CLASS_B);
+			warehouseSpace.write(rocket);
+		}
+
 		warehouseSpace.write(new Wood("DHL 1"));
 	}
 
 	@Test
-	public void testCreateParcel() {
+	public void testCreateParcelClassA() {
 		assertNull(warehouseSpace.take(new Parcel(), 500));
 
 		Rocket rocket = new Rocket(null, null, null, 0, null, 0);
 		rocket.setState(State.CLASS_A);
 		warehouseSpace.write(rocket);
 
-		assertNotNull(warehouseSpace.take(new Parcel(), 500));
+		Parcel parcel = warehouseSpace.take(new Parcel(), 500);
+		assertNotNull(parcel);
+		for (Rocket exportedRocket : parcel.getRockets()) {
+			assertEquals(State.CLASS_A, exportedRocket.getState());
+		}
+	}
+
+	@Test
+	public void testCreateParcelClassB() {
+		assertNull(warehouseSpace.take(new Parcel(), 500));
+
+		Rocket rocket = new Rocket(null, null, null, 0, null, 0);
+		rocket.setState(State.CLASS_B);
+		warehouseSpace.write(rocket);
+
+		Parcel parcel = warehouseSpace.take(new Parcel(), 500);
+		assertNotNull(parcel);
+		for (Rocket exportedRocket : parcel.getRockets()) {
+			assertEquals(State.CLASS_B, exportedRocket.getState());
+		}
 	}
 
 	@Test

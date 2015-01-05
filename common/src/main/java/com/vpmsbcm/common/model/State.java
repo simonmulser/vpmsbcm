@@ -2,6 +2,6 @@ package com.vpmsbcm.common.model;
 
 public enum State {
 
-	DEFECT, CLASS_A, CLASS_B, NOT_TESTED, READY, DESTROYED;
+	NOT_TESTED, DEFECT, CLASS_A, CLASS_B, READY_CLASS_A, READY_CLASS_B, DESTROYED;
 
 }

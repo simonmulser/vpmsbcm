@@ -11,6 +11,7 @@
        http://www.openspaces.org/schema/sla http://www.openspaces.org/schema/sla/openspaces-sla.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<os-core:space id="warehouseS" url="/./exporterSpace"
 		lookup-groups="exporter-integration-tests" />
@@ -25,6 +26,32 @@
 
 	<os-core:giga-space-context />
 	<context:component-scan base-package="com.vpmsbcm" />
-	<os-events:annotation-support />
 
+	<bean name="exporterClassA" class="com.vpmsbcm.exporter.Exporter">
+		<property name="type" value="CLASS_A" />
+	</bean>
+
+	<os-events:polling-container id="eventsRocketsClassA"
+		giga-space="warehouseSpace" pass-array-as-is="true" receive-timeout="10000">
+
+		<os-events:listener>
+			<os-events:annotation-adapter>
+				<os-events:delegate ref="exporterClassA" />
+			</os-events:annotation-adapter>
+		</os-events:listener>
+	</os-events:polling-container>
+
+	<bean name="exporterClassB" class="com.vpmsbcm.exporter.Exporter">
+		<property name="type" value="CLASS_B" />
+	</bean>
+
+		<os-events:polling-container id="eventsRocketsClassB"
+		giga-space="warehouseSpace" pass-array-as-is="true" receive-timeout="10000">
+
+		<os-events:listener>
+			<os-events:annotation-adapter>
+				<os-events:delegate ref="exporterClassB" />
+			</os-events:annotation-adapter>
+		</os-events:listener>
+	</os-events:polling-container>
 </beans>
