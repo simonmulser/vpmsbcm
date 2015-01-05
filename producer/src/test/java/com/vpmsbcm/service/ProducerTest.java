@@ -19,9 +19,11 @@ import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
+import com.vpmsbcm.common.model.order.Order;
 
 /**
  * Integration test for the Processor. Uses similar xml definition file
@@ -51,6 +53,9 @@ public class ProducerTest {
 		gigaSpace.write(new Charge("DHL4"));
 		gigaSpace.write(new Load("DHL5", true, Color.BLUE));
 		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
+
+		gigaSpace.write(new Order("1", 4, 0, 0, 3, "adress"));
+		gigaSpace.write(new Order("2", 4, 1, 0, 2, "adress"));
 	}
 
 	@Test
@@ -74,6 +79,30 @@ public class ProducerTest {
 		assertNotNull(rocket);
 		assertNotNull(charge);
 		assertEquals(500, rocket.getChargeAmount() + charge.getAmount());
+	}
+
+	@Test
+	public void testCreateOrderRocketRedBlue() {
+		gigaSpace.write(new Load("DHL6", false, Color.RED));
+
+		gigaSpace.write(new Work());
+
+		OrderRocket rocket = gigaSpace.take(new OrderRocket(), 500);
+
+		assertNotNull(rocket);
+		assertEquals("2", rocket.getOrderId());
+	}
+
+	@Test
+	public void testCreateOrderRocketBlue() {
+		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
+
+		gigaSpace.write(new Work());
+
+		OrderRocket rocket = gigaSpace.take(new OrderRocket(), 500);
+
+		assertNotNull(rocket);
+		assertEquals("1", rocket.getOrderId());
 	}
 
 	@Test

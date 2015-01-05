@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
 import org.openspaces.events.EventDriven;
@@ -25,9 +26,11 @@ import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
+import com.vpmsbcm.common.model.order.Order;
 
 @EventDriven
 @Polling
@@ -36,6 +39,10 @@ public class Producer {
 	final Logger log = LoggerFactory.getLogger(Producer.class);
 
 	private int id;
+
+	private int amountRed;
+	private int amountGreen;
+	private int amountBlue;
 
 	@GigaSpaceContext
 	private GigaSpace warehouse;
@@ -87,6 +94,25 @@ public class Producer {
 	}
 
 	private void produce() {
+		updateColors();
+		log.info("updated colors: red=" + amountRed + " green=" + amountGreen + " blue=" + amountBlue);
+
+		Order order = getSuitableOrder();
+		log.info("suiteabel order=" + order);
+
+		Load[] load = new Load[0];
+		if (order != null) {
+			load = ArrayUtils.addAll(load, warehouse.takeMultiple(new SQLQuery<Load>(Load.class, "color = 'RED'"), order.getAmountRed()));
+			load = ArrayUtils.addAll(load, warehouse.takeMultiple(new SQLQuery<Load>(Load.class, "color = 'GREEN'"), order.getAmountGreen()));
+			load = ArrayUtils.addAll(load, warehouse.takeMultiple(new SQLQuery<Load>(Load.class, "color = 'BLUE'"), order.getAmountBlue()));
+		} else {
+			load = warehouse.takeMultiple(new Load(), 3);
+		}
+		if (load.length != 3) {
+			throw new NotEnoughGoodsException("not enough loads! only " + load.length + " loads, 3 needed");
+
+		}
+
 		int chargeNeeded = calculateCharge();
 		log.debug("chargeNeeded=" + chargeNeeded);
 
@@ -98,12 +124,6 @@ public class Producer {
 		Detonator detonator = warehouse.take(new Detonator());
 		if (detonator == null) {
 			throw new NotEnoughGoodsException("not enough detonator!");
-
-		}
-
-		Load[] load = warehouse.takeMultiple(new Load(), 3);
-		if (load.length != 3) {
-			throw new NotEnoughGoodsException("not enough loads! only " + load.length + " loads, 3 needed");
 
 		}
 
@@ -119,7 +139,7 @@ public class Producer {
 				warehouse.write(charge);
 				Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeLeft);
 				chargesUsed.add(chargeUsed);
-				createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
+				createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded, order);
 				return;
 			}
 			charge = warehouse.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
@@ -135,12 +155,26 @@ public class Producer {
 		Charge chargeUsed = new Charge(charge.getId(), charge.getSupplier(), chargeLeft);
 		chargesUsed.add(chargeUsed);
 
-		createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded);
+		createRocket(wood, detonator, Arrays.asList(load), chargesUsed, chargeNeeded, order);
 	}
 
-	private void createRocket(Wood wood, Detonator detonator, List<Load> load, List<Charge> chargesUsed, int chargeNeeded) {
-		Rocket rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load, id);
+	private Order getSuitableOrder() {
+		return warehouse.take(new SQLQuery<Order>(Order.class, "amountRed <= " + amountRed + "AND amountGreen <= " + amountGreen + "AND amountBlue <= " + amountBlue));
+	}
 
+	private void updateColors() {
+		amountRed = warehouse.count(new SQLQuery<Load>(Load.class, "color = 'RED'"));
+		amountGreen = warehouse.count(new SQLQuery<Load>(Load.class, "color = 'GREEN'"));
+		amountBlue = warehouse.count(new SQLQuery<Load>(Load.class, "color = 'BLUE'"));
+	}
+
+	private void createRocket(Wood wood, Detonator detonator, List<Load> load, List<Charge> chargesUsed, int chargeNeeded, Order order) {
+		Rocket rocket = null;
+		if (order == null) {
+			rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load, id);
+		} else {
+			rocket = new OrderRocket(wood, detonator, chargesUsed, chargeNeeded, load, id, order.getId());
+		}
 		warehouse.write(rocket);
 		log.info("created rocket=" + rocket);
 	}
