@@ -32,7 +32,6 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 	public final static String propellingCharge = "propelling charge";
 	public final static String load = "load";
 
-	// using prefixes for names
 	private JButton orderB;
 	private JLabel typeL;
 	private JComboBox typeC;
