@@ -50,6 +50,14 @@ public class Load extends Good implements Serializable {
 		this.defect = defect;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	@Override
 	public String toString() {
 		return "Load [id=" + id + ", supplier=" + supplier + ", defect=" + defect + "]";
