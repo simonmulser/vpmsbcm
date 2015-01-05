@@ -27,7 +27,7 @@ public class RocketModel extends AbstractTableModel {
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
 
-	protected String[] columnNames = new String[] { "name", "state", "wood ID", "detonator ID", "load ID1", "load ID2", "load ID3", "charges", "charge amount", "producer ID",
+	protected String[] columnNames = new String[] { "name", "state", "wood ID", "detonator ID", "load 1", "load 2", "load 3", "charges", "charge amount", "producer ID",
 			"controller ID" };
 
 	public RocketModel() {
@@ -62,13 +62,13 @@ public class RocketModel extends AbstractTableModel {
 			return rockets.get(row).getDetonator().getId();
 		case 4:
 			load = rockets.get(row).getLoades().get(0);
-			return load.getId() + " " + load.getDefect();
+			return load.getId() + " " + load.getDefect() + " " + load.getColor();
 		case 5:
 			load = rockets.get(row).getLoades().get(1);
-			return load.getId() + " " + load.getDefect();
+			return load.getId() + " " + load.getDefect() + " " + load.getColor();
 		case 6:
 			load = rockets.get(row).getLoades().get(2);
-			return load.getId() + " " + load.getDefect();
+			return load.getId() + " " + load.getDefect() + " " + load.getColor();
 		case 7:
 			String text = "";
 			for (Charge charge : rockets.get(row).getCharges()) {
