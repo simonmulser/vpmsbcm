@@ -1,8 +1,11 @@
 package com.vpmsbcm.common.model.order;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.gigaspaces.annotation.pojo.SpaceId;
+import com.vpmsbcm.common.model.OrderRocket;
 
 public class Order implements Serializable {
 
@@ -16,6 +19,8 @@ public class Order implements Serializable {
 
 	private String adress;
 	private State state;
+
+	private List<OrderRocket> rockets = new LinkedList<OrderRocket>();
 
 	public Order() {
 	}
@@ -86,6 +91,14 @@ public class Order implements Serializable {
 
 	public void setState(State state) {
 		this.state = state;
+	}
+
+	public List<OrderRocket> getRockets() {
+		return rockets;
+	}
+
+	public void setRockets(List<OrderRocket> rockets) {
+		this.rockets = rockets;
 	}
 
 	@Override
