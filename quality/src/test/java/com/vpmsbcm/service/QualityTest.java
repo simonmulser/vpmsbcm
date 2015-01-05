@@ -49,7 +49,7 @@ public class QualityTest {
 	}
 
 	@Test
-	public void testWorkingRocket() {
+	public void testWorkingRocketClassA() {
 		List<Load> loads = new LinkedList<Load>();
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
@@ -58,6 +58,20 @@ public class QualityTest {
 
 		Rocket template = new Rocket();
 		template.setState(State.CLASS_A);
+		Rocket rocket = gigaSpace.take(template, 500);
+		assertNotNull(rocket);
+	}
+
+	@Test
+	public void testWorkingRocketClassB() {
+		List<Load> loads = new LinkedList<Load>();
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		gigaSpace.write(new Rocket(null, null, null, 129, loads, 1));
+
+		Rocket template = new Rocket();
+		template.setState(State.CLASS_B);
 		Rocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 	}

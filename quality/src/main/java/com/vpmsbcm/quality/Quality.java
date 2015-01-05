@@ -73,12 +73,22 @@ public class Quality {
 	@Transactional
 	public Rocket eventListener(Rocket event) {
 		log.info("received rocket=" + event);
-		if (testLoadsWorking(event.getLoades()) && event.getChargeAmount() >= 120) {
-			event.setState(State.CLASS_A);
-		} else {
-			event.setState(State.DEFECT);
-		}
 		event.setControllerID(id);
+
+		if (!testLoadsWorking(event.getLoades())) {
+			event.setState(State.DEFECT);
+			return event;
+		}
+		if (event.getChargeAmount() >= 130) {
+			event.setState(State.CLASS_A);
+			return event;
+		}
+		if (event.getChargeAmount() >= 120) {
+			event.setState(State.CLASS_B);
+			return event;
+		}
+
+		event.setState(State.DEFECT);
 		return event;
 	}
 
