@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.gigaspaces.client.ChangeSet;
 import com.j_spaces.core.client.SQLQuery;
 import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Rocket;
@@ -48,8 +49,8 @@ public class ProducerTest {
 		gigaSpace.write(new Wood("DHL 1"));
 		gigaSpace.write(new Detonator("DHL 1"));
 		gigaSpace.write(new Charge("DHL4"));
-		gigaSpace.write(new Load("DHL5", true));
-		gigaSpace.write(new Load("DHL6", false));
+		gigaSpace.write(new Load("DHL5", true, Color.BLUE));
+		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
 	}
 
 	@Test
@@ -63,7 +64,7 @@ public class ProducerTest {
 
 	@Test
 	public void testCreateRocket() {
-		gigaSpace.write(new Load("DHL6", false));
+		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
 
 		gigaSpace.write(new Work());
 
@@ -77,7 +78,7 @@ public class ProducerTest {
 
 	@Test
 	public void testCreateRocketWith2Charge() {
-		gigaSpace.write(new Load("DHL6", false));
+		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
 		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));
 		gigaSpace.write(new Charge("DHL4"));
 
@@ -98,7 +99,7 @@ public class ProducerTest {
 
 	@Test
 	public void testWithNotEnoughCharge() {
-		gigaSpace.write(new Load("DHL6", false));
+		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
 		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));
 
 		gigaSpace.write(new Work());

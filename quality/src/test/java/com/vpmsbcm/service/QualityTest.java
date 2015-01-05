@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Rocket;
@@ -50,9 +51,9 @@ public class QualityTest {
 	@Test
 	public void testWorkingRocket() {
 		List<Load> loads = new LinkedList<Load>();
-		loads.add(new Load("DHL5", false));
-		loads.add(new Load("DHL5", false));
-		loads.add(new Load("DHL5", false));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
 		gigaSpace.write(new Rocket(null, null, null, 130, loads, 1));
 
 		Rocket template = new Rocket();
@@ -64,9 +65,9 @@ public class QualityTest {
 	@Test
 	public void testRocketWithNotEnoughCharge() {
 		List<Load> loads = new LinkedList<Load>();
-		loads.add(new Load("DHL5", false));
-		loads.add(new Load("DHL5", false));
-		loads.add(new Load("DHL5", false));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
 		gigaSpace.write(new Rocket(null, null, null, 119, loads, 1));
 
 		Rocket template = new Rocket();
@@ -78,9 +79,9 @@ public class QualityTest {
 	@Test
 	public void testRocketWithDefectLoad() {
 		List<Load> loads = new LinkedList<Load>();
-		loads.add(new Load("DHL5", true));
-		loads.add(new Load("DHL5", false));
-		loads.add(new Load("DHL5", false));
+		loads.add(new Load("DHL5", true, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
+		loads.add(new Load("DHL5", false, Color.BLUE));
 		gigaSpace.write(new Rocket(null, null, null, 140, loads, 1));
 
 		Rocket template = new Rocket();

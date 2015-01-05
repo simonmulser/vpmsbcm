@@ -13,14 +13,16 @@ public class Load extends Good implements Serializable {
 
 	private String supplier;
 	private Boolean defect;
+	private Color color;
 
 	public Load() {
 	}
 
-	public Load(String supplier, Boolean defect) {
+	public Load(String supplier, Boolean defect, Color color) {
 		this.id = ID.incrementAndGet();
 		this.supplier = supplier;
 		this.defect = defect;
+		this.color = color;
 	}
 
 	@SpaceId(autoGenerate = false)
