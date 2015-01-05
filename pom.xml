@@ -28,6 +28,7 @@
 		<module>producer</module>
 		<module>quality</module>
 		<module>exporter</module>
+		<module>order</module>
 	</modules>
 	<dependencies>
 		<dependency>
