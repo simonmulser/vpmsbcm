@@ -14,14 +14,9 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
 
 	<os-core:giga-space-context />
-
-	<os-core:space id="warehouseS" url="/./warehouseS" />
-	<os-core:space id="trashS" url="/./trashS" />
+    <os-core:space id="warehouseS" url="jini://*/*/warehouseS" />
 	<os-core:distributed-tx-manager id="transactionManager" />
-
-	<os-core:giga-space id="warehouseSpace" space="warehouseS"
-		tx-manager="transactionManager" />
-	<os-core:giga-space id="trashSpace" space="trashS"
+	<os-core:giga-space id="warehouse" space="warehouseS"
 		tx-manager="transactionManager" />
 
 	<context:component-scan base-package="com.vpmsbcm" />
