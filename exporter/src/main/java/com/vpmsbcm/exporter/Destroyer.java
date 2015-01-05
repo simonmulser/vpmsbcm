@@ -31,7 +31,7 @@ public class Destroyer {
 	private GigaSpace trashSpace;
 
 	@Autowired
-	Exporter exporter;
+	Supervisor supervisor;
 
 	public Destroyer() {
 	}
@@ -54,7 +54,7 @@ public class Destroyer {
 	public Rocket eventListener(Rocket event) {
 		log.info("received rocket=" + event);
 		event.setState(State.DESTROYED);
-		event.setExporterID(exporter.getId());
+		event.setExporterID(supervisor.getId());
 		trashSpace.write(event);
 		return null;
 	}

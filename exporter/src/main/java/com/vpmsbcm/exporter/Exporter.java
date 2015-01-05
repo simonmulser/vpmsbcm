@@ -32,32 +32,14 @@ public class Exporter {
 
 	final Logger log = LoggerFactory.getLogger(Exporter.class);
 
-	private int id;
 
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
 
+	@Autowired
+	private Supervisor supervisor;
+
 	public Exporter() {
-	}
-
-	@PostConstruct
-	public void init() {
-		setId();
-	}
-
-	private void setId() {
-		IDFactory factory = new IDFactory();
-		factory.setId(1);
-
-		factory = warehouseSpace.take(factory, 1000);
-		if (factory != null) {
-			id = factory.getIdExporter();
-			factory.setIdExporter(id + 1);
-			warehouseSpace.write(factory);
-			log.info("started exporter with id=" + id);
-		} else {
-			id = -1;
-		}
 	}
 
 	@ReceiveHandler
@@ -94,7 +76,7 @@ public class Exporter {
 			rockets.addAll(Arrays.asList(rocketsFromSpace));
 
 			for (Rocket rocket : rockets) {
-				rocket.setExporterID(id);
+				rocket.setExporterID(supervisor.getId());
 			}
 
 			Parcel parcel = new Parcel(rockets);
@@ -109,7 +91,5 @@ public class Exporter {
 		return events;
 	}
 
-	public Integer getId() {
-		return id;
 	}
 }
