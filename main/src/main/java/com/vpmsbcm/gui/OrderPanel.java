@@ -1,6 +1,5 @@
 package com.vpmsbcm.gui;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.service.Supplier;
 
 @Component
@@ -48,7 +48,7 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 	private Supplier supplier;
 
 	public OrderPanel() {
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(java.awt.Color.LIGHT_GRAY);
 		setOpaque(true);
 
 		orderB = new JButton("order");
@@ -131,10 +131,11 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 
 	public void actionPerformed(ActionEvent e) {
 		try {
-			if (errorRateTF.getText().equals("")) {
-				supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
+			if (typeC.getSelectedItem().toString().equals("load")) {
+				supplier.orderWithRejects(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()), Integer.parseInt(errorRateTF.getText()),
+						Color.valueOf(colorC.getSelectedItem().toString()));
 			} else {
-				supplier.orderWithRejects(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()), Integer.parseInt(errorRateTF.getText()));
+				supplier.order(typeC.getSelectedItem().toString(), Integer.parseInt(amountTF.getText()));
 			}
 		} catch (NumberFormatException exception) {
 			log.info("not a number");

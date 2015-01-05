@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Wood;
@@ -35,8 +36,8 @@ public class Supplier {
 		new Order(order, amount).start();
 	}
 
-	public void orderWithRejects(String order, int amount, int errorRate) {
-		new Order(order, amount, errorRate).start();
+	public void orderWithRejects(String order, int amount, int errorRate, Color color) {
+		new Order(order, amount, errorRate, color).start();
 	}
 
 	private class Order extends Thread {
@@ -44,10 +45,12 @@ public class Supplier {
 		private String orderable;
 		private int amount;
 		private double errorRate = 0;
+		private Color color;
 
-		public Order(String orderable, int amount, int errorRate) {
+		public Order(String orderable, int amount, int errorRate, Color color) {
 			this(orderable, amount);
 			this.errorRate = errorRate / 100.0;
+			this.color = color;
 		}
 
 		public Order(String orderable, int amount) {
@@ -73,7 +76,7 @@ public class Supplier {
 				} else if (orderable.equals(OrderPanel.propellingCharge)) {
 					object = new Charge("DHL" + ID++);
 				} else if (orderable.equals(OrderPanel.load)) {
-					object = new Load("DHL" + ID++, new Boolean(Math.random() <= errorRate));
+					object = new Load("DHL" + ID++, new Boolean(Math.random() <= errorRate), color);
 				}
 
 				warehouseSpace.write(object);
