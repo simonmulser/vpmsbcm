@@ -8,6 +8,7 @@ public class IDFactory {
 	private Integer idProducer;
 	private Integer idQuality;
 	private Integer idExporter;
+	private Integer idOrder;
 
 	public IDFactory() {
 	}
@@ -17,6 +18,7 @@ public class IDFactory {
 		idProducer = 1;
 		idQuality = 1;
 		idExporter = 1;
+		idOrder = 1;
 	}
 
 	@SpaceId(autoGenerate = false)
@@ -50,6 +52,14 @@ public class IDFactory {
 
 	public void setIdExporter(Integer idExporter) {
 		this.idExporter = idExporter;
+	}
+
+	public Integer getIdOrder() {
+		return idOrder;
+	}
+
+	public void setIdOrder(Integer idOrder) {
+		this.idOrder = idOrder;
 	}
 
 }
