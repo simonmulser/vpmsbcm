@@ -10,14 +10,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.openspaces.core.GigaSpace;
+import org.openspaces.core.context.GigaSpaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.vpmsbcm.common.model.order.Order;
+import com.vpmsbcm.service.Service;
 
 @Component
 public class OrderPanel extends JPanel implements ActionListener {
 
 	final Logger log = LoggerFactory.getLogger(OrderPanel.class);
+
+	@Autowired
+	private Service service;
+
+	@GigaSpaceContext
+	private GigaSpace warehouseSpace;
 
 	private JButton orderB;
 	private JLabel amountL;
@@ -96,6 +108,25 @@ public class OrderPanel extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("test");
+		int amountRed = 0;
+		int amountGreen = 0;
+		int amountBlue = 0;
+
+		for (JComboBox comboBox : colorBoxes) {
+			if (comboBox.getSelectedItem().equals("red")) {
+				amountRed++;
+			} else {
+				if (comboBox.getSelectedItem().equals("green")) {
+					amountGreen++;
+				} else {
+					amountBlue++;
+				}
+			}
+		}
+
+		Order order = new Order(service.getNextID(), new Integer(amountTF.getText()), amountRed, amountGreen, amountBlue, adressF.getText());
+
+		warehouseSpace.write(order);
+		service.getSpace().write(order);
 	}
 }
