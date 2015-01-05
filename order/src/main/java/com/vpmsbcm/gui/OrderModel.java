@@ -59,7 +59,7 @@ public class OrderModel extends AbstractTableModel {
 		case 3:
 			return orders.get(row).getAmountGreen();
 		case 4:
-			return orders.get(row).getAmountRed();
+			return orders.get(row).getAmountBlue();
 		case 5:
 			return orders.get(row).getAdress();
 		case 6:
