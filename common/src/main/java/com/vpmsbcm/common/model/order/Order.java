@@ -20,9 +20,10 @@ public class Order implements Serializable {
 	public Order() {
 	}
 
-	public Order(String id, Integer amountRed, Integer amountGreen, Integer amountBlue, String adress) {
+	public Order(String id, Integer amount, Integer amountRed, Integer amountGreen, Integer amountBlue, String adress) {
 		super();
 		this.id = id;
+		this.amount = amount;
 		this.amountRed = amountRed;
 		this.amountGreen = amountGreen;
 		this.amountBlue = amountBlue;
