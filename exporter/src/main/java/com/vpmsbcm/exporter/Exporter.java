@@ -17,9 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.j_spaces.core.client.SQLQuery;
+import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Parcel;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
+import com.vpmsbcm.common.model.order.Order;
 
 @TransactionalEvent
 public class Exporter {
@@ -85,6 +87,30 @@ public class Exporter {
 			}
 		}
 		return events;
+	}
+
+	@SpaceDataEvent
+	public Rocket[] eventListener(OrderRocket[] events) {
+
+		for (OrderRocket rocket : events) {
+			Order order = new Order();
+			order.setId(rocket.getId());
+			order = warehouseSpace.take(order, 200);
+			if (order == null) {
+				log.error("order can not be found anymore");
+			} else {
+				order.getRockets().add(rocket);
+
+				if (order.getAmount() <= order.getRockets().size()) {
+					exportOrderdRockets(order);
+				}
+			}
+		}
+		return null;
+	}
+
+	private void exportOrderdRockets(Order order) {
+		log.info("completed order=" + order);
 	}
 
 	public String getType() {

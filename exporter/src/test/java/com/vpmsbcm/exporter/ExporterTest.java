@@ -13,10 +13,12 @@ import org.openspaces.core.context.GigaSpaceContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Parcel;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.Wood;
+import com.vpmsbcm.common.model.order.Order;
 
 /**
  * Integration test for the Processor. Uses similar xml definition file
@@ -59,6 +61,13 @@ public class ExporterTest {
 		}
 
 		warehouseSpace.write(new Wood("DHL 1"));
+
+		Order order1 = new Order("ID1", 2, 2, 0, 1, "testSpace1");
+		order1.getRockets().add(new OrderRocket(null, null, null, 0, null, 0, "ID1"));
+		Order order2 = new Order("2", 2, 2, 0, 1, "testSpace2");
+
+		warehouseSpace.write(order1);
+		warehouseSpace.write(order2);
 	}
 
 	@Test
@@ -74,6 +83,15 @@ public class ExporterTest {
 		for (Rocket exportedRocket : parcel.getRockets()) {
 			assertEquals(State.CLASS_A, exportedRocket.getState());
 		}
+	}
+
+	@Test
+	public void testReceiveLastOrderRocket() {
+		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 0, "ID1");
+		rocket.setState(State.CLASS_A);
+		warehouseSpace.write(rocket);
+
+		assertNull(warehouseSpace.take(new Parcel(), 1500));
 	}
 
 	@Test
