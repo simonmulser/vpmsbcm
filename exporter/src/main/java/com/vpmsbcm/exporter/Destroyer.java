@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.State;
 
 @TransactionalEvent
@@ -37,8 +37,8 @@ public class Destroyer {
 	}
 
 	@EventTemplate
-	Rocket template() {
-		Rocket template = new Rocket();
+	NormalRocket template() {
+		NormalRocket template = new NormalRocket();
 		template.setState(State.DEFECT);
 		return template;
 	}
@@ -51,7 +51,7 @@ public class Destroyer {
 	}
 
 	@SpaceDataEvent
-	public Rocket eventListener(Rocket event) {
+	public NormalRocket eventListener(NormalRocket event) {
 		log.info("received rocket=" + event);
 		event.setState(State.DESTROYED);
 		event.setExporterID(supervisor.getId());

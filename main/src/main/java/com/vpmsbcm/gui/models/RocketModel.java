@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.util.Util;
 
 @Component
@@ -22,7 +22,7 @@ public class RocketModel extends AbstractTableModel {
 
 	Logger log = LoggerFactory.getLogger(RocketModel.class);
 
-	public List<Rocket> rockets = new LinkedList<Rocket>();
+	public List<NormalRocket> rockets = new LinkedList<NormalRocket>();
 
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
@@ -89,7 +89,7 @@ public class RocketModel extends AbstractTableModel {
 	}
 
 	public void update() {
-		Rocket[] retrievedRockets = warehouseSpace.readMultiple(new Rocket());
+		NormalRocket[] retrievedRockets = warehouseSpace.readMultiple(new NormalRocket());
 		rockets = Arrays.asList(retrievedRockets);
 		fireTableDataChanged();
 	}

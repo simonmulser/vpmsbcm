@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Parcel;
-import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.gui.WarehousePanel;
 import com.vpmsbcm.gui.models.DestroyedRocketsModel;
@@ -87,7 +87,7 @@ public class Warehouse {
 		exportedRocketsModel.addParcel(parcel);
 	}
 
-	public synchronized void addDestroyedRocket(Rocket rocket) {
+	public synchronized void addDestroyedRocket(NormalRocket rocket) {
 		destroyedRocketsModel.addRocket(rocket);
 	}
 

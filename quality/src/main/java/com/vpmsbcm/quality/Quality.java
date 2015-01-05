@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
@@ -78,7 +79,7 @@ public class Quality {
 		testRocket(rocket);
 
 		if (rocket.getState().equals(State.CLASS_B)) {
-			return (Rocket) rocket;
+			return new NormalRocket(rocket.getWood(), rocket.getDetonator(), rocket.getCharges(), rocket.getChargeAmount(), rocket.getLoades(), rocket.getProducerID());
 		}
 
 		return rocket;
@@ -86,7 +87,7 @@ public class Quality {
 
 	@SpaceDataEvent
 	@Transactional
-	public Rocket eventListener(Rocket event) {
+	public Rocket eventListener(NormalRocket event) {
 		log.info("received rocket=" + event);
 		return testRocket(event);
 	}

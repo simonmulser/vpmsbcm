@@ -19,8 +19,8 @@ import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.OrderRocket;
-import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.common.model.order.Order;
@@ -62,18 +62,18 @@ public class ProducerTest {
 	public void testWithNotEnoughLoad() {
 		gigaSpace.write(new Work());
 
-		assertNull(gigaSpace.take(new Rocket(), 500));
+		assertNull(gigaSpace.take(new NormalRocket(), 500));
 		assertEquals(2, gigaSpace.count(new Wood()));
 		assertEquals(1, gigaSpace.count(new Detonator()));
 	}
 
 	@Test
 	public void testCreateRocket() {
-		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
+		gigaSpace.write(new Load("DHL6", false, Color.GREEN));
 
 		gigaSpace.write(new Work());
 
-		Rocket rocket = gigaSpace.take(new Rocket(), 500);
+		NormalRocket rocket = gigaSpace.take(new NormalRocket(), 500);
 		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 
 		assertNotNull(rocket);
@@ -107,13 +107,13 @@ public class ProducerTest {
 
 	@Test
 	public void testCreateRocketWith2Charge() {
-		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
+		gigaSpace.write(new Load("DHL6", false, Color.GREEN));
 		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));
 		gigaSpace.write(new Charge("DHL4"));
 
 		gigaSpace.write(new Work());
 
-		Rocket rocket = gigaSpace.take(new Rocket(), 500);
+		NormalRocket rocket = gigaSpace.take(new NormalRocket(), 500);
 		Charge charge = gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500"));
 
 		assertNotNull(rocket);
@@ -128,12 +128,12 @@ public class ProducerTest {
 
 	@Test
 	public void testWithNotEnoughCharge() {
-		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
+		gigaSpace.write(new Load("DHL6", false, Color.GREEN));
 		gigaSpace.change(new Charge(), new ChangeSet().set("amount", 100));
 
 		gigaSpace.write(new Work());
 
-		assertNull(gigaSpace.take(new Rocket(), 500));
+		assertNull(gigaSpace.take(new NormalRocket(), 500));
 		assertNotNull(gigaSpace.take(new SQLQuery<Charge>(Charge.class, "amount < 500")));
 	}
 }

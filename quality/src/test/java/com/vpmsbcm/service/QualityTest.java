@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.vpmsbcm.common.model.Color;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.OrderRocket;
-import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.Wood;
 
@@ -56,11 +56,11 @@ public class QualityTest {
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
-		gigaSpace.write(new Rocket(null, null, null, 130, loads, 1));
+		gigaSpace.write(new NormalRocket(null, null, null, 130, loads, 1));
 
-		Rocket template = new Rocket();
+		NormalRocket template = new NormalRocket();
 		template.setState(State.CLASS_A);
-		Rocket rocket = gigaSpace.take(template, 500);
+		NormalRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 	}
 
@@ -70,11 +70,11 @@ public class QualityTest {
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
-		gigaSpace.write(new Rocket(null, null, null, 129, loads, 1));
+		gigaSpace.write(new NormalRocket(null, null, null, 129, loads, 1));
 
-		Rocket template = new Rocket();
+		NormalRocket template = new NormalRocket();
 		template.setState(State.CLASS_B);
-		Rocket rocket = gigaSpace.take(template, 500);
+		NormalRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 	}
 
@@ -88,7 +88,7 @@ public class QualityTest {
 
 		OrderRocket template = new OrderRocket();
 		template.setState(State.CLASS_A);
-		Rocket rocket = gigaSpace.take(template, 500);
+		OrderRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 		assertEquals(loads, rocket.getLoades());
 	}
@@ -101,9 +101,9 @@ public class QualityTest {
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		gigaSpace.write(new OrderRocket(null, null, null, 129, loads, 1, "order1"));
 
-		Rocket template = new Rocket();
+		NormalRocket template = new NormalRocket();
 		template.setState(State.CLASS_B);
-		Rocket rocket = gigaSpace.take(template, 500);
+		NormalRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 		assertEquals(loads, rocket.getLoades());
 	}
@@ -114,11 +114,11 @@ public class QualityTest {
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
-		gigaSpace.write(new Rocket(null, null, null, 119, loads, 1));
+		gigaSpace.write(new NormalRocket(null, null, null, 119, loads, 1));
 
-		Rocket template = new Rocket();
+		NormalRocket template = new NormalRocket();
 		template.setState(State.DEFECT);
-		Rocket rocket = gigaSpace.take(template, 500);
+		NormalRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 	}
 
@@ -128,11 +128,11 @@ public class QualityTest {
 		loads.add(new Load("DHL5", true, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
 		loads.add(new Load("DHL5", false, Color.BLUE));
-		gigaSpace.write(new Rocket(null, null, null, 140, loads, 1));
+		gigaSpace.write(new NormalRocket(null, null, null, 140, loads, 1));
 
-		Rocket template = new Rocket();
+		NormalRocket template = new NormalRocket();
 		template.setState(State.DEFECT);
-		Rocket rocket = gigaSpace.take(template, 500);
+		NormalRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 	}
 }

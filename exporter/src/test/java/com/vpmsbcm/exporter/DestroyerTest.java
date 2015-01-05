@@ -12,7 +12,7 @@ import org.openspaces.core.context.GigaSpaceContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.State;
 
 /**
@@ -43,12 +43,12 @@ public class DestroyerTest {
 
 	@Test
 	public void testDefectRocket() {
-		Rocket rocket = new Rocket(null, null, null, 45, null, 45);
+		NormalRocket rocket = new NormalRocket(null, null, null, 45, null, 45);
 		rocket.setState(State.DEFECT);
 		warehouseSpace.write(rocket);
 
-		rocket = new Rocket();
-		assertNotNull(trashSpace.take(new Rocket(), 100));
+		rocket = new NormalRocket();
+		assertNotNull(trashSpace.take(new NormalRocket(), 100));
 		assertNull(warehouseSpace.take(rocket, 100));
 	}
 }

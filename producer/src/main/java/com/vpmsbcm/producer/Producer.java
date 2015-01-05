@@ -26,6 +26,7 @@ import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Detonator;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.Wood;
@@ -171,7 +172,7 @@ public class Producer {
 	private void createRocket(Wood wood, Detonator detonator, List<Load> load, List<Charge> chargesUsed, int chargeNeeded, Order order) {
 		Rocket rocket = null;
 		if (order == null) {
-			rocket = new Rocket(wood, detonator, chargesUsed, chargeNeeded, load, id);
+			rocket = new NormalRocket(wood, detonator, chargesUsed, chargeNeeded, load, id);
 		} else {
 			rocket = new OrderRocket(wood, detonator, chargesUsed, chargeNeeded, load, id, order.getId());
 		}

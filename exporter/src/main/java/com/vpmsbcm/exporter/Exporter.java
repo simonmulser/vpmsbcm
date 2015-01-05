@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.j_spaces.core.client.SQLQuery;
 import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Parcel;
-import com.vpmsbcm.common.model.Rocket;
+import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.order.Order;
 
@@ -49,16 +49,16 @@ public class Exporter {
 	}
 
 	@EventTemplate
-	SQLQuery<Rocket> template() {
-		SQLQuery<Rocket> query = new SQLQuery<Rocket>(Rocket.class, "state = '" + type + "'");
+	SQLQuery<NormalRocket> template() {
+		SQLQuery<NormalRocket> query = new SQLQuery<NormalRocket>(NormalRocket.class, "state = '" + type + "'");
 		return query;
 	}
 
 	@SpaceDataEvent
-	public Rocket[] eventListener(Rocket[] events) {
+	public NormalRocket[] eventListener(NormalRocket[] events) {
 		log.info("received " + events.length + " rockets from type " + type);
-		List<Rocket> rockets = new LinkedList<Rocket>();
-		for (Rocket rocket : events) {
+		List<NormalRocket> rockets = new LinkedList<NormalRocket>();
+		for (NormalRocket rocket : events) {
 			rocket.setState(State.valueOf("READY_" + type));
 			rockets.add(rocket);
 		}
@@ -66,13 +66,13 @@ public class Exporter {
 		log.info("there are " + rockets.size() + " working rockets");
 
 		int additionalRocketsNeeded = 5 - rockets.size();
-		Rocket[] rocketsFromSpace = warehouseSpace.takeMultiple(new SQLQuery<Rocket>(Rocket.class, "state = 'READY_" + type + "'"), additionalRocketsNeeded);
+		NormalRocket[] rocketsFromSpace = warehouseSpace.takeMultiple(new SQLQuery<NormalRocket>(NormalRocket.class, "state = 'READY_" + type + "'"), additionalRocketsNeeded);
 		log.info("got other " + rocketsFromSpace.length + " rockets from the space");
 
 		if (rocketsFromSpace.length + rockets.size() == 5) {
 			rockets.addAll(Arrays.asList(rocketsFromSpace));
 
-			for (Rocket rocket : rockets) {
+			for (NormalRocket rocket : rockets) {
 				rocket.setExporterID(supervisor.getId());
 				rocket.setState(State.valueOf(type));
 			}
@@ -90,7 +90,7 @@ public class Exporter {
 	}
 
 	@SpaceDataEvent
-	public Rocket[] eventListener(OrderRocket[] events) {
+	public NormalRocket[] eventListener(OrderRocket[] events) {
 
 		for (OrderRocket rocket : events) {
 			Order order = new Order();

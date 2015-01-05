@@ -12,6 +12,7 @@
        http://www.openspaces.org/schema/sla http://www.openspaces.org/schema/sla/openspaces-sla.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<os-core:space id="space" url="/./producerSpace"
 		lookup-groups="producer-integration-tests" />

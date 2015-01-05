@@ -7,14 +7,14 @@ import com.vpmsbcm.common.util.Util;
 
 public class Parcel {
 
-	private List<Rocket> rockets;
+	private List<NormalRocket> rockets;
 
 	private String id;
 
 	public Parcel() {
 	}
 
-	public Parcel(List<Rocket> rockets) {
+	public Parcel(List<NormalRocket> rockets) {
 		this.rockets = rockets;
 	}
 
@@ -27,11 +27,11 @@ public class Parcel {
 		this.id = id;
 	}
 
-	public List<Rocket> getRockets() {
+	public List<NormalRocket> getRockets() {
 		return rockets;
 	}
 
-	public void setRockets(List<Rocket> rockets) {
+	public void setRockets(List<NormalRocket> rockets) {
 		this.rockets = rockets;
 	}
 
