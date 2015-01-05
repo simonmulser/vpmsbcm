@@ -2,6 +2,7 @@ package com.vpmsbcm.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +31,8 @@ public class OrderPanel extends JPanel implements ActionListener {
 	private JComboBox load3C;
 	private JLabel adressL;
 	private JTextField adressF;
+
+	private LinkedList<JComboBox> colorBoxes;
 
 	public OrderPanel() {
 		setBackground(java.awt.Color.LIGHT_GRAY);
@@ -81,6 +84,10 @@ public class OrderPanel extends JPanel implements ActionListener {
 		add(new JLabel(" | "));
 		add(orderB);
 
+		colorBoxes = new LinkedList<JComboBox>();
+		colorBoxes.add(load1C);
+		colorBoxes.add(load2C);
+		colorBoxes.add(load3C);
 	}
 
 	public static void main(String[] args) {
