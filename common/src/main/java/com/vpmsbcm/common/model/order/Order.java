@@ -31,7 +31,7 @@ public class Order implements Serializable {
 		this.state = State.SEND;
 	}
 
-	@SpaceId(autoGenerate = true)
+	@SpaceId(autoGenerate = false)
 	public String getId() {
 		return id;
 	}
