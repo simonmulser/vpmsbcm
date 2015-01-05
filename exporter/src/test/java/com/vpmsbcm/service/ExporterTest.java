@@ -44,7 +44,7 @@ public class ExporterTest {
 
 		for (int i = 0; i < 4; i++) {
 			Rocket rocket = new Rocket(null, null, null, 0, null, 0);
-			rocket.setState(State.WORKING);
+			rocket.setState(State.CLASS_A);
 			warehouseSpace.write(rocket);
 		}
 
@@ -56,7 +56,7 @@ public class ExporterTest {
 		assertNull(warehouseSpace.take(new Parcel(), 500));
 
 		Rocket rocket = new Rocket(null, null, null, 0, null, 0);
-		rocket.setState(State.WORKING);
+		rocket.setState(State.CLASS_A);
 		warehouseSpace.write(rocket);
 
 		assertNotNull(warehouseSpace.take(new Parcel(), 500));

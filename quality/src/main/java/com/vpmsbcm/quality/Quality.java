@@ -74,7 +74,7 @@ public class Quality {
 	public Rocket eventListener(Rocket event) {
 		log.info("received rocket=" + event);
 		if (testLoadsWorking(event.getLoades()) && event.getChargeAmount() >= 120) {
-			event.setState(State.WORKING);
+			event.setState(State.CLASS_A);
 		} else {
 			event.setState(State.DEFECT);
 		}

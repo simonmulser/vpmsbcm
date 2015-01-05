@@ -57,7 +57,7 @@ public class QualityTest {
 		gigaSpace.write(new Rocket(null, null, null, 130, loads, 1));
 
 		Rocket template = new Rocket();
-		template.setState(State.WORKING);
+		template.setState(State.CLASS_A);
 		Rocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 	}
