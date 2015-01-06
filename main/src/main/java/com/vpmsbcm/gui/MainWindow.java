@@ -37,6 +37,9 @@ public class MainWindow extends JFrame {
 	@Autowired
 	private WarehousePanel warehousePanel;
 
+	@Autowired
+	private OrderOverviewPanel orderOverviewPanel;
+
 	public MainWindow() {
 	}
 
@@ -57,16 +60,20 @@ public class MainWindow extends JFrame {
 		contentPanel.add(orderPanel, constraints);
 
 		constraints.gridy = 1;
-		constraints.weighty = 0.3;
+		constraints.weighty = 0.25;
 		contentPanel.add(warehousePanel, constraints);
 
 		constraints.gridy = 2;
-		constraints.weighty = 0.3;
+		constraints.weighty = 0.25;
 		contentPanel.add(rocketsPanel, constraints);
 
 		constraints.gridy = 3;
-		constraints.weighty = 0.3;
+		constraints.weighty = 0.25;
 		contentPanel.add(exportPanel, constraints);
+
+		constraints.gridy = 4;
+		constraints.weighty = 0.25;
+		contentPanel.add(orderOverviewPanel, constraints);
 
 		setContentPane(contentPanel);
 		pack();
