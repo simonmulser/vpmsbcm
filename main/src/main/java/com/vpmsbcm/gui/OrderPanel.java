@@ -106,7 +106,7 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 
 	private void revert() {
 		errorRateTF.setEnabled(false);
-		errorRateTF.setText("");
+		errorRateTF.setText("0");
 		unitL.setText("units");
 
 		colorC.setEnabled(false);
