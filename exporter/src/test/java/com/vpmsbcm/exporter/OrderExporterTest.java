@@ -42,25 +42,11 @@ public class OrderExporterTest {
 
 		Order order1 = new Order("ID1", 2, 2, 0, 1, "testSpace1");
 		order1.getRockets().add(new OrderRocket(null, null, null, 0, null, 0, "ID1"));
-		order1.decrementMissingRockets();
 
-		Order order2 = new Order("ID2", 2, 2, 0, 1, "testSpace2");
+		Order order2 = new Order("ID2", 1, 2, 0, 1, "testSpace2");
 
 		warehouseSpace.write(order1);
 		warehouseSpace.write(order2);
-	}
-
-	@Test
-	public void testReceiveRocketForOrder() {
-		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 45, "ID2");
-		rocket.setState(State.CLASS_A);
-		warehouseSpace.write(rocket);
-
-		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID2' AND missing = 1"), 500);
-
-		assertNotNull(order);
-		assertEquals(1, order.getRockets().size());
-		assertEquals(45, (int) order.getRockets().get(0).getProducerID());
 	}
 
 	@Test
@@ -86,12 +72,9 @@ public class OrderExporterTest {
 		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 40, "ID2");
 		rocket.setState(State.CLASS_A);
 		warehouseSpace.write(rocket);
-		rocket = new OrderRocket(null, null, null, 0, null, 40, "ID2");
-		rocket.setState(State.CLASS_A);
-		warehouseSpace.write(rocket);
 
 		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID2' AND state = 'FHINISHED'"), 500);
 		assertNotNull(order);
-		assertEquals(2, order.getRockets().size());
+		assertEquals(1, order.getRockets().size());
 	}
 }
