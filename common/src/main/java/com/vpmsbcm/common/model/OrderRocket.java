@@ -23,6 +23,12 @@ public class OrderRocket extends Rocket {
 		this.orderId = orderId;
 	}
 
+	@Override
+	public String toString() {
+		return "OrderRocket [orderId=" + orderId + ", id=" + id + ", wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount="
+				+ chargeAmount + ", state=" + state + ", producerID=" + producerID + ", controllerID=" + controllerID + ", exporterID=" + exporterID + "]";
+	}
+
 	public Rocket degrade() {
 		NormalRocket rocket = new NormalRocket();
 		rocket.setId(id);

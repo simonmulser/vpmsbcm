@@ -19,7 +19,8 @@ public class NormalRocket extends Rocket {
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return "NormalRocket [id=" + id + ", wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount
+				+ ", state=" + state + ", producerID=" + producerID + ", controllerID=" + controllerID + ", exporterID=" + exporterID + "]";
 	}
 
 	@Override
