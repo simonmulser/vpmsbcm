@@ -3,6 +3,7 @@ package com.vpmsbcm.exporter;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.GigaSpaceConfigurer;
 import org.openspaces.core.context.GigaSpaceContext;
+import org.openspaces.core.space.CannotFindSpaceException;
 import org.openspaces.core.space.UrlSpaceConfigurer;
 import org.openspaces.events.EventDriven;
 import org.openspaces.events.EventTemplate;
@@ -64,7 +65,7 @@ public class OrderExporter {
 			order.decrementMissing();
 
 			if (order.getMissing() <= 0) {
-				order.setState(com.vpmsbcm.common.model.order.State.FHINISHED);
+				order.setState(com.vpmsbcm.common.model.order.State.DELIVERED);
 
 				exportOrderedRockets(order);
 				log.info("completed order=" + order);
@@ -76,9 +77,18 @@ public class OrderExporter {
 	}
 
 	private void exportOrderedRockets(Order order) {
-		UrlSpaceConfigurer config = new UrlSpaceConfigurer("jini://*/*/testSpace1");
-		config.lookupGroups("order-clients");
-		GigaSpace gigaSpace = new GigaSpaceConfigurer(config).gigaSpace();
-		gigaSpace.write(order);
+		try {
+			UrlSpaceConfigurer config = new UrlSpaceConfigurer("jini://*/*/" + order.getAdress());
+			config.lookupGroups("order-clients");
+			config.lookupTimeout(200);
+			GigaSpace gigaSpace = new GigaSpaceConfigurer(config).gigaSpace();
+
+			order.setState(com.vpmsbcm.common.model.order.State.DELIVERED);
+			gigaSpace.write(order);
+			log.info("delivered order=" + order);
+		} catch (CannotFindSpaceException ex) {
+			order.setState(com.vpmsbcm.common.model.order.State.FHINISHED);
+			log.info("could not connect to space");
+		}
 	}
 }

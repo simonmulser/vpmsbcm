@@ -35,7 +35,7 @@ public class Order implements Serializable {
 		this.amountGreen = amountGreen;
 		this.amountBlue = amountBlue;
 		this.adress = adress;
-		this.state = State.SEND;
+		this.state = State.OPEN;
 
 		rockets = new LinkedList<OrderRocket>();
 	}

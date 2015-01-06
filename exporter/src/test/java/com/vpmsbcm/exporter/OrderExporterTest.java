@@ -40,11 +40,11 @@ public class OrderExporterTest {
 	public void setUp() throws InterruptedException {
 		warehouseSpace.clear(null);
 
-		Order order1 = new Order("ID1", 2, 2, 0, 1, "/./testSpace1");
+		Order order1 = new Order("ID1", 2, 2, 0, 1, "testSpace1");
 		order1.getRockets().add(new OrderRocket(null, null, null, 0, null, 0, "ID1"));
 		order1.decrementMissing();
 
-		Order order2 = new Order("ID2", 2, 2, 0, 1, "/./testSpace2");
+		Order order2 = new Order("ID2", 2, 2, 0, 1, "testSpace2");
 
 		warehouseSpace.write(order1);
 		warehouseSpace.write(order2);
@@ -69,16 +69,28 @@ public class OrderExporterTest {
 		rocket.setState(State.CLASS_A);
 		warehouseSpace.write(rocket);
 
-		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID1' AND state = 'FHINISHED'"), 500);
+		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID1' AND state = 'DELIVERED'"), 500);
 		assertNotNull(order);
 		assertEquals(2, order.getRockets().size());
 
 		rocket = warehouseSpace.take(new OrderRocket(), 500);
 		assertNull(rocket);
 
-		// order = testSpace1.take(new SQLQuery<Order>(Order.class,
-		// "id = 'ID1' AND state = 'FHINISHED'"), 500);
 		order = testSpace1.take(new Order(), 500);
+		assertNotNull(order);
+		assertEquals(2, order.getRockets().size());
+	}
+
+	@Test
+	public void testReceiveLastRocketForOrderSpaceNotPresent() {
+		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 40, "ID2");
+		rocket.setState(State.CLASS_A);
+		warehouseSpace.write(rocket);
+		rocket = new OrderRocket(null, null, null, 0, null, 40, "ID2");
+		rocket.setState(State.CLASS_A);
+		warehouseSpace.write(rocket);
+
+		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID2' AND state = 'FHINISHED'"), 500);
 		assertNotNull(order);
 		assertEquals(2, order.getRockets().size());
 	}
