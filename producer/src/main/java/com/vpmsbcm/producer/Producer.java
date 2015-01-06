@@ -163,7 +163,8 @@ public class Producer {
 	}
 
 	private Order getSuitableOrder() {
-		return warehouse.take(new SQLQuery<Order>(Order.class, "amountRed <= " + amountRed + "AND amountGreen <= " + amountGreen + "AND amountBlue <= " + amountBlue));
+		return warehouse.take(new SQLQuery<Order>(Order.class, "amountRed <= " + amountRed + " AND amountGreen <= " + amountGreen + " AND amountBlue <= " + amountBlue
+				+ " AND missingRockets > 0"));
 	}
 
 	private void updateColors() {

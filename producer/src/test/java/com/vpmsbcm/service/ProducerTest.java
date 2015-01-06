@@ -119,6 +119,27 @@ public class ProducerTest {
 
 		int amount = gigaSpace.count(new OrderRocket());
 		assertEquals(2, amount);
+
+		Order order = new Order();
+		order.setId("3");
+		order = gigaSpace.read(order);
+		assertNotNull(order);
+		assertEquals(2, (int) order.getMissingRockets());
+	}
+
+	@Test
+	public void testCreateOrderNothingMissing() {
+		Order order = new Order("3", 1, 0, 3, 0, "adress");
+		order.setMissingRockets(0);
+		gigaSpace.write(order);
+
+		for (int i = 0; i < 3; i++) {
+			gigaSpace.write(new Load("DHL6", false, Color.GREEN));
+		}
+		gigaSpace.write(new Work());
+
+		OrderRocket rocket = gigaSpace.read(new OrderRocket(), 500);
+		assertNull(rocket);
 	}
 
 	@Test
