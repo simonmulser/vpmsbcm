@@ -56,7 +56,7 @@ public class Service {
 	}
 
 	private void createSpace() {
-		space = new GigaSpaceConfigurer(new UrlSpaceConfigurer("/./order")).gigaSpace();
+		space = new GigaSpaceConfigurer(new UrlSpaceConfigurer("/./order-client-" + id)).gigaSpace();
 	}
 
 	public GigaSpace getSpace() {
