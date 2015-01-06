@@ -74,8 +74,9 @@ public class OrderExporter {
 	}
 
 	private void exportOrderedRockets(Order order) {
+		String spaceUrl = "jini://*/*/" + order.getAdress();
 		try {
-			UrlSpaceConfigurer config = new UrlSpaceConfigurer("jini://*/*/" + order.getAdress());
+			UrlSpaceConfigurer config = new UrlSpaceConfigurer(spaceUrl);
 			config.lookupGroups("order-clients");
 			config.lookupTimeout(200);
 			GigaSpace gigaSpace = new GigaSpaceConfigurer(config).gigaSpace();
@@ -85,7 +86,7 @@ public class OrderExporter {
 			log.info("delivered order=" + order);
 		} catch (CannotFindSpaceException ex) {
 			order.setState(com.vpmsbcm.common.model.order.State.FHINISHED);
-			log.info("could not connect to space " + order.getAdress());
+			log.info("could not connect to space " + spaceUrl);
 		}
 	}
 }
