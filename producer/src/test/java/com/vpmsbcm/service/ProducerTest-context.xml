@@ -15,7 +15,7 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<os-core:space id="space" url="/./producerSpace"
-		lookup-groups="producer-integration-tests" />
+		lookup-groups="integration-tests" />
 	<os-core:distributed-tx-manager id="transactionManager" />
 	<os-core:giga-space id="warehouse" space="space" tx-manager="transactionManager"/>
 	

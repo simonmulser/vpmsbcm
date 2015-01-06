@@ -13,9 +13,9 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<os-core:space id="warehouseS" url="/./exporterSpace"
-		lookup-groups="exporter-integration-tests" />
+		lookup-groups="integration-tests" />
 	<os-core:space id="trashS" url="/./trashSpace"
-		lookup-groups="exporter-integration-tests" />
+		lookup-groups="integration-tests" />
 
 	<os-core:distributed-tx-manager id="transactionManager" />
 	<os-core:giga-space id="warehouseSpace" space="warehouseS"

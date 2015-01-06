@@ -77,7 +77,7 @@ public class OrderExporter {
 
 	private void exportOrderedRockets(Order order) {
 		UrlSpaceConfigurer config = new UrlSpaceConfigurer("jini://*/*/testSpace1");
-		config.lookupGroups("orderexporter-integration-tests");
+		config.lookupGroups("order-clients");
 		GigaSpace gigaSpace = new GigaSpaceConfigurer(config).gigaSpace();
 		gigaSpace.write(order);
 	}
