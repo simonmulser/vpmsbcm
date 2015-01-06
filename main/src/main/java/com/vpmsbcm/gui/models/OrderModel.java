@@ -23,7 +23,7 @@ public class OrderModel extends AbstractTableModel {
 
 	public List<Order> orders = new LinkedList<Order>();
 
-	protected String[] columnNames = new String[] { "name", "amount", "red", "green", "blue", "adress", "state" };
+	protected String[] columnNames = new String[] { "name", "amount", "missing", "red", "green", "blue", "adress", "state" };
 
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
@@ -55,14 +55,16 @@ public class OrderModel extends AbstractTableModel {
 		case 1:
 			return orders.get(row).getAmount();
 		case 2:
-			return orders.get(row).getAmountRed();
+			return orders.get(row).getMissingRockets();
 		case 3:
-			return orders.get(row).getAmountGreen();
+			return orders.get(row).getAmountRed();
 		case 4:
-			return orders.get(row).getAmountBlue();
+			return orders.get(row).getAmountGreen();
 		case 5:
-			return orders.get(row).getAdress();
+			return orders.get(row).getAmountBlue();
 		case 6:
+			return orders.get(row).getAdress();
+		case 7:
 			return orders.get(row).getState();
 		default:
 			return null;
