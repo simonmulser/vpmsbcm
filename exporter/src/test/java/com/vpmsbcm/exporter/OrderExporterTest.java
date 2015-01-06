@@ -42,7 +42,7 @@ public class OrderExporterTest {
 
 		Order order1 = new Order("ID1", 2, 2, 0, 1, "testSpace1");
 		order1.getRockets().add(new OrderRocket(null, null, null, 0, null, 0, "ID1"));
-		order1.decrementMissing();
+		order1.decrementMissingRockets();
 
 		Order order2 = new Order("ID2", 2, 2, 0, 1, "testSpace2");
 

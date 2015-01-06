@@ -144,8 +144,12 @@ public class Order implements Serializable {
 		return true;
 	}
 
-	public void decrementMissing() {
+	public void decrementMissingRockets() {
 		--missingRockets;
+	}
+
+	public void incrementMissingRockets() {
+		++missingRockets;
 	}
 
 }

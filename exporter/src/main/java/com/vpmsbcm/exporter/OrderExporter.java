@@ -63,7 +63,6 @@ public class OrderExporter {
 		} else {
 			log.info("found order=" + order);
 			order.getRockets().add(rocket);
-			order.decrementMissing();
 
 			if (order.getMissingRockets() <= 0) {
 				order.setState(com.vpmsbcm.common.model.order.State.DELIVERED);
