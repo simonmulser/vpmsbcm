@@ -21,7 +21,7 @@ public class Order implements Serializable {
 	private String adress;
 	private State state;
 
-	private List<OrderRocket> rockets = new LinkedList<OrderRocket>();
+	private List<OrderRocket> rockets;
 
 	public Order() {
 	}
@@ -36,6 +36,8 @@ public class Order implements Serializable {
 		this.amountBlue = amountBlue;
 		this.adress = adress;
 		this.state = State.SEND;
+
+		rockets = new LinkedList<OrderRocket>();
 	}
 
 	@SpaceId(autoGenerate = false)
