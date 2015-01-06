@@ -22,6 +22,7 @@ import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.Wood;
+import com.vpmsbcm.common.model.order.Order;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -41,6 +42,8 @@ public class QualityTest {
 		IDFactory idFactory = new IDFactory();
 		idFactory.init();
 		gigaSpace.write(idFactory);
+
+		gigaSpace.write(new Order("order1", 0, 0, 0, 0, "testAdress"));
 		gigaSpace.write(new Wood("DHL 1"));
 	}
 
@@ -100,6 +103,12 @@ public class QualityTest {
 		NormalRocket rocket = gigaSpace.take(template, 500);
 		assertNotNull(rocket);
 		assertEquals(loads, rocket.getLoades());
+
+		Order order = new Order();
+		order.setId("order1");
+		order = gigaSpace.read(order, 100);
+		assertNotNull(order);
+		assertEquals(1, (int) order.getMissingRockets());
 	}
 
 	@Test

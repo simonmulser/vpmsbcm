@@ -17,12 +17,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gigaspaces.client.ChangeSet;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.State;
+import com.vpmsbcm.common.model.order.Order;
 
 @EventDriven
 @Polling
@@ -79,6 +81,10 @@ public class Quality {
 		testRocket(rocket);
 
 		if (rocket.getState().equals(State.CLASS_B) || rocket.getState().equals(State.DEFECT)) {
+			Order order = new Order();
+			order.setId(rocket.getOrderId());
+			gigaSpace.change(order, new ChangeSet().increment("missingRockets", 1));
+
 			return rocket.degrade();
 		}
 
