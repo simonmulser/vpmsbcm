@@ -52,12 +52,14 @@ public class OrderExporter {
 
 	@SpaceDataEvent
 	public OrderRocket eventListener(OrderRocket rocket) {
+		String orderId = rocket.getOrderId();
+
 		Order order = new Order();
-		order.setId(rocket.getOrderId());
+		order.setId(orderId);
 		order = warehouseSpace.take(order, 200);
 
 		if (order == null) {
-			log.error("order can not be found anymore");
+			log.error("order with id " + orderId + " can not be found anymore");
 		} else {
 			log.info("found order=" + order);
 			order.getRockets().add(rocket);
