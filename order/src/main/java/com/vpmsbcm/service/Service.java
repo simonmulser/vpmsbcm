@@ -2,8 +2,6 @@ package com.vpmsbcm.service;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.PostConstruct;
-
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.GigaSpaceConfigurer;
 import org.openspaces.core.context.GigaSpaceContext;
@@ -12,17 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.IDFactory;
+import com.j_spaces.core.client.SQLQuery;
+import com.vpmsbcm.common.model.order.Order;
+import com.vpmsbcm.common.model.order.State;
 
 @Component
 public class Service {
 
 	final Logger log = LoggerFactory.getLogger(Service.class);
 
-	private int id;
+	private String id;
 	private AtomicInteger orderId;
 
-	@GigaSpaceContext(name = "warehouse")
+	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouse;
 
 	private GigaSpace space;
@@ -30,33 +30,30 @@ public class Service {
 	public Service() {
 	}
 
-	@PostConstruct
-	public void init() {
-		setId();
+	public void init(String id) {
+		this.id = id;
 		createSpace();
 		orderId = new AtomicInteger(0);
+
+		getFinishedOrders();
 
 		log.info("started service with id=" + id);
 	}
 
-	private void setId() {
-		IDFactory factory = new IDFactory();
-		factory.setId(1);
-
-		factory = warehouse.take(factory, 1000);
-		if (factory != null) {
-			id = factory.getIdProducer();
-			factory.setIdProducer(id + 1);
-			warehouse.write(factory);
-			log.info("started producer with id=" + id);
-		} else {
-			id = -1;
-		}
-
-	}
-
 	private void createSpace() {
 		space = new GigaSpaceConfigurer(new UrlSpaceConfigurer("/./order-client-" + id)).gigaSpace();
+	}
+
+	private void getFinishedOrders() {
+		Order[] orders = warehouse.takeMultiple(new SQLQuery<Order>(Order.class, "id LIKE '" + id + ":%' AND state = '" + State.FHINISHED + "'"));
+		if (orders != null && orders.length > 0) {
+			log.info("got " + orders.length + " fhinished orders");
+			for (Order order : orders) {
+				order.setState(State.DELIVERED);
+			}
+			warehouse.writeMultiple(orders);
+			space.writeMultiple(orders);
+		}
 	}
 
 	public GigaSpace getSpace() {
@@ -68,6 +65,6 @@ public class Service {
 	}
 
 	public String getNextID() {
-		return "Order" + id + "Id" + orderId.incrementAndGet();
+		return id + ":" + orderId.incrementAndGet();
 	}
 }

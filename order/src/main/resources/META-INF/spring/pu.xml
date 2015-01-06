@@ -16,7 +16,7 @@
 	<os-core:giga-space-context />
     <os-core:space id="warehouseS" url="jini://*/*/warehouseS" />
 	<os-core:distributed-tx-manager id="transactionManager" />
-	<os-core:giga-space id="warehouse" space="warehouseS"
+	<os-core:giga-space id="warehouseSpace" space="warehouseS"
 		tx-manager="transactionManager" />
 
 	<context:component-scan base-package="com.vpmsbcm" />

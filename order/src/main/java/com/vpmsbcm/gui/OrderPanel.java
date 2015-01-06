@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.order.Order;
+import com.vpmsbcm.config.Config;
 import com.vpmsbcm.service.Service;
 
 @Component
@@ -27,9 +28,12 @@ public class OrderPanel extends JPanel implements ActionListener {
 	final Logger log = LoggerFactory.getLogger(OrderPanel.class);
 
 	@Autowired
+	private Config config;
+
+	@Autowired
 	private Service service;
 
-	@GigaSpaceContext
+	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
 
 	private JButton orderB;
@@ -80,9 +84,9 @@ public class OrderPanel extends JPanel implements ActionListener {
 		amountTF = new JTextField(3);
 		unitL = new JLabel("rockets ");
 
-		adressL = new JLabel("adress (your adress=" + service.getSpace().getName() + ")");
+		adressL = new JLabel("adress (your adress=" + config.getId() + ")");
 		adressF = new JTextField(10);
-		adressF.setText(service.getSpace().getName());
+		adressF.setText("order-client-" + config.getId());
 
 		add(amountL);
 		add(amountTF);
