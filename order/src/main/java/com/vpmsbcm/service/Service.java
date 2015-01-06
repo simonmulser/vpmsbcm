@@ -41,7 +41,9 @@ public class Service {
 	}
 
 	private void createSpace() {
-		space = new GigaSpaceConfigurer(new UrlSpaceConfigurer("/./order-client-" + id)).gigaSpace();
+		UrlSpaceConfigurer config = new UrlSpaceConfigurer("/./order-client-" + id);
+		config.lookupGroups("order-clients");
+		space = new GigaSpaceConfigurer(config).gigaSpace();
 	}
 
 	private void getFinishedOrders() {
