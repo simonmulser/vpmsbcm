@@ -88,7 +88,7 @@ public class OrderExporter {
 			log.info("delivered order=" + order);
 		} catch (CannotFindSpaceException ex) {
 			order.setState(com.vpmsbcm.common.model.order.State.FHINISHED);
-			log.info("could not connect to space");
+			log.info("could not connect to space " + order.getAdress());
 		}
 	}
 }
