@@ -93,7 +93,7 @@ public class Warehouse {
 
 	public synchronized void check() {
 		int count = warehouseSpace.count(new Work());
-		log.debug("count work=" + count);
+		log.debug("already " + count + " work element(s) available in the space");
 
 		int avalaibleWoodsticks = woodstickCount - count;
 		int avalaibleCases = casesCount - count;
@@ -104,6 +104,7 @@ public class Warehouse {
 
 		int minUnits = getMin(avalaibleWoodsticks, avalaibleCases, avalaibleCharge, avalaibleLoad);
 
+		log.info("writing " + minUnits + " new work element(s) into the space");
 		for (int i = 0; i < minUnits; i++) {
 			warehouseSpace.write(new Work());
 		}
