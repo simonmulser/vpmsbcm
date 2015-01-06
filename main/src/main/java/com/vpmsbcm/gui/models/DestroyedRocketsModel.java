@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.NormalRocket;
+import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.util.Util;
 
 @Component
@@ -17,7 +17,7 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 
 	Logger log = LoggerFactory.getLogger(DestroyedRocketsModel.class);
 
-	private List<NormalRocket> rockets = new LinkedList<NormalRocket>();
+	private List<Rocket> rockets = new LinkedList<Rocket>();
 
 	protected String[] columnNames = new String[] { "id", "state", "producer ID", "controller ID", "exporter ID" };
 
@@ -58,7 +58,7 @@ public class DestroyedRocketsModel extends AbstractTableModel {
 		}
 	}
 
-	public void addRocket(NormalRocket rocket) {
+	public void addRocket(Rocket rocket) {
 		rockets.add(rocket);
 		fireTableDataChanged();
 	}

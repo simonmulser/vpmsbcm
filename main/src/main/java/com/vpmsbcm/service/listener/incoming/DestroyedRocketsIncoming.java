@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vpmsbcm.common.model.NormalRocket;
+import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.service.Warehouse;
 
 @EventDriven
@@ -26,13 +26,13 @@ public class DestroyedRocketsIncoming {
 	}
 
 	@EventTemplate
-	NormalRocket unprocessedData() {
-		NormalRocket template = new NormalRocket();
+	Rocket unprocessedData() {
+		Rocket template = new Rocket();
 		return template;
 	}
 
 	@SpaceDataEvent
-	public NormalRocket eventListener(NormalRocket event) {
+	public Rocket eventListener(Rocket event) {
 		warehouse.addDestroyedRocket(event);
 		return null;
 	}

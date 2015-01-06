@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 
 import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.Load;
-import com.vpmsbcm.common.model.NormalRocket;
+import com.vpmsbcm.common.model.OrderRocket;
+import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.util.Util;
 
 @Component
@@ -22,13 +23,13 @@ public class RocketModel extends AbstractTableModel {
 
 	Logger log = LoggerFactory.getLogger(RocketModel.class);
 
-	public List<NormalRocket> rockets = new LinkedList<NormalRocket>();
+	public List<Rocket> rockets = new LinkedList<Rocket>();
 
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
 
 	protected String[] columnNames = new String[] { "name", "state", "wood ID", "detonator ID", "load 1", "load 2", "load 3", "charges", "charge amount", "producer ID",
-			"controller ID" };
+			"controller ID", "order ID" };
 
 	public RocketModel() {
 	}
@@ -50,46 +51,51 @@ public class RocketModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
-		Load load;
+		Rocket rocket = rockets.get(row);
 		switch (col) {
 		case 0:
-			return Util.splitId(rockets.get(row).getId());
+			return rocket.getClass().getSimpleName() + " " + Util.splitId(rocket.getId());
 		case 1:
-			return rockets.get(row).getState();
+			return rocket.getState();
 		case 2:
-			return rockets.get(row).getWood().getId();
+			return rocket.getWood().getId();
 		case 3:
-			return rockets.get(row).getDetonator().getId();
+			return rocket.getDetonator().getId();
 		case 4:
-			load = rockets.get(row).getLoades().get(0);
-			return load.getId() + " " + load.getDefect() + " " + load.getColor();
+			Load load1 = rocket.getLoades().get(0);
+			return load1.getId() + " " + load1.getDefect() + " " + load1.getColor();
 		case 5:
-			load = rockets.get(row).getLoades().get(1);
-			return load.getId() + " " + load.getDefect() + " " + load.getColor();
+			Load load2 = rocket.getLoades().get(1);
+			return load2.getId() + " " + load2.getDefect() + " " + load2.getColor();
 		case 6:
-			load = rockets.get(row).getLoades().get(2);
-			return load.getId() + " " + load.getDefect() + " " + load.getColor();
+			Load load3 = rocket.getLoades().get(2);
+			return load3.getId() + " " + load3.getDefect() + " " + load3.getColor();
 		case 7:
 			String text = "";
-			for (Charge charge : rockets.get(row).getCharges()) {
+			for (Charge charge : rocket.getCharges()) {
 				text += charge.getId() + "/" + charge.getAmount() + " ";
 			}
 			return text;
 		case 8:
-			return rockets.get(row).getChargeAmount();
+			return rocket.getChargeAmount();
 		case 9:
-			return rockets.get(row).getProducerID() != null ? rockets.get(row).getProducerID() : "not set";
+			return rocket.getProducerID() != null ? rocket.getProducerID() : "not set";
 		case 10:
-			return rockets.get(row).getControllerID() != null ? rockets.get(row).getControllerID() : "not set";
+			return rocket.getControllerID() != null ? rocket.getControllerID() : "not set";
 		case 11:
-			return rockets.get(row).getExporterID() != null ? rockets.get(row).getExporterID() : "not set";
+			return rocket.getExporterID() != null ? rocket.getExporterID() : "not set";
+		case 12:
+			if (rocket instanceof OrderRocket) {
+				return ((OrderRocket) rocket).getOrderId();
+			}
+			return "";
 		default:
 			return null;
 		}
 	}
 
 	public void update() {
-		NormalRocket[] retrievedRockets = warehouseSpace.readMultiple(new NormalRocket());
+		Rocket[] retrievedRockets = warehouseSpace.readMultiple(new Rocket());
 		rockets = Arrays.asList(retrievedRockets);
 		fireTableDataChanged();
 	}
