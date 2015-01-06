@@ -29,7 +29,7 @@ public class RocketModel extends AbstractTableModel {
 	private GigaSpace warehouseSpace;
 
 	protected String[] columnNames = new String[] { "name", "state", "wood ID", "detonator ID", "load 1", "load 2", "load 3", "charges", "charge amount", "producer ID",
-			"controller ID", "order ID" };
+			"controller ID", "exporter ID", "order ID" };
 
 	public RocketModel() {
 	}
