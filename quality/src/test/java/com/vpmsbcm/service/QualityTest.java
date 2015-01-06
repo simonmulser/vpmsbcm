@@ -23,12 +23,6 @@ import com.vpmsbcm.common.model.OrderRocket;
 import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.Wood;
 
-/**
- * Integration test for the Processor. Uses similar xml definition file
- * (ProcessorIntegrationTest-context.xml) to the actual pu.xml. Writs an
- * unprocessed Data to the Space, and verifies that it has been processed by
- * taking a processed one from the space.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class QualityTest {

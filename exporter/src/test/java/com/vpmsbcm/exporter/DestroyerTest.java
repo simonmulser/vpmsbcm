@@ -15,12 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.State;
 
-/**
- * Integration test for the Processor. Uses similar xml definition file
- * (ProcessorIntegrationTest-context.xml) to the actual pu.xml. Writs an
- * unprocessed Data to the Space, and verifies that it has been processed by
- * taking a processed one from the space.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class DestroyerTest {
