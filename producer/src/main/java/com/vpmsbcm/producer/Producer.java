@@ -177,7 +177,7 @@ public class Producer {
 			rocket = new OrderRocket(wood, detonator, chargesUsed, chargeNeeded, load, id, order.getId());
 		}
 		warehouse.write(rocket);
-		log.info("created rocket=" + rocket);
+		log.info("created " + rocket);
 	}
 
 	private int calculateCharge() {
