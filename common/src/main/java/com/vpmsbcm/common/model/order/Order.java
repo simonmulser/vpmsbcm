@@ -12,7 +12,7 @@ public class Order implements Serializable {
 	private String id;
 
 	private Integer amount;
-	private Integer missing;
+	private Integer missingRockets;
 
 	private Integer amountRed;
 	private Integer amountGreen;
@@ -30,7 +30,7 @@ public class Order implements Serializable {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.missing = amount;
+		this.missingRockets = amount;
 		this.amountRed = amountRed;
 		this.amountGreen = amountGreen;
 		this.amountBlue = amountBlue;
@@ -105,18 +105,18 @@ public class Order implements Serializable {
 		this.rockets = rockets;
 	}
 
-	public Integer getMissing() {
-		return missing;
+	public Integer getMissingRockets() {
+		return missingRockets;
 	}
 
-	public void setMissing(Integer missing) {
-		this.missing = missing;
+	public void setMissingRockets(Integer missing) {
+		this.missingRockets = missing;
 	}
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", amount=" + amount + ", missing=" + missing + ", amountRed=" + amountRed + ", amountGreen=" + amountGreen + ", amountBlue=" + amountBlue
-				+ ", adress=" + adress + ", state=" + state + ", rockets=" + rockets + "]";
+		return "Order [id=" + id + ", amount=" + amount + ", missing=" + missingRockets + ", amountRed=" + amountRed + ", amountGreen=" + amountGreen + ", amountBlue="
+				+ amountBlue + ", adress=" + adress + ", state=" + state + ", rockets=" + rockets + "]";
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class Order implements Serializable {
 	}
 
 	public void decrementMissing() {
-		--missing;
+		--missingRockets;
 	}
 
 }

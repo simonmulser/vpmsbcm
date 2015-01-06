@@ -63,7 +63,7 @@ public class OrderExporter {
 			order.getRockets().add(rocket);
 			order.decrementMissing();
 
-			if (order.getMissing() <= 0) {
+			if (order.getMissingRockets() <= 0) {
 				order.setState(com.vpmsbcm.common.model.order.State.DELIVERED);
 
 				exportOrderedRockets(order);
