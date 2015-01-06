@@ -12,6 +12,7 @@ public class Order implements Serializable {
 	private String id;
 
 	private Integer amount;
+	private Integer missing;
 
 	private Integer amountRed;
 	private Integer amountGreen;
@@ -29,6 +30,7 @@ public class Order implements Serializable {
 		super();
 		this.id = id;
 		this.amount = amount;
+		this.missing = amount;
 		this.amountRed = amountRed;
 		this.amountGreen = amountGreen;
 		this.amountBlue = amountBlue;
@@ -101,9 +103,18 @@ public class Order implements Serializable {
 		this.rockets = rockets;
 	}
 
+	public Integer getMissing() {
+		return missing;
+	}
+
+	public void setMissing(Integer missing) {
+		this.missing = missing;
+	}
+
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", amountRed=" + amountRed + ", amountGreen=" + amountGreen + ", amountBlue=" + amountBlue + ", adress=" + adress + ", state=" + state + "]";
+		return "Order [id=" + id + ", amount=" + amount + ", missing=" + missing + ", amountRed=" + amountRed + ", amountGreen=" + amountGreen + ", amountBlue=" + amountBlue
+				+ ", adress=" + adress + ", state=" + state + ", rockets=" + rockets + "]";
 	}
 
 	@Override
@@ -129,6 +140,10 @@ public class Order implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public void decrementMissing() {
+		--missing;
 	}
 
 }
