@@ -9,26 +9,48 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vpmsbcm.common.model.Charge;
+import com.vpmsbcm.common.model.Detonator;
+import com.vpmsbcm.common.model.Good;
+import com.vpmsbcm.common.model.Load;
 import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.service.Warehouse;
 
 @EventDriven
 @Notify(gigaSpace = "warehouseSpace")
 @NotifyType(take = true)
-public class WoodOutgoing {
+public class GoodOutgoing {
 
 	@Autowired
 	private Warehouse warehouse;
 
-	final Logger log = LoggerFactory.getLogger(WoodOutgoing.class);
+	final Logger log = LoggerFactory.getLogger(GoodOutgoing.class);
 
-	public WoodOutgoing() {
+	public GoodOutgoing() {
 	}
 
 	@EventTemplate
-	Wood unprocessedData() {
-		Wood template = new Wood();
+	Good unprocessedData() {
+		Good template = new Good();
 		return template;
+	}
+
+	@SpaceDataEvent
+	public Charge eventListener(Charge event) {
+		warehouse.removeCharge(event);
+		return null;
+	}
+
+	@SpaceDataEvent
+	public Detonator eventListener(Detonator event) {
+		warehouse.updateCaseAndDetonator(-1);
+		return null;
+	}
+
+	@SpaceDataEvent
+	public Load eventListener(Load event) {
+		warehouse.updateLoad(-1);
+		return null;
 	}
 
 	@SpaceDataEvent
