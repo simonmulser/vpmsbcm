@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.order.Order;
 import com.vpmsbcm.common.util.Util;
 import com.vpmsbcm.service.Service;
@@ -26,7 +26,7 @@ public class OrderModel extends AbstractTableModel {
 	@Autowired
 	private Service service;
 
-	protected String[] columnNames = new String[] { "name", "amount", "red", "green", "blue", "adress", "state" };
+	protected String[] columnNames = new String[] { "name", "amount", "red", "green", "blue", "adress", "state", "rocket IDs" };
 
 	public OrderModel() {
 	}
@@ -48,22 +48,28 @@ public class OrderModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
-		Load load;
+		Order order = orders.get(row);
 		switch (col) {
 		case 0:
 			return Util.splitId(orders.get(row).getId());
 		case 1:
-			return orders.get(row).getAmount();
+			return order.getAmount();
 		case 2:
-			return orders.get(row).getAmountRed();
+			return order.getAmountRed();
 		case 3:
-			return orders.get(row).getAmountGreen();
+			return order.getAmountGreen();
 		case 4:
-			return orders.get(row).getAmountBlue();
+			return order.getAmountBlue();
 		case 5:
-			return orders.get(row).getAdress();
+			return order.getAdress();
 		case 6:
-			return orders.get(row).getState();
+			return order.getState();
+		case 7:
+			String ids = "";
+			for (Rocket rocket : order.getRockets()) {
+				ids += Util.splitId(rocket.getId()) + " ";
+			}
+			return ids;
 		default:
 			return null;
 		}
