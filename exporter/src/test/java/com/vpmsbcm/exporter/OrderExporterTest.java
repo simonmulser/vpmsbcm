@@ -13,11 +13,9 @@ import org.openspaces.core.context.GigaSpaceContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.vpmsbcm.common.model.NormalRocket;
+import com.j_spaces.core.client.SQLQuery;
 import com.vpmsbcm.common.model.OrderRocket;
-import com.vpmsbcm.common.model.Parcel;
 import com.vpmsbcm.common.model.State;
-import com.vpmsbcm.common.model.Wood;
 import com.vpmsbcm.common.model.order.Order;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,6 +28,9 @@ public class OrderExporterTest {
 	@GigaSpaceContext(name = "trashSpace")
 	GigaSpace trashSpace;
 
+	@GigaSpaceContext(name = "testSpace1")
+	GigaSpace testSpace1;
+
 	@After
 	public void teardown() {
 		warehouseSpace.clear(null);
@@ -39,76 +40,46 @@ public class OrderExporterTest {
 	public void setUp() throws InterruptedException {
 		warehouseSpace.clear(null);
 
-		// sleep shot time amount to be sure that space is empty
-		Thread.sleep(100);
-
-		for (int i = 0; i < 4; i++) {
-			NormalRocket rocket = new NormalRocket(null, null, null, 0, null, 0);
-			rocket.setState(State.CLASS_A);
-			warehouseSpace.write(rocket);
-		}
-
-		for (int i = 0; i < 4; i++) {
-			NormalRocket rocket = new NormalRocket(null, null, null, 0, null, 0);
-			rocket.setState(State.CLASS_B);
-			warehouseSpace.write(rocket);
-		}
-
-		warehouseSpace.write(new Wood("DHL 1"));
-
-		Order order1 = new Order("ID1", 2, 2, 0, 1, "testSpace1");
+		Order order1 = new Order("ID1", 2, 2, 0, 1, "/./testSpace1");
 		order1.getRockets().add(new OrderRocket(null, null, null, 0, null, 0, "ID1"));
-		Order order2 = new Order("2", 2, 2, 0, 1, "testSpace2");
+		order1.decrementMissing();
+
+		Order order2 = new Order("ID2", 2, 2, 0, 1, "/./testSpace2");
 
 		warehouseSpace.write(order1);
 		warehouseSpace.write(order2);
 	}
 
 	@Test
-	public void testCreateParcelClassA() {
-		assertNull(warehouseSpace.take(new Parcel(), 500));
-
-		NormalRocket rocket = new NormalRocket(null, null, null, 0, null, 0);
+	public void testReceiveRocketForOrder() {
+		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 45, "ID2");
 		rocket.setState(State.CLASS_A);
 		warehouseSpace.write(rocket);
 
-		Parcel parcel = warehouseSpace.take(new Parcel(), 500);
-		assertNotNull(parcel);
-		for (NormalRocket exportedRocket : parcel.getRockets()) {
-			assertEquals(State.CLASS_A, exportedRocket.getState());
-		}
+		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID2' AND missing = 1"), 500);
+
+		assertNotNull(order);
+		assertEquals(1, order.getRockets().size());
+		assertEquals(45, (int) order.getRockets().get(0).getProducerID());
 	}
 
 	@Test
-	public void testReceiveLastOrderRocket() {
-		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 0, "ID1");
+	public void testReceiveLastRocketForOrder() {
+		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 40, "ID1");
 		rocket.setState(State.CLASS_A);
 		warehouseSpace.write(rocket);
-	}
 
-	@Test
-	public void testCreateParcelClassB() {
-		assertNull(warehouseSpace.take(new Parcel(), 500));
+		Order order = warehouseSpace.take(new SQLQuery<Order>(Order.class, "id = 'ID1' AND state = 'FHINISHED'"), 500);
+		assertNotNull(order);
+		assertEquals(2, order.getRockets().size());
 
-		NormalRocket rocket = new NormalRocket(null, null, null, 0, null, 0);
-		rocket.setState(State.CLASS_B);
-		warehouseSpace.write(rocket);
+		rocket = warehouseSpace.take(new OrderRocket(), 500);
+		assertNull(rocket);
 
-		Parcel parcel = warehouseSpace.take(new Parcel(), 500);
-		assertNotNull(parcel);
-		for (NormalRocket exportedRocket : parcel.getRockets()) {
-			assertEquals(State.CLASS_B, exportedRocket.getState());
-		}
-	}
-
-	@Test
-	public void testNotEnoughParcel() {
-		assertNull(warehouseSpace.take(new Parcel(), 500));
-
-		NormalRocket rocket = new NormalRocket(null, null, null, 0, null, 0);
-		rocket.setState(State.DEFECT);
-		warehouseSpace.write(rocket);
-
-		assertNull(warehouseSpace.take(new Parcel(), 500));
+		// order = testSpace1.take(new SQLQuery<Order>(Order.class,
+		// "id = 'ID1' AND state = 'FHINISHED'"), 500);
+		order = testSpace1.take(new Order(), 500);
+		assertNotNull(order);
+		assertEquals(2, order.getRockets().size());
 	}
 }

@@ -14,15 +14,19 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<os-core:space id="warehouseS" url="/./exporterSpace"
-		lookup-groups="exporter-integration-tests" />
+		lookup-groups="orderexporter-integration-tests" />
 	<os-core:space id="trashS" url="/./trashSpace"
-		lookup-groups="exporter-integration-tests" />
+		lookup-groups="orderexporter-integration-tests" />
+	<os-core:space id="testS1" url="/./testSpace1"
+		lookup-groups="orderexporter-integration-tests" />
 
 	<os-core:distributed-tx-manager id="transactionManager" />
 	<os-core:giga-space id="warehouseSpace" space="warehouseS"
 		tx-manager="transactionManager" />
 	<os-core:giga-space id="trashSpace" space="trashS"
 		tx-manager="transactionManager" />
+	<os-core:giga-space id="testSpace1" space="testS1"
+		tx-manager="transactionManager" />
 
-	<import resource="classpath:META-INF/spring/beans.xml"/>
+	<import resource="classpath:META-INF/spring/beans.xml" />
 </beans>
