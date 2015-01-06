@@ -106,6 +106,8 @@ public class Producer {
 			load = ArrayUtils.addAll(load, warehouse.takeMultiple(new SQLQuery<Load>(Load.class, "color = 'RED'"), order.getAmountRed()));
 			load = ArrayUtils.addAll(load, warehouse.takeMultiple(new SQLQuery<Load>(Load.class, "color = 'GREEN'"), order.getAmountGreen()));
 			load = ArrayUtils.addAll(load, warehouse.takeMultiple(new SQLQuery<Load>(Load.class, "color = 'BLUE'"), order.getAmountBlue()));
+
+			warehouse.write(order);
 		} else {
 			load = warehouse.takeMultiple(new Load(), 3);
 		}

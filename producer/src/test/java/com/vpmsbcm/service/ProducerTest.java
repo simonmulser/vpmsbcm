@@ -44,6 +44,8 @@ public class ProducerTest {
 		gigaSpace.write(new Wood("DHL 1"));
 		gigaSpace.write(new Wood("DHL 1"));
 		gigaSpace.write(new Detonator("DHL 1"));
+		gigaSpace.write(new Detonator("DHL 2"));
+		gigaSpace.write(new Detonator("DHL 3"));
 		gigaSpace.write(new Charge("DHL4"));
 		gigaSpace.write(new Load("DHL5", true, Color.BLUE));
 		gigaSpace.write(new Load("DHL6", false, Color.BLUE));
@@ -58,7 +60,7 @@ public class ProducerTest {
 
 		assertNull(gigaSpace.take(new NormalRocket(), 500));
 		assertEquals(2, gigaSpace.count(new Wood()));
-		assertEquals(1, gigaSpace.count(new Detonator()));
+		assertEquals(3, gigaSpace.count(new Detonator()));
 	}
 
 	@Test
@@ -97,6 +99,26 @@ public class ProducerTest {
 
 		assertNotNull(rocket);
 		assertEquals("1", rocket.getOrderId());
+	}
+
+	@Test
+	public void testCreate2OrderRocketBlue() {
+		gigaSpace.write(new Order("3", 4, 0, 3, 0, "adress"));
+		for (int i = 0; i < 6; i++) {
+			gigaSpace.write(new Load("DHL6", false, Color.GREEN));
+		}
+		gigaSpace.write(new Work());
+		gigaSpace.write(new Work());
+
+		OrderRocket rocket = gigaSpace.read(new OrderRocket(), 500);
+		assertNotNull(rocket);
+		assertEquals("3", rocket.getOrderId());
+
+		NormalRocket normalRocket = gigaSpace.take(new NormalRocket(), 100);
+		assertNull(normalRocket);
+
+		int amount = gigaSpace.count(new OrderRocket());
+		assertEquals(2, amount);
 	}
 
 	@Test
