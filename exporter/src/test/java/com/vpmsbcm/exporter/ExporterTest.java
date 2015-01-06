@@ -37,7 +37,7 @@ public class ExporterTest {
 	public void setUp() throws InterruptedException {
 		warehouseSpace.clear(null);
 
-		// sleep shot time amount to be sure that space is empty
+		// sleep short time amount to be sure that space is empty
 		Thread.sleep(100);
 
 		for (int i = 0; i < 4; i++) {
