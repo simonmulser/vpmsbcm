@@ -5,12 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.openspaces.core.GigaSpace;
+import org.openspaces.core.context.GigaSpaceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 
 	@Autowired
 	RocketsPanel rocketsPanel;
+
+	@GigaSpaceContext(name = "warehouseSpace")
+	private GigaSpace warehouseSpace;
 
 	final Logger log = LoggerFactory.getLogger(OrderPanel.class);
 
@@ -48,6 +54,10 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 	private Supplier supplier;
 
 	public OrderPanel() {
+	}
+
+	@PostConstruct
+	public void init() {
 		setBackground(java.awt.Color.LIGHT_GRAY);
 		setOpaque(true);
 
@@ -95,13 +105,14 @@ public class OrderPanel extends JPanel implements ActionListener, ItemListener {
 		add(new JLabel(" | "));
 		add(orderB);
 
+		// Benchmarkbutton
+		add(new JLabel(" | "));
+		JButton button = new JButton("Start Benchmark");
+		button.addActionListener(new BenchmarkStarter(warehouseSpace));
+		add(button);
+
 		// set initial settings
 		revert();
-	}
-
-	public static void main(String[] args) {
-		new MainWindow();
-
 	}
 
 	private void revert() {

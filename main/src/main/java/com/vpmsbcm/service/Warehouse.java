@@ -92,6 +92,8 @@ public class Warehouse {
 	}
 
 	public synchronized void check() {
+		// for benchmark comment this out
+
 		int count = warehouseSpace.count(new Work());
 		log.debug("already " + count + " work element(s) available in the space");
 
