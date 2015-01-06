@@ -82,6 +82,7 @@ public class OrderPanel extends JPanel implements ActionListener {
 
 		adressL = new JLabel("adress (your adress=" + service.getSpace().getName() + ")");
 		adressF = new JTextField(10);
+		adressF.setText(service.getSpace().getName());
 
 		add(amountL);
 		add(amountTF);
