@@ -20,3 +20,7 @@ launch quality inspector
 launch exporter
 
 `mvn os:run -Dmodule=exporter`
+
+launch order clients
+
+`mvn os:run -Dmodule=order`
