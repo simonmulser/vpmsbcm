@@ -54,7 +54,6 @@ public class OrderExporter {
 	public OrderRocket eventListener(OrderRocket rocket) {
 		Order order = new Order();
 		order.setId(rocket.getOrderId());
-		System.out.println(order);
 		order = warehouseSpace.take(order, 200);
 
 		if (order == null) {
@@ -68,7 +67,6 @@ public class OrderExporter {
 				order.setState(com.vpmsbcm.common.model.order.State.DELIVERED);
 
 				exportOrderedRockets(order);
-				log.info("completed order=" + order);
 			}
 
 			warehouseSpace.write(order);
