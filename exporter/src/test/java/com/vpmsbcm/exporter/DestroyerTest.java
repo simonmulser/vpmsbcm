@@ -16,7 +16,7 @@ import com.vpmsbcm.common.model.NormalRocket;
 import com.vpmsbcm.common.model.State;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration("test-context.xml")
 public class DestroyerTest {
 
 	@GigaSpaceContext(name = "warehouseSpace")

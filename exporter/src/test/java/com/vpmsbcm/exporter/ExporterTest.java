@@ -19,7 +19,7 @@ import com.vpmsbcm.common.model.State;
 import com.vpmsbcm.common.model.Wood;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration("test-context.xml")
 public class ExporterTest {
 
 	@GigaSpaceContext(name = "warehouseSpace")
