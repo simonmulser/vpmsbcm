@@ -7,7 +7,6 @@ import com.gigaspaces.annotation.pojo.FifoSupport;
 import com.gigaspaces.annotation.pojo.SpaceClass;
 import com.gigaspaces.annotation.pojo.SpaceFifoGroupingProperty;
 import com.gigaspaces.annotation.pojo.SpaceId;
-import com.vpmsbcm.common.util.Util;
 
 @SpaceClass(fifoSupport = FifoSupport.OPERATION)
 public class Rocket implements Serializable {
@@ -124,8 +123,8 @@ public class Rocket implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Rocket [id=" + Util.splitId(id) + "wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount
-				+ ", state=" + state + "]";
+		return "Rocket [id=" + id + "wood=" + wood + ", detonator=" + detonator + ", charges=" + charges + ", loades=" + loades + ", chargeAmount=" + chargeAmount + ", state="
+				+ state + "]";
 	}
 
 	@Override
