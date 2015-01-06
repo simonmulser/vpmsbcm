@@ -12,19 +12,19 @@ import com.vpmsbcm.common.util.Util;
 @SpaceClass(fifoSupport = FifoSupport.OPERATION)
 public class Rocket implements Serializable {
 
-	private String id;
+	protected String id;
 
-	private Wood wood;
-	private Detonator detonator;
-	private List<Charge> charges;
-	private List<Load> loades;
+	protected Wood wood;
+	protected Detonator detonator;
+	protected List<Charge> charges;
+	protected List<Load> loades;
 
-	private Integer chargeAmount;
-	private State state;
+	protected Integer chargeAmount;
+	protected State state;
 
-	private Integer producerID;
-	private Integer controllerID;
-	private Integer exporterID;
+	protected Integer producerID;
+	protected Integer controllerID;
+	protected Integer exporterID;
 
 	public Rocket() {
 	}

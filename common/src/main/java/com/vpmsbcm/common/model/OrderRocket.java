@@ -22,4 +22,20 @@ public class OrderRocket extends Rocket {
 		super(wood, detonator, charges, chargeAmount, loades, producerID);
 		this.orderId = orderId;
 	}
+
+	public Rocket degrade() {
+		NormalRocket rocket = new NormalRocket();
+		rocket.setId(id);
+		rocket.setWood(wood);
+		rocket.setDetonator(detonator);
+		rocket.setCharges(charges);
+		rocket.setLoades(loades);
+
+		rocket.setChargeAmount(chargeAmount);
+		rocket.setState(state);
+		rocket.setProducerID(producerID);
+		rocket.setControllerID(controllerID);
+		rocket.setExporterID(exporterID);
+		return rocket;
+	}
 }
