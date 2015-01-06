@@ -78,8 +78,8 @@ public class Quality {
 
 		testRocket(rocket);
 
-		if (rocket.getState().equals(State.CLASS_B)) {
-			return new NormalRocket(rocket.getWood(), rocket.getDetonator(), rocket.getCharges(), rocket.getChargeAmount(), rocket.getLoades(), rocket.getProducerID());
+		if (rocket.getState().equals(State.CLASS_B) || rocket.getState().equals(State.DEFECT)) {
+			return rocket.degrade();
 		}
 
 		return rocket;
