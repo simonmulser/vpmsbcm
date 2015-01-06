@@ -44,7 +44,6 @@ public class Service {
 		factory.setId(1);
 
 		factory = warehouse.take(factory, 1000);
-		System.out.println("!!!!" + warehouse);
 		if (factory != null) {
 			id = factory.getIdProducer();
 			factory.setIdProducer(id + 1);
