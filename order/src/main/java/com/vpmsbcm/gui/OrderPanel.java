@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.annotation.PostConstruct;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -47,6 +48,10 @@ public class OrderPanel extends JPanel implements ActionListener {
 	private LinkedList<JComboBox> colorBoxes;
 
 	public OrderPanel() {
+	}
+
+	@PostConstruct
+	public void init() {
 		setBackground(java.awt.Color.LIGHT_GRAY);
 		setOpaque(true);
 
@@ -75,7 +80,7 @@ public class OrderPanel extends JPanel implements ActionListener {
 		amountTF = new JTextField(3);
 		unitL = new JLabel("rockets ");
 
-		adressL = new JLabel("adress");
+		adressL = new JLabel("adress (your adress=" + service.getSpace().getName() + ")");
 		adressF = new JTextField(10);
 
 		add(amountL);
