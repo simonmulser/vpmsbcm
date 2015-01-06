@@ -53,13 +53,6 @@ public class ExporterTest {
 		}
 
 		warehouseSpace.write(new Wood("DHL 1"));
-
-		Order order1 = new Order("ID1", 2, 2, 0, 1, "testSpace1");
-		order1.getRockets().add(new OrderRocket(null, null, null, 0, null, 0, "ID1"));
-		Order order2 = new Order("2", 2, 2, 0, 1, "testSpace2");
-
-		warehouseSpace.write(order1);
-		warehouseSpace.write(order2);
 	}
 
 	@Test
@@ -75,13 +68,6 @@ public class ExporterTest {
 		for (NormalRocket exportedRocket : parcel.getRockets()) {
 			assertEquals(State.CLASS_A, exportedRocket.getState());
 		}
-	}
-
-	@Test
-	public void testReceiveLastOrderRocket() {
-		OrderRocket rocket = new OrderRocket(null, null, null, 0, null, 0, "ID1");
-		rocket.setState(State.CLASS_A);
-		warehouseSpace.write(rocket);
 	}
 
 	@Test
