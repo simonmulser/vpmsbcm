@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.vpmsbcm.common.model.Load;
+import com.vpmsbcm.common.model.Rocket;
 import com.vpmsbcm.common.model.order.Order;
 import com.vpmsbcm.common.util.Util;
 
@@ -23,7 +23,7 @@ public class OrderModel extends AbstractTableModel {
 
 	public List<Order> orders = new LinkedList<Order>();
 
-	protected String[] columnNames = new String[] { "name", "amount", "missing", "red", "green", "blue", "adress", "state" };
+	protected String[] columnNames = new String[] { "name", "amount", "missing", "red", "green", "blue", "adress", "state", "rocket IDs" };
 
 	@GigaSpaceContext(name = "warehouseSpace")
 	private GigaSpace warehouseSpace;
@@ -48,24 +48,30 @@ public class OrderModel extends AbstractTableModel {
 	}
 
 	public Object getValueAt(int row, int col) {
-		Load load;
+		Order order = orders.get(row);
 		switch (col) {
 		case 0:
-			return Util.splitId(orders.get(row).getId());
+			return Util.splitId(order.getId());
 		case 1:
-			return orders.get(row).getAmount();
+			return order.getAmount();
 		case 2:
-			return orders.get(row).getMissingRockets();
+			return order.getMissingRockets();
 		case 3:
-			return orders.get(row).getAmountRed();
+			return order.getAmountRed();
 		case 4:
-			return orders.get(row).getAmountGreen();
+			return order.getAmountGreen();
 		case 5:
-			return orders.get(row).getAmountBlue();
+			return order.getAmountBlue();
 		case 6:
-			return orders.get(row).getAdress();
+			return order.getAdress();
 		case 7:
-			return orders.get(row).getState();
+			return order.getState();
+		case 8:
+			String ids = "";
+			for (Rocket rocket : order.getRockets()) {
+				ids += Util.splitId(rocket.getId()) + " ";
+			}
+			return ids;
 		default:
 			return null;
 		}
