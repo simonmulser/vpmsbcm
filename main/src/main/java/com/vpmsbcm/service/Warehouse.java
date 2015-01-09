@@ -13,7 +13,6 @@ import com.vpmsbcm.common.model.Charge;
 import com.vpmsbcm.common.model.IDFactory;
 import com.vpmsbcm.common.model.Parcel;
 import com.vpmsbcm.common.model.Rocket;
-import com.vpmsbcm.common.model.Work;
 import com.vpmsbcm.gui.WarehousePanel;
 import com.vpmsbcm.gui.models.DestroyedRocketsModel;
 import com.vpmsbcm.gui.models.ExportedRocketsModel;
@@ -94,22 +93,27 @@ public class Warehouse {
 	public synchronized void check() {
 		// for benchmark comment this out
 
-		int count = warehouseSpace.count(new Work());
-		log.debug("already " + count + " work element(s) available in the space");
-
-		int avalaibleWoodsticks = woodstickCount - count;
-		int avalaibleCases = casesCount - count;
-		int avalaibleCharge = (chargeCount - count * 130) / 130;
-		int avalaibleLoad = (loadCount - count * 3) / 3;
-
-		log.info("avalaible: woodsticks=" + avalaibleWoodsticks + " cases=" + avalaibleCases + " charge=" + avalaibleCharge + " load=" + avalaibleLoad);
-
-		int minUnits = getMin(avalaibleWoodsticks, avalaibleCases, avalaibleCharge, avalaibleLoad);
-
-		log.info("writing " + minUnits + " new work element(s) into the space");
-		for (int i = 0; i < minUnits; i++) {
-			warehouseSpace.write(new Work());
-		}
+		// int count = warehouseSpace.count(new Work());
+		// log.debug("already " + count +
+		// " work element(s) available in the space");
+		//
+		// int avalaibleWoodsticks = woodstickCount - count;
+		// int avalaibleCases = casesCount - count;
+		// int avalaibleCharge = (chargeCount - count * 130) / 130;
+		// int avalaibleLoad = (loadCount - count * 3) / 3;
+		//
+		// log.info("avalaible: woodsticks=" + avalaibleWoodsticks + " cases=" +
+		// avalaibleCases + " charge=" + avalaibleCharge + " load=" +
+		// avalaibleLoad);
+		//
+		// int minUnits = getMin(avalaibleWoodsticks, avalaibleCases,
+		// avalaibleCharge, avalaibleLoad);
+		//
+		// log.info("writing " + minUnits +
+		// " new work element(s) into the space");
+		// for (int i = 0; i < minUnits; i++) {
+		// warehouseSpace.write(new Work());
+		// }
 	}
 
 	private int getMin(int avalaibleWoodsticks, int avalaibleCases, int avalaibleCharge, int avalaibleLoad) {
